@@ -19,6 +19,8 @@ interface Item {
         {{ item.name }}
       </li>
     }
+
+
   </ul>
   `,
   styleUrl: './app.component.scss'
@@ -30,5 +32,7 @@ export class AppComponent {
   constructor() {
     const itemCollection = collection(this.firestore, 'items');
     this.item$ = collectionData<Item>(itemCollection);
+
   }
+
 }

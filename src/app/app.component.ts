@@ -2,6 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { collection, collectionData, Firestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
+import { NavbarComponent } from "./components/UI/navbar/navbar.component";
 
 interface Item {
   name: string,
@@ -10,8 +11,9 @@ interface Item {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, NavbarComponent],
   template: `
+  <app-navbar [links]="['Dashboard','Workshop']">Factory Manager</app-navbar>
   <p>Testing...</p>
   <ul>
     @for (item of item$ | async; track item) {

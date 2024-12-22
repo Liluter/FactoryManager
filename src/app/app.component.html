@@ -1,0 +1,18 @@
+@if (loggedUser$ | async; as logged) {
+<app-navbar [links]="logged[0].links">Factory Manager - {{logged[0].name}}</app-navbar>
+}
+<div class="container">
+  <h1>Users:</h1>
+  @for(user of loggedUser$ | async ;track user){
+  <ul>
+    <li>{{user.name}}</li>
+    <li>{{user.links}}</li>
+    <li>{{user.loggedIn}}</li>
+  </ul>
+  @if(user.id){
+  <button class='btn btn-danger me-3' (click)="logOut(user.id)">LogOut</button>
+  }
+  }
+  <button class='btn btn-danger' (click)="logOutAll()">LogOutAll</button>
+</div>
+<router-outlet></router-outlet>

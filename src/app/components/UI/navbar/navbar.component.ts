@@ -7,8 +7,6 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [RouterModule]
 })
-export class NavbarComponent implements OnInit {
-  @Input() links: string[] = []
-
-  ngOnInit(): void { }
+export class NavbarComponent {
+  @Input() links: string[] = ['login']
 }

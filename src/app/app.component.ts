@@ -23,13 +23,13 @@ interface Link {
 export class AppComponent {
   userService: UserService = inject(UserService)
   allUsers$: Observable<User[]> = this.userService.getAllUsers()
-  loggedUser$: Observable<User[]> = this.userService.getLoggedIn()
+  loggedUser$: Observable<User[] | null> = this.userService.getLoggedInUsers()
 
 
   logOut(id: string) {
     this.userService.logOut(id)
   }
   logOutAll() {
-    this.userService.logOutAll()
+    this.userService.logOutAll().then(() => console.log('wylogowano'))
   }
 }

@@ -15,7 +15,7 @@ import { User } from '../../types/user.interface';
 })
 export class UserPageComponent {
   private userService = inject(UserService)
-  user$: Observable<User> = this.userService.getLoggedIn().pipe(map(data => data[0]))
+  user$: Observable<User[] | null> = this.userService.getLoggedInUsers()
 
 
 }

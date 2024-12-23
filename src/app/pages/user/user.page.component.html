@@ -1,8 +1,13 @@
 <div class="container text-center">
   @if(user$ | async; as user){
-  <h1 class="m-5">Hi!, {{user?.name ?? 'stranger'}}</h1>
+  @if(user.length > 0){
+  <h1 class="m-5">Hi!, {{user[0].name}}</h1>
 
   <button class="btn btn-primary" [routerLink]="['/login']">Log in</button>
+
+  } @else {
+  <h1 class="m-5">Nobody logged</h1>
+  }
 
   }
 </div>

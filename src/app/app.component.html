@@ -1,18 +1,29 @@
 @if (loggedUser$ | async; as logged) {
-<app-navbar [links]="logged[0].links">Factory Manager - {{logged[0].name}}</app-navbar>
-}
-<div class="container">
-  <h1>Users:</h1>
-  @for(user of loggedUser$ | async ;track user){
-  <ul>
-    <li>{{user.name}}</li>
-    <li>{{user.links}}</li>
-    <li>{{user.loggedIn}}</li>
-  </ul>
-  @if(user.id){
-  <button class='btn btn-danger me-3' (click)="logOut(user.id)">LogOut</button>
+<app-navbar [links]="logged.length > 0 && logged[0].links ? logged[0].links : ['login']">Factory Manager
+  {{logged.length > 0 ? ' - '+logged[0].name : ''}}</app-navbar>
+@if(logged.length > 0){
+<div class="container ">
+  <h2>Users:</h2>
+  @for(user of logged; track $index){
+  <div class="container m-3 d-flex justify-content-between">
+    <span class="fs-5">
+      {{user?.name}}
+    </span>
+    @if(user.id){
+    <button class='btn btn-danger me-3 fs-6 badge rounded-pill' (click)="logOut(user.id)">LogOut</button>
+    }
+
+  </div>
   }
-  }
-  <button class='btn btn-danger' (click)="logOutAll()">LogOutAll</button>
+  <div class="d-flex justify-content-center">
+    <button class='btn btn-danger' (click)="logOutAll()">LogOutAll</button>
+  </div>
+
 </div>
+}
+
+} @else {
+<app-navbar [links]="['login']">Factory Manager</app-navbar>
+}
+
 <router-outlet></router-outlet>

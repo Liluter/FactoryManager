@@ -17,6 +17,14 @@ export const routes: Routes = [
     path: 'welcome',
     component: WelcomePageComponent
   },
+  {
+    path: 'dashboard',
+    redirectTo: 'welcome'
+  },
+  {
+    path: 'logout',
+    redirectTo: 'login'
+  },
   // {
   //   path: 'add/task',
   //   component: AddTaskPageComponent

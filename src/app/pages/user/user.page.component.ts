@@ -4,7 +4,7 @@ import { UserService } from '../../services/user.service';
 import { QuerySnapshot, DocumentData, DocumentSnapshot } from '@angular/fire/firestore';
 import { map, Observable, tap } from 'rxjs';
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { User } from '../../types/user.interface';
+import { User } from '@angular/fire/auth'
 
 @Component({
   selector: 'user-page',
@@ -15,7 +15,9 @@ import { User } from '../../types/user.interface';
 })
 export class UserPageComponent {
   private userService = inject(UserService)
-  user$: Observable<User[] | null> = this.userService.getLoggedInUsers()
+  user$: Observable<User> = this.userService.getloggedInUser()
 
-
+  async logOut() {
+    await this.userService.logAuthOut()
+  }
 }

@@ -1,13 +1,25 @@
 <div class="container text-center">
   @if(user$ | async; as user){
-  @if(user.length > 0){
-  <h1 class="m-5">Hi!, {{user[0].name}}</h1>
+  <div class="card text-center m-5">
+    <div class="card-header">
+      <img src="assets/images/avatar.png" class="card-img-top  w-25" alt="...">
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{user.displayName}}</h5>
+      <span class="label">login : </span>
+      <span class="card-text">{{user.email}}</span>
 
-  <button class="btn btn-primary" [routerLink]="['/login']">Log in</button>
+      <div class="d-flex justify-content-center mt-3">
+        <button class="btn btn-primary me-3" (click)="logOut()">Log out</button>
+        <button class="btn btn-primary" (click)="logOut()">Edit</button>
 
+      </div>
+    </div>
+    <div class="card-footer text-body-secondary">
+      last SignIn : {{user.metadata.lastSignInTime}}
+    </div>
+  </div>
   } @else {
   <h1 class="m-5">Nobody logged</h1>
-  }
-
   }
 </div>

@@ -13,7 +13,8 @@
       <ul class="navbar-nav">
         @for(link of links; track link){
         <li class="nav-item me-3">
-          <a class="nav-link" [routerLink]="link">{{link}}</a>
+          <!-- <a class="nav-link" [routerLink]="link">{{link}}</a> -->
+          <a class="nav-link" [routerLink]="link" (click)="routeTo(link)">{{link}}</a>
         </li>
         }
       </ul>

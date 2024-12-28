@@ -1,22 +1,25 @@
 import { inject, Injectable } from '@angular/core';
 import { collection, query, where, getDocs, Firestore, collectionData, doc, updateDoc } from '@angular/fire/firestore';
-import { BehaviorSubject, EMPTY, Observable, combineLatest, concat, first, map, of, switchMap, take, tap } from 'rxjs';
-import { User } from '../types/user.interface';
-
+import { BehaviorSubject, EMPTY, Observable, combineLatest, concat, first, map, of, switchMap, take, tap, throwError } from 'rxjs';
+import { Users } from '../types/users.interface';
+import { Auth, signInWithEmailAndPassword, user, updateProfile, UserCredential, signOut } from '@angular/fire/auth';
+import { User } from 'firebase/auth'
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  defaultUser = [{ name: 'none', links: ['login'] }] as User[]
-  firestore: Firestore = inject(Firestore)
+  defaultUser = [{ name: 'none', links: ['login'] }] as Users[]
+  private firestore: Firestore = inject(Firestore)
+  private auth: Auth = inject(Auth)
   loginSubject = new BehaviorSubject('')
   loginSubject$ = this.loginSubject.asObservable()
+  loggedUser!: User
 
-  getLoggedInUsers(): Observable<User[]> {
+  getLoggedInUsers(): Observable<Users[]> {
     const userCollection = collection(this.firestore, 'users');
     const loggedInQuerry = query(userCollection, where('loggedIn', '==', true));
-    const loggedInUsers$: Observable<User[]> = collectionData(loggedInQuerry, { idField: 'id' }) as Observable<User[]>
+    const loggedInUsers$: Observable<Users[]> = collectionData(loggedInQuerry, { idField: 'id' }) as Observable<Users[]>
     // return combineLatest([this.loginSubject$, loggedInUsers$])
     //   .pipe(
     //     map(([log, loggedUser]) => {
@@ -48,24 +51,27 @@ export class UserService {
     // ), this.loginSubject$]).pipe(map(([loggedInUsers, log]) => (loggedInUsers)))
     return loggedInUsers$
   }
-
-  getAllUsers(): Observable<User[]> {
+  getloggedInUser() {
+    const user$: Observable<User> = user(this.auth)
+    return user$
+  }
+  getAllUsers(): Observable<Users[]> {
     const userCollection = collection(this.firestore, 'users');
-    return collectionData(userCollection, { idField: 'id' }) as Observable<User[]>
+    return collectionData(userCollection, { idField: 'id' }) as Observable<Users[]>
   }
 
-  async logOut(id: string) {
+  async logOut(id: string): Promise<void> {
+
     // this.loginSubject.next('logOutOne')
     const itemRef = doc(this.firestore, 'users', id);
     const updatedData = {
       loggedIn: false
     }
     updateDoc(itemRef, updatedData)
-      .then(() => console.log('Dokument zaktualizowany.'))
+      .then(() => console.log('Wylogowano użytkownika.'))
       .catch((error) => console.error('Błąd aktualizacji dokumentu', error))
   }
-  async logIn(id: string) {
-    // this.loginSubject.next('logOutOne')
+  async logIn(id: string): Promise<void> {
     const itemRef = doc(this.firestore, 'users', id);
     const updatedData = {
       loggedIn: true
@@ -74,22 +80,69 @@ export class UserService {
       .then(() => console.log('Dokument zaktualizowany.'))
       .catch((error) => console.error('Błąd aktualizacji dokumentu', error))
   }
+  async logInUser(name: string, password: string) {
 
-  async logOutAll(): Promise<void> {
-    this.loginSubject.next('logOut')
     const userCollection = collection(this.firestore, 'users');
-    const q = query(userCollection, where('loggedIn', '==', true));
+    const nameQuerry = query(userCollection, where('name', '==', name));
     try {
-      const querySnapshot = await getDocs(q);
+      const querySnapshot = await getDocs(nameQuerry)
+      if (querySnapshot.size > 1) {
+        let err = new Error('Więcej niż jeden użytkownik o tym imieniu', { cause: 'toomany-users' })
+        throw err
+      } else if (querySnapshot.empty) {
+        let err = new Error('Nie znaleziono użytkownika o tym imieniu', { cause: 'not-found' })
+        throw err
+      } else {
+        const userDoc = querySnapshot.docs[0]
+        const userRef = doc(this.firestore, 'users', userDoc.id);
+        const userData = userDoc.data() as Users;
+        if (userData.password === password) {
+          await updateDoc(userRef, { loggedIn: true })
+          return
+        } else {
+          let err = new Error('Niepoprawne hasło', { cause: 'password' })
+          throw err
+        }
+      }
+    } catch (error: any) {
+      throw error
+    }
 
-      querySnapshot.forEach(async (dok) => {
-        const userRef = doc(this.firestore, 'users', dok.id);
-        const userData = dok.data() as User;
-        await updateDoc(userRef, { loggedIn: false })
-      })
-      console.log('Wylogowano wszystkich zalogowanych')
+  }
+
+  async logAuthIn(email: string, password: string) {
+    try {
+      const userCredentials: UserCredential = await signInWithEmailAndPassword(this.auth, email, password)
+      // console.log(userCredentioals.user)
+      this.loggedUser = userCredentials.user
     } catch (error) {
-      console.error("Błąd aktualizacji userów: ", error)
+      throw error
     }
   }
+  async logAuthOut() {
+    try {
+      await signOut(this.auth)
+    } catch (error) {
+      throw error
+    }
+  }
+
+
+  // async logOutAll(): Promise<void> {
+  //   this.loginSubject.next('logOut')
+  //   const userCollection = collection(this.firestore, 'users');
+  //   const q = query(userCollection, where('loggedIn', '==', true));
+  //   try {
+  //     const querySnapshot = await getDocs(q);
+
+  //     querySnapshot.forEach(async (dok) => {
+  //       const userRef = doc(this.firestore, 'users', dok.id);
+  //       const userData = dok.data() as Users;
+  //       await updateDoc(userRef, { loggedIn: false })
+  //     })
+  //     console.log('Wylogowano wszystkich zalogowanych')
+  //   } catch (error) {
+  //     console.error("Błąd aktualizacji userów: ", error)
+  //   }
+  // }
 }

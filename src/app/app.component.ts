@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { NavbarComponent } from "./components/UI/navbar/navbar.component";
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { UserService } from './services/user.service';
-import { User } from './types/user.interface';
+import { Users } from './types/users.interface';
 interface Item {
   name: string,
 };
@@ -22,14 +22,15 @@ interface Link {
 })
 export class AppComponent {
   userService: UserService = inject(UserService)
-  allUsers$: Observable<User[]> = this.userService.getAllUsers()
-  loggedUser$: Observable<User[] | null> = this.userService.getLoggedInUsers()
+  // allUsers$: Observable<Users[]> = this.userService.getAllUsers()
+  // loggedUser$: Observable<User[] | null> = this.userService.getLoggedInUsers()
+  loggedUser$: Observable<import('firebase/auth').User> = this.userService.getloggedInUser()
 
 
   logOut(id: string) {
-    this.userService.logOut(id)
+    // this.userService.logOut(id)
   }
   logOutAll() {
-    this.userService.logOutAll().then(() => console.log('wylogowano'))
+    // this.userService.logOutAll().then(() => console.log('wylogowano'))
   }
 }

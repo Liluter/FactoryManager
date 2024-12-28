@@ -1,7 +1,7 @@
 @if (loggedUser$ | async; as logged) {
-<app-navbar [links]="logged.length > 0 && logged[0].links ? logged[0].links : ['login']">Factory Manager
-  {{logged.length > 0 ? ' - '+logged[0].name : ''}}</app-navbar>
-@if(logged.length > 0){
+<app-navbar [links]="['user','dashboard','logout']">Factory Manager
+  {{'- '+logged.email}}</app-navbar>
+<!-- @if(logged.length > 0){
 <div class="container ">
   <h2>Users:</h2>
   @for(user of logged; track $index){
@@ -20,7 +20,7 @@
   </div>
 
 </div>
-}
+} -->
 
 } @else {
 <app-navbar [links]="['login']">Factory Manager</app-navbar>

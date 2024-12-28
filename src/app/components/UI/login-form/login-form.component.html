@@ -1,0 +1,22 @@
+<div class="card p-3 m-3 login-form mx-auto">
+  <h3 class="text-center">Login</h3>
+  <form #myForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="exampleFormControlInput1" class="form-label">Email</label>
+      <input type="email" class="form-control" id="email" [(ngModel)]="model.email" name="email"
+        [class]="emailError != null || credentialError != null ? 'is-invalid' : ''">
+      <div class="invalid-feedback">{{emailError}}</div>
+      <div class="invalid-feedback">{{credentialError}}</div>
+    </div>
+    <div class="mb-3">
+      <label for="exampleFormControlTextarea1" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password" [(ngModel)]="model.password" name="password"
+        [class]="passwordError != null || credentialError != null ? 'is-invalid' : ''" />
+      <div class="invalid-feedback">{{passwordError}}</div>
+      <div class="invalid-feedback">{{credentialError}}</div>
+    </div>
+    <div class="text-center">
+      <button class="btn btn-primary " type="submit">Login</button>
+    </div>
+  </form>
+</div>

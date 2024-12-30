@@ -45,6 +45,12 @@ export class NewUserFormComponent {
     //   //   case 'auth/invalid-email': this.emailError = err.message; break
     //   // }
     // }
-    console.log('submit', form.form)
+    try {
+      console.log('try submit ', this.model)
+      await this.userService.createUser(this.model)
+      console.log('Submitted')
+    } catch (error) {
+      console.log('Error in new user form')
+    }
   }
 }

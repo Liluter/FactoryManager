@@ -1,9 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-import { collection, query, where, getDocs, Firestore, collectionData, doc, updateDoc } from '@angular/fire/firestore';
-import { BehaviorSubject, EMPTY, Observable, combineLatest, concat, first, map, of, switchMap, take, tap, throwError } from 'rxjs';
+import { collection, query, where, getDocs, Firestore, collectionData, doc, updateDoc, setDoc } from '@angular/fire/firestore';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Users } from '../types/users.interface';
-import { Auth, signInWithEmailAndPassword, user, updateProfile, UserCredential, signOut } from '@angular/fire/auth';
+import { Auth, signInWithEmailAndPassword, user, UserCredential, signOut, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { User } from 'firebase/auth'
+import { LocalUser } from '../types/auth.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -126,7 +127,18 @@ export class UserService {
       throw error
     }
   }
-
+  async createUser(userData: LocalUser): Promise<void> {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(this.auth, userData.email, userData.password)
+      const newUserAuth: User = userCredential.user
+      console.log('New Auth user created :', newUserAuth)
+      const userDocRef = doc(this.firestore, 'users/' + newUserAuth.uid)
+      await setDoc(userDocRef, userData)
+      console.log('New user sotore in db : ', userData)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   // async logOutAll(): Promise<void> {
   //   this.loginSubject.next('logOut')

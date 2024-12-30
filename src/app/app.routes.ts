@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { UserPageComponent } from './pages/user/user.page.component';
 import { LoginPageComponent } from './pages/login/login.page.component';
 import { WelcomePageComponent } from './pages/welcome/welcome.page.component';
+import { CreateUserPageComponent } from './pages/create-user/create-user-page.component';
 
 export const routes: Routes = [
   {
@@ -24,6 +25,14 @@ export const routes: Routes = [
   {
     path: 'logout',
     redirectTo: 'login'
+  },
+  {
+    path: 'create-user',
+    component: CreateUserPageComponent
+  },
+  {
+    path: 'user',
+    component: UserPageComponent,
   },
   // {
   //   path: 'add/task',
@@ -73,10 +82,6 @@ export const routes: Routes = [
   //   path: 'label/edit/:id',
   //   component: LabelEditComponent
   // },
-  {
-    path: 'user',
-    component: UserPageComponent,
-  },
   // {
   //   path: 'detail/:id',
   //   component: DetailComponent

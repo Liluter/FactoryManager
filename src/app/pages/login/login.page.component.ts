@@ -10,10 +10,6 @@ import { LoginFormComponent } from "../../components/UI/login-form/login-form.co
   imports: [LoginFormComponent]
 })
 export class LoginPageComponent implements OnInit {
-  // userService: UserService = inject(UserService)
 
   ngOnInit(): void { }
-  // login(id: string) {
-  //   this.userService.logIn(id)
-  // }
 }

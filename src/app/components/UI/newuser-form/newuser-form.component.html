@@ -1,0 +1,44 @@
+<div class="card p-3 m-5 w320 mx-auto bg-body-tertiary"
+  [ngClass]="myForm.invalid && myForm.touched ? 'border-danger' : ''">
+  <h3 class="text-center m-3">Create user account</h3>
+  <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
+    <div class="mb-3">
+      <label for="username" class="form-label">User name</label>
+      <input type="email" #username="ngModel" class="form-control" id="username" minlength="4" required
+        [(ngModel)]="model.username" name="username"
+        [ngClass]="username.invalid && username.touched ? 'is-invalid' : ''">
+      @if(username.invalid && username.touched ){
+      <div class="form-text text-danger">Enter your username. Minimum 4 characters.</div>
+      }
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" #emailInput="ngModel" email class="form-control" id="email" [(ngModel)]="model.email" required
+        name="email" [ngClass]="{'is-invalid': (emailInput.invalid && emailInput.touched)}">
+      @if(emailInput.invalid && emailInput.touched){
+      <div class="form-text text-danger">Enter valid email</div>
+      }
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" class="form-control" id="password" [(ngModel)]="model.password" required
+        pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*()]).{8,}$" name="password" #password="ngModel"
+        [class.is-invalid]="password.invalid && password.touched" />
+      @if(password.invalid && password.touched){
+      <div class="form-text text-danger">The password must be at least 8 characters, contain at least one capital
+        letter, one lowercase letter, one digit and one special character</div>
+      }
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="role">Role</label>
+      <select class="form-select" id="role" name="role" [(ngModel)]="model.role">
+        <option value="admin" [disabled]="creatorRole!=='admin'">Admin</option>
+        <option value="standard">Standard</option>
+      </select>
+    </div>
+
+    <div class="text-center">
+      <button class="btn btn-primary " type="submit" [disabled]="myForm.invalid">Create</button>
+    </div>
+  </form>
+</div>

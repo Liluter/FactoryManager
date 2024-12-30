@@ -1,9 +1,8 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { QuerySnapshot, DocumentData, DocumentSnapshot } from '@angular/fire/firestore';
-import { map, Observable, tap } from 'rxjs';
-import { AsyncPipe, JsonPipe } from '@angular/common';
+import { Observable, tap } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 import { User } from '@angular/fire/auth'
 
 @Component({
@@ -15,7 +14,7 @@ import { User } from '@angular/fire/auth'
 })
 export class UserPageComponent {
   private userService = inject(UserService)
-  user$: Observable<User> = this.userService.getloggedInUser()
+  user$: Observable<User> = this.userService.getloggedInUser().pipe(tap((data) => console.log(data)))
 
   async logOut() {
     await this.userService.logAuthOut()

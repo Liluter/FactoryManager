@@ -1,15 +1,15 @@
-<div class="card p-3 m-3 login-form mx-auto">
+<div class="card p-3 m-5 login-form mx-auto bg-body-tertiary">
   <h3 class="text-center">Login</h3>
   <form #myForm="ngForm" (ngSubmit)="onSubmit()">
     <div class="mb-3">
-      <label for="exampleFormControlInput1" class="form-label">Email</label>
+      <label for="email" class="form-label">Email</label>
       <input type="email" class="form-control" id="email" [(ngModel)]="model.email" name="email"
         [class]="emailError != null || credentialError != null ? 'is-invalid' : ''">
       <div class="invalid-feedback">{{emailError}}</div>
       <div class="invalid-feedback">{{credentialError}}</div>
     </div>
     <div class="mb-3">
-      <label for="exampleFormControlTextarea1" class="form-label">Password</label>
+      <label for="password" class="form-label">Password</label>
       <input type="password" class="form-control" id="password" [(ngModel)]="model.password" name="password"
         [class]="passwordError != null || credentialError != null ? 'is-invalid' : ''" />
       <div class="invalid-feedback">{{passwordError}}</div>
@@ -19,4 +19,9 @@
       <button class="btn btn-primary " type="submit">Login</button>
     </div>
   </form>
+  <p class="m-3 text-center">Don't have account?
+    <a class="icon-link icon-link-hover" href="#" [routerLink]="['/create-user']">
+      Create one <i class="bi bi-arrow-right"></i>
+    </a>
+  </p>
 </div>

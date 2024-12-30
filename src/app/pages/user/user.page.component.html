@@ -6,17 +6,20 @@
     </div>
     <div class="card-body">
       <h5 class="card-title">{{user.displayName}}</h5>
-      <span class="label">login : </span>
-      <span class="card-text">{{user.email}}</span>
-
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          Email : {{user.email}}
+        </li>
+        <li class="list-group-item">Created at : {{user.metadata.creationTime}}</li>
+        <li class="list-group-item">Email verified : {{user.emailVerified}}</li>
+      </ul>
       <div class="d-flex justify-content-center mt-3">
         <button class="btn btn-primary me-3" (click)="logOut()">Log out</button>
-        <button class="btn btn-primary" (click)="logOut()">Edit</button>
-
+        <button class="btn btn-primary">Edit</button>
       </div>
     </div>
     <div class="card-footer text-body-secondary">
-      last SignIn : {{user.metadata.lastSignInTime}}
+      Last sign in : {{user.metadata.lastSignInTime}}
     </div>
   </div>
   } @else {

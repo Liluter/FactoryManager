@@ -3,6 +3,7 @@ import { UserPageComponent } from './pages/user/user.page.component';
 import { LoginPageComponent } from './pages/login/login.page.component';
 import { WelcomePageComponent } from './pages/welcome/welcome.page.component';
 import { CreateUserPageComponent } from './pages/create-user/create-user-page.component';
+import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
 
 export const routes: Routes = [
   {
@@ -20,7 +21,7 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    redirectTo: 'welcome'
+    component: DashboardPageComponent,
   },
   {
     path: 'logout',
@@ -28,12 +29,13 @@ export const routes: Routes = [
   },
   {
     path: 'create-user',
-    component: CreateUserPageComponent
+    component: CreateUserPageComponent,
   },
   {
     path: 'user',
     component: UserPageComponent,
   },
+
   // {
   //   path: 'add/task',
   //   component: AddTaskPageComponent

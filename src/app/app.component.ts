@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { NavbarComponent } from "./components/UI/navbar/navbar.component";
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { UserService } from './services/user.service';
-import { Users } from './types/users.interface';
+import { User } from 'firebase/auth';
+import { FSUser, LocalUser } from './types/auth.interface';
+
 interface Item {
   name: string,
 };
@@ -24,7 +26,7 @@ export class AppComponent {
   userService: UserService = inject(UserService)
   // allUsers$: Observable<Users[]> = this.userService.getAllUsers()
   // loggedUser$: Observable<User[] | null> = this.userService.getLoggedInUsers()
-  loggedUser$: Observable<import('firebase/auth').User> = this.userService.getloggedInUser()
+  loggedUser$: Observable<FSUser | null> = this.userService.getloggedInUser()
 
 
   logOut(id: string) {

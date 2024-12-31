@@ -1,10 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-import { collection, query, where, getDocs, Firestore, collectionData, doc, updateDoc, setDoc } from '@angular/fire/firestore';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { collection, query, where, getDocs, Firestore, collectionData, doc, updateDoc, setDoc, docData } from '@angular/fire/firestore';
+import { BehaviorSubject, map, Observable, of, switchMap } from 'rxjs';
 import { Users } from '../types/users.interface';
 import { Auth, signInWithEmailAndPassword, user, UserCredential, signOut, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { User } from 'firebase/auth'
-import { LocalUser } from '../types/auth.interface';
+import { FSUser, LocalUser } from '../types/auth.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -53,8 +53,20 @@ export class UserService {
     return loggedInUsers$
   }
   getloggedInUser() {
-    const user$: Observable<User> = user(this.auth)
-    return user$
+    const userCollection = collection(this.firestore, 'users');
+    console.log('getLoddedInUser')
+    console.log('this.auth', this.auth)
+
+    const userAuth$: Observable<User> = user(this.auth)
+    const userFS$: Observable<FSUser | null> = userAuth$.pipe(switchMap((user) => {
+      if (user) {
+        return docData(doc(this.firestore, 'users/' + user.uid), { idField: 'id' })
+      } else {
+        return of(null)
+      }
+    }
+    ))
+    return userFS$
   }
   getAllUsers(): Observable<Users[]> {
     const userCollection = collection(this.firestore, 'users');
@@ -115,7 +127,9 @@ export class UserService {
     try {
       const userCredentials: UserCredential = await signInWithEmailAndPassword(this.auth, email, password)
       // console.log(userCredentioals.user)
-      this.loggedUser = userCredentials.user
+      if (userCredentials) {
+        this.loggedUser = userCredentials.user
+      }
     } catch (error) {
       throw error
     }
@@ -133,8 +147,18 @@ export class UserService {
       const newUserAuth: User = userCredential.user
       console.log('New Auth user created :', newUserAuth)
       const userDocRef = doc(this.firestore, 'users/' + newUserAuth.uid)
-      await setDoc(userDocRef, userData)
-      console.log('New user sotore in db : ', userData)
+      const data: FSUser = {
+        username: userData.username,
+        email: userData.email,
+        password: userData.password,
+        role: userData.role,
+        emailverified: newUserAuth.emailVerified,
+        cratedAt: newUserAuth.metadata.creationTime,
+        lastSignIn: newUserAuth.metadata.lastSignInTime,
+        photoURL: newUserAuth.photoURL
+      }
+      await setDoc(userDocRef, data)
+      console.log('New user sotore in FireStore : ', data)
     } catch (error) {
       console.log(error)
     }

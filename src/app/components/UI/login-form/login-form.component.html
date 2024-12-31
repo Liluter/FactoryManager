@@ -1,4 +1,4 @@
-<div class="card p-3 m-5 login-form mx-auto bg-body-tertiary">
+<div class="card p-3 m-5 login-form mx-auto bg-body-tertiary" [ngClass]="networkError ? 'border-danger' : ''">
   <h3 class="text-center">Login</h3>
   <form #myForm="ngForm" (ngSubmit)="onSubmit()">
     <div class="mb-3">
@@ -18,6 +18,9 @@
     <div class="text-center">
       <button class="btn btn-primary " type="submit">Login</button>
     </div>
+    @if(networkError){
+    <div class="form-text text-danger m-3">{{networkError}}</div>
+    }
   </form>
   <p class="m-3 text-center">Don't have account?
     <a class="icon-link icon-link-hover" href="#" [routerLink]="['/create-user']">

@@ -48,6 +48,7 @@ export class NewUserFormComponent {
     try {
       console.log('try submit ', this.model)
       await this.userService.createUser(this.model)
+      this.router.navigate(['/user'])
       console.log('Submitted')
     } catch (error) {
       console.log('Error in new user form')

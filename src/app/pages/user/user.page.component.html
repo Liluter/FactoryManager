@@ -5,13 +5,14 @@
       <img src="assets/images/avatar.png" class="card-img-top  w-25" alt="...">
     </div>
     <div class="card-body">
-      <h5 class="card-title">{{user.displayName}}</h5>
+      <h5 class="card-title">{{user.username}}</h5>
       <ul class="list-group list-group-flush">
         <li class="list-group-item">
           Email : {{user.email}}
         </li>
-        <li class="list-group-item">Created at : {{user.metadata.creationTime}}</li>
-        <li class="list-group-item">Email verified : {{user.emailVerified}}</li>
+        <li class="list-group-item">Created at : {{user.cratedAt | date }}</li>
+        <li class="list-group-item">Email verified : {{user.emailverified}}</li>
+        <li class="list-group-item">Role : {{user.role}}</li>
       </ul>
       <div class="d-flex justify-content-center mt-3">
         <button class="btn btn-primary me-3" (click)="logOut()">Log out</button>
@@ -19,7 +20,7 @@
       </div>
     </div>
     <div class="card-footer text-body-secondary">
-      Last sign in : {{user.metadata.lastSignInTime}}
+      Last sign in : {{user.lastSignIn | date : 'M/d/yy, HH:mm a'}}
     </div>
   </div>
   } @else {

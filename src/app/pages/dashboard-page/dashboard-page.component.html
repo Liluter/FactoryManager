@@ -1,8 +1,8 @@
 <div class="container py-5">
   <div class="row row-cols-3 justify-content-start  g-3">
-    @for(card of ['workshop','warehouse','hr','calendar','tasks'];track card){
+    @for(data of branchData;track data){
     <div class="col  flex-shrink-1">
-      <app-card-widget [title]="card"></app-card-widget>
+      <app-card-widget [data]="data"></app-card-widget>
     </div>
     }
   </div>

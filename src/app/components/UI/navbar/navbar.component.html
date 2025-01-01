@@ -4,6 +4,13 @@
       <a class="text-decoration-none text-reset" routerLink="welcome">
         <ng-content></ng-content>
       </a>
+      @if(currentUrl$ | async ; as url){
+      <span class="navbar-brand mb-0 fs-6">
+        <a class="text-decoration-none text-success ">
+          {{url}}
+        </a>
+      </span>
+      }
     </span>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,7 +20,6 @@
       <ul class="navbar-nav">
         @for(link of links; track link){
         <li class="nav-item me-3">
-          <!-- <a class="nav-link" [routerLink]="link">{{link}}</a> -->
           <a class="nav-link" [routerLink]="link" (click)="routeTo(link)">{{link}}</a>
         </li>
         }

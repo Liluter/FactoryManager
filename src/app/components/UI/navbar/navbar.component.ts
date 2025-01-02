@@ -2,7 +2,7 @@ import { Component, inject, Input } from '@angular/core';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { AsyncPipe } from '@angular/common';
-import { filter, map } from 'rxjs';
+import { filter, map, tap } from 'rxjs';
 
 
 
@@ -19,8 +19,8 @@ export class NavbarComponent {
   currentUrl$ = this.router.events.pipe(
     filter(event => event instanceof NavigationEnd),
     map((event: NavigationEnd) => {
-      if (event.url.length > 1) {
-        return event.url.replace('/', 'on ')
+      if (event.urlAfterRedirects.length > 1) {
+        return event.urlAfterRedirects.replace('/', 'on ')
       } else {
         return ''
       }

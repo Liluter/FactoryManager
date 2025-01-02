@@ -4,11 +4,16 @@
       <span class="fs-4">{{today | date : 'EEEE'}}</span>
     </div>
     <div class="card-body my-4">
-      <h1 class="card-title display fw-bold">{{today | date : 'dd'}}</h1>
+      <h1 class="card-title display-1 fw-bold">{{today | date : 'dd'}}</h1>
       <small class="text-primary">{{tillWeekend()}}</small>
     </div>
-    <div class="card-footer">
-      {{today | date : 'ww'}} <small>week of </small>{{today | date : 'yyyy'}} year.
+    <div class="card-footer ">
+      <span class="bg-white border border-dark-subtle fs-4 align-middle me-1 px-1">{{today | date : 'ww'}}</span> <small
+        class="align-middle"> week of
+      </small><span class="align-middle">{{today |
+        date :
+        'yyyy'}}
+        year.</span>
     </div>
   </div>
 </div>

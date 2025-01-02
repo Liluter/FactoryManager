@@ -15,10 +15,9 @@ export class CalendarSheetComponent {
     const tillWeekendNumber = 5 - this.dayOfWeek
     let message;
     if (tillWeekendNumber === 1) {
-      message = 'Till weekend left only ' + tillWeekendNumber + ' day.'
+      message = 'Just ' + tillWeekendNumber + ' day away from the weekend.'
     } else {
-      message = 'Till weekend left ' + tillWeekendNumber + ' days.'
-
+      message = 'Just ' + tillWeekendNumber + ' days away from the weekend.'
     }
     return message
   }

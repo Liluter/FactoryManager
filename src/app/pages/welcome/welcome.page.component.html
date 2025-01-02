@@ -1,5 +1,14 @@
 <div class="container text-center">
-  <h1 class="m-5">Hello.</h1>
-  <h3>May your day of work will be worthy.</h3>
+  <h1 class="m-5">Hello <span class="text-bg-warning fw-bold">{{user$ | async}}</span>.</h1>
+  <figure class="text-center">
+    @if(randomQuotes$ | async; as quote){
+    <blockquote class="blockquote">
+      <p>{{quote.quote}}</p>
+    </blockquote>
+    <figcaption class="blockquote-footer">
+      <cite title="Source Title">{{quote.author}}</cite>
+    </figcaption>
+    }
+  </figure>
   <app-calendar-sheet></app-calendar-sheet>
 </div>

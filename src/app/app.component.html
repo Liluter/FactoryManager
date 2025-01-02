@@ -1,5 +1,5 @@
 @if (loggedUser$ | async; as user) {
-<app-navbar [links]="['user','dashboard','logout']">Factory Manager
+<app-navbar [links]="['user','dashboard','settings','logout']">Factory Manager
   {{'- '+user.username}}</app-navbar>
 <!-- @if(logged.length > 0){
 <div class="container ">

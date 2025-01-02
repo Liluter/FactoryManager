@@ -5,21 +5,22 @@
     <span class="badge bg-success align-top">{{data.notifications}}</span>
     }
   </div>
-  <div class="card-body p-1">
+  <div class="card-body p-0">
     <ul class="list-group list-group-flush">
       @if(data.tasks && data.tasks.activeTasks){
-      <li class="list-group-item">Active Tasks :
+      <li class="list-group-item"><small>Active Tasks :</small>
         @for(task of data.tasks.activeTasks; track task){
         <ul class="list-group list-group-horizontal lh-1">
           @if($index < 2){ <li class="list-group-item p-1"><i class="bi bi-gear"></i>
       </li>
-      <li class="list-group-item  py-1"><small>{{data.tasks.activeTasks[0].name}}</small></li>
-      <li class="list-group-item flex-grow-1 py-1"><small>{{data.tasks.activeTasks[0].content.description
+      <li class="list-group-item p-1"><small>{{data.tasks.activeTasks[0].name}}</small></li>
+      <li class="list-group-item flex-grow-1 p-1"><small>{{data.tasks.activeTasks[0].content.description
           }}</small>
       </li>
       }
       @if($index >= 2) {
-      <li class="list-group-item py-1 w-100 text-center"><small>and more ...</small></li>
+      <li class="list-group-item py-1 w-100 text-center"><small><i class="bi  bi-three-dots"></i></small></li>
+
       }
     </ul>
 
@@ -27,17 +28,20 @@
     </li>
 
     }
-    <li class="list-group-item">Messeges :
+    <li class="list-group-item"><small>Messages :</small>
       @for(message of data.messeges; track message){
       <ul class="list-group list-group-horizontal lh-1">
         <li class="list-group-item p-1"><i class="bi bi-envelope"></i></li>
-        <li class="list-group-item flex-grow-1 py-1"><small>{{message.message}}</small></li>
-        <li class="list-group-item text-end py-1"><small>{{message.createdAt | date : 'dd.MM.YY HH:mm'}}</small>
+        <li class="list-group-item flex-grow-1 p-1 overflow-x-hidden"><small>{{message.message}}</small></li>
+        <li class="list-group-item text-end p-1"><small>{{message.createdAt | date : 'dd.MM.YY HH:mm'}}</small>
         </li>
       </ul>
       }
     </li>
     </ul>
+    <div class="card-footer">
+      <small class="text-body-secondary">New element 3 mins ago</small>
+    </div>
   </div>
   <!-- <div class="card-footer text-center p-0">
     <i class="bi bi-three-dots"></i>

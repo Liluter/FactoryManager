@@ -49,7 +49,7 @@ export const branchDataMockup: BrnachDataModel[] = [
       pastTasks: [{ name: 'Send recipee', content: { description: 'Nike logo', files: '' }, taskId: '000400', createdAt: '13-12-2024 09:05' }],
       pastTasksLength: 1
     },
-    messeges: [{ author: 'karol', message: 'where i find agr...', createdAt: '12-12-2024 13:43' }]
+    messeges: [{ author: 'karol', message: 'where can I find...', createdAt: '12-12-2024 13:43' }]
   },
 
 

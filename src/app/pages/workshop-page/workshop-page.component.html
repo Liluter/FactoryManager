@@ -1,0 +1,54 @@
+<div class="card ">
+  <div class="card-header fw-bold text-body text-center orange text-capitalize">
+    <span class="fs-5 me-1">{{data.branchTitle}}</span>
+    @if(data.notifications>0){
+    <span class="badge bg-success align-top">{{data.notifications}}</span>
+    }
+  </div>
+  <div class="card-body p-0">
+    <ul class="list-group list-group-flush">
+      @if(data.tasks && data.tasks.activeTasks){
+      <li class="list-group-item py-3">Active Tasks :
+        @for(task of data.tasks.activeTasks; track task){
+        <ul class="list-group list-group-horizontal">
+          <li class="list-group-item "><i class="bi bi-gear"></i>
+          </li>
+          <li class="list-group-item "><small>{{data.tasks.activeTasks[0].name}}</small></li>
+          <li class="list-group-item flex-grow-1"><small>{{data.tasks.activeTasks[0].content.description
+              }}</small>
+          </li>
+          <button type="button" class="list-group-item list-group-item-secondary">Open</button>
+
+        </ul>
+
+        }
+      </li>
+      }
+      @if(data.tasks && data.tasks.activeTasks){
+      <li class="list-group-item py-3 ">Workers :
+        <div class="d-flex justify-content-start">
+          @for(worker of data.workers; track worker){
+          <app-medium-avatar [user]="worker"></app-medium-avatar>
+          }
+        </div>
+      </li>
+      }
+      <li class="list-group-item">Messages :
+        @for(message of data.messeges; track message){
+        <ul class="list-group list-group-horizontal" [class]="!message.read ? 'fw-bold':''">
+          <li class="list-group-item "><i class="bi bi-envelope"></i></li>
+          <li class="list-group-item flex-grow-1  overflow-x-hidden"><small>{{message.message}}</small></li>
+          <li class="list-group-item text-end"><small>{{message.createdAt | date : 'dd.MM.YY HH:mm'}}</small>
+          </li>
+          <button type="button" class="list-group-item list-group-item-secondary">Open</button>
+
+        </ul>
+        }
+      </li>
+    </ul>
+  </div>
+  <!-- <div class="card-footer text-center p-0">
+    <i class="bi bi-three-dots"></i>
+    info
+  </div> -->
+</div>

@@ -1,21 +1,22 @@
-import { Component, input, Input } from '@angular/core';
-import { BrnachDataModel } from '../../../types/data.interface';
+import { Component, Input } from '@angular/core';
+import { BranchDataModel } from '../../../types/data.interface';
 import { DatePipe } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-card-widget',
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe, RouterModule],
   templateUrl: './card-widget.component.html',
   styleUrl: './card-widget.component.scss'
 })
 export class CardWidgetComponent {
-  @Input() title: string = ''
-  @Input() notifications: number = 0
-  @Input() data: BrnachDataModel = {
+  @Input() data: BranchDataModel = {
     branchTitle: '',
-    messeges: [{ author: '', createdAt: '', message: '' }],
+    messeges: [{ author: '', createdAt: '', message: '', read: false }],
+    workers: null,
     notifications: 0,
+    lastnotification: 0
   }
 
 

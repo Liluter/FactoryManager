@@ -1,10 +1,11 @@
-<div class="w-100 d-flex justify-content-center mt-5">
-  <div class="card mb-3 w-240">
+<div class="w-100">
+  <div class="card mb-3 text-center">
     <div class="card-header">
-      <span class="fs-4">{{today | date : 'EEEE'}}</span>
+      <span class="fs-5 fw-bold">{{today | date : 'MMMM'}}</span>
     </div>
     <div class="card-body my-4">
-      <h1 class="card-title display-1 fw-bold">{{today | date : 'dd'}}</h1>
+      <h1 class="card-title display-1 fw-bold">{{today | date : 'd'}}</h1>
+      <p class="fw-bold fs-5">{{today | date : 'EEEE'}}</p>
       <small class="text-primary">{{tillWeekend()}}</small>
     </div>
     <div class="card-footer ">

@@ -4,6 +4,7 @@ import { LoginPageComponent } from './pages/login/login.page.component';
 import { WelcomePageComponent } from './pages/welcome/welcome.page.component';
 import { CreateUserPageComponent } from './pages/create-user/create-user-page.component';
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
+import { WorkshopPageComponent } from './pages/workshop-page/workshop-page.component';
 
 export const routes: Routes = [
   {
@@ -35,7 +36,10 @@ export const routes: Routes = [
     path: 'user',
     component: UserPageComponent,
   },
-
+  {
+    path: 'workshop',
+    component: WorkshopPageComponent,
+  },
   // {
   //   path: 'add/task',
   //   component: AddTaskPageComponent

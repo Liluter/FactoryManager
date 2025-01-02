@@ -1,0 +1,12 @@
+<div class="card w-128 text-center m-1">
+  <img src="assets/images/avatar.png" class="card-img-top p-3" alt="...">
+  <div class="card-body">
+    <h5 class="card-title text-capitalize">{{user?.name}}</h5>
+    <p class="card-text ">Id : {{user?.uid}}</p>
+    <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="4" aria-valuemin="0"
+      aria-valuemax="8">
+      <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%">
+        {{user?.hoursWorked}}/{{user?.workingDay}} h</div>
+    </div>
+  </div>
+</div>

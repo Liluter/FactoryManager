@@ -18,7 +18,13 @@ export class NavbarComponent {
   private router: Router = inject(Router)
   currentUrl$ = this.router.events.pipe(
     filter(event => event instanceof NavigationEnd),
-    map((event: NavigationEnd) => event.url.replace('/', 'on '))
+    map((event: NavigationEnd) => {
+      if (event.url.length > 1) {
+        return event.url.replace('/', 'on ')
+      } else {
+        return ''
+      }
+    })
   )
 
   async routeTo(link: string) {

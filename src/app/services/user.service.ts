@@ -17,46 +17,44 @@ export class UserService {
   loginSubject$ = this.loginSubject.asObservable()
   loggedUser!: User
 
-  getLoggedInUsers(): Observable<Users[]> {
+  // getLoggedInUsers(): Observable<Users[]> {
+  //   const userCollection = collection(this.firestore, 'users');
+  //   const loggedInQuerry = query(userCollection, where('loggedIn', '==', true));
+  //   const loggedInUsers$: Observable<Users[]> = collectionData(loggedInQuerry, { idField: 'id' }) as Observable<Users[]>
+  //   // return combineLatest([this.loginSubject$, loggedInUsers$])
+  //   //   .pipe(
+  //   //     map(([log, loggedUser]) => {
+  //   //       if (log == '') {
+  //   //         return loggedUser
+  //   //       }
+  //   //       if (log == 'logOut') {
+  //   //         return null
+  //   //       }
+  //   //       if (log == 'logIn') {
+  //   //         return loggedUser
+  //   //       }
+  //   //       return loggedUser
+  //   //     }),
+  //   //     tap(data => console.log('combineLatest', data)))
+  //   // return combineLatest([this.loginSubject$.pipe(
+  //   //   switchMap((log) => {
+  //   //     if (log === '' || log === 'logIn') {
+  //   //       return loggedInUsers$
+  //   //     }
+  //   //     if (log == 'logOut') {
+  //   //       return loggedInUsers$
+  //   //     }
+  //   //     if (log == 'logOutOne') {
+  //   //       return loggedInUsers$
+  //   //     }
+  //   //     return loggedInUsers$
+  //   //   })
+  //   // ), this.loginSubject$]).pipe(map(([loggedInUsers, log]) => (loggedInUsers)))
+  //   return loggedInUsers$
+  // }
+  getloggedInUser(): Observable<FSUser | null> {
     const userCollection = collection(this.firestore, 'users');
-    const loggedInQuerry = query(userCollection, where('loggedIn', '==', true));
-    const loggedInUsers$: Observable<Users[]> = collectionData(loggedInQuerry, { idField: 'id' }) as Observable<Users[]>
-    // return combineLatest([this.loginSubject$, loggedInUsers$])
-    //   .pipe(
-    //     map(([log, loggedUser]) => {
-    //       if (log == '') {
-    //         return loggedUser
-    //       }
-    //       if (log == 'logOut') {
-    //         return null
-    //       }
-    //       if (log == 'logIn') {
-    //         return loggedUser
-    //       }
-    //       return loggedUser
-    //     }),
-    //     tap(data => console.log('combineLatest', data)))
-    // return combineLatest([this.loginSubject$.pipe(
-    //   switchMap((log) => {
-    //     if (log === '' || log === 'logIn') {
-    //       return loggedInUsers$
-    //     }
-    //     if (log == 'logOut') {
-    //       return loggedInUsers$
-    //     }
-    //     if (log == 'logOutOne') {
-    //       return loggedInUsers$
-    //     }
-    //     return loggedInUsers$
-    //   })
-    // ), this.loginSubject$]).pipe(map(([loggedInUsers, log]) => (loggedInUsers)))
-    return loggedInUsers$
-  }
-  getloggedInUser() {
-    const userCollection = collection(this.firestore, 'users');
-    console.log('getLoddedInUser')
-    console.log('this.auth', this.auth)
-
+    console.log('getloggoedInUser() => this.auth current sign-in user :', this.auth.currentUser)
     const userAuth$: Observable<User> = user(this.auth)
     const userFS$: Observable<FSUser | null> = userAuth$.pipe(switchMap((user) => {
       if (user) {
@@ -152,6 +150,7 @@ export class UserService {
         email: userData.email,
         password: userData.password,
         role: userData.role,
+        links: userData.links,
         emailverified: newUserAuth.emailVerified,
         cratedAt: newUserAuth.metadata.creationTime,
         lastSignIn: newUserAuth.metadata.lastSignInTime,

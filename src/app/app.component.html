@@ -1,15 +1,15 @@
-<app-navbar [links]="['user','dashboard','settings','logout']">
+<app-navbar [links]="links">
   <span class="brand-name">Factory Manager</span>
-  @if (loggedUser$ | async; as user) {
   <span class="user-name">
+    @if (loggedUser$ | async; as user) {
     {{user.username}}
+    }
   </span>
-  }
-  @if(currentUrl$ | async;as url){
   <span class="currentRoute">
+    @if(currentUrl$ | async;as url){
     on {{url}}
+    }
   </span>
-  }
 </app-navbar>
 
 <router-outlet></router-outlet>

@@ -6,6 +6,7 @@ import { ActivatedRoute, Data, NavigationEnd, Router, RouterModule, RouterOutlet
 import { UserService } from './services/user.service';
 import { User } from 'firebase/auth';
 import { FSUser, LocalUser } from './types/auth.interface';
+import { RoutesService } from './services/routes.service';
 
 interface Item {
   name: string,
@@ -24,21 +25,25 @@ interface Link {
 })
 export class AppComponent {
   userService: UserService = inject(UserService)
+  links: string[] = ['login']
   // allUsers$: Observable<Users[]> = this.userService.getAllUsers()
   // loggedUser$: Observable<User[] | null> = this.userService.getLoggedInUsers()
-  loggedUser$: Observable<FSUser | null> = this.userService.getloggedInUser()
-  _url = ''
-  private router: Router = inject(Router)
-  private route: ActivatedRoute = inject(ActivatedRoute)
-  currentUrl$ = this.router.events.pipe(
-    filter(event => event instanceof NavigationEnd),
-    tap(data => console.log(data)),
-    switchMap(() => this.route.pathFromRoot),
-    tap(data => console.log('dddd', data.firstChild?.routeConfig?.path)),
-    map(data => data.firstChild?.routeConfig?.path),
-    distinctUntilChanged(),
-    tap(data => this._url = data ?? '')
+  loggedUser$: Observable<FSUser | null> = this.userService.getloggedInUser().pipe(
+    tap(user => {
+      if (user?.role === 'standard') {
+        this.links = ['user', 'dashboard', 'logout']
+      } else if (user?.role === 'admin') {
+        this.links = ['user', 'dashboard', 'settings', 'logout']
+        return
+      }
+      if (user?.links) {
+        this.links = user.links
+        return
+      }
+    })
   )
+  private routesServise: RoutesService = inject(RoutesService)
+  currentUrl$ = this.routesServise.currenttUrl$
 
   logOut(id: string) {
     // this.userService.logOut(id)

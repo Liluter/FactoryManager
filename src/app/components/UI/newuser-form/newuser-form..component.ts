@@ -26,7 +26,8 @@ export class NewUserFormComponent {
     username: '',
     email: '',
     password: '',
-    role: 'standard'
+    role: 'standard',
+    links: ['login']
   }
 
   async onSubmit(form: NgForm) {

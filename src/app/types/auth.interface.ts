@@ -5,7 +5,8 @@ export interface Auth {
 
 export interface LocalUser extends Auth {
   username: string,
-  role: string
+  role: string,
+  links: string[],
 }
 
 export interface FSUser extends LocalUser, Auth {
@@ -13,5 +14,5 @@ export interface FSUser extends LocalUser, Auth {
   cratedAt: string | undefined;
   lastSignIn: string | undefined;
   photoURL: string | null;
-
+  id?: string
 }

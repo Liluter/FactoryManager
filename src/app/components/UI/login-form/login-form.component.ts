@@ -32,7 +32,7 @@ export class LoginFormComponent {
     this.networkError = null
     try {
       await this.userService.logAuthIn(this.model.email, this.model.password)
-      this.router.navigate(['/dashboard'])
+      await this.router.navigate(['/dashboard'])
     } catch (err: any) {
       console.log(err.message)
       switch (err.code) {

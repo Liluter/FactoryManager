@@ -1,16 +1,15 @@
 <nav class="navbar navbar-expand-md bg-body-tertiary ">
   <div class="container-fluid ">
     <span class="navbar-brand mb-0 h1">
-      <a class="text-decoration-none text-reset" routerLink="welcome">
-        <ng-content></ng-content>
+      <a class="text-decoration-none text-reset fs-4 me-2" routerLink="welcome">
+        <ng-content select=".brand-name"></ng-content>
       </a>
-      @if(currentUrl$ | async ; as url){
-      <span class="navbar-brand mb-0 fs-6">
-        <a class="text-decoration-none text-success ms-4">
-          {{url}}
-        </a>
-      </span>
-      }
+    </span>
+    <span class="navbar-text text-success fs-5 me-2">
+      <ng-content select=".user-name"></ng-content>
+    </span>
+    <span class="navbar-text  fs-5 me-2">
+      <ng-content select=".currentRoute"></ng-content>
     </span>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,8 +18,8 @@
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav">
         @for(link of links; track link){
-        <li class="nav-item me-3">
-          <a class="nav-link  text-decoration-underline link-offset-1 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-100-hover"
+        <li class="nav-item me-3 ">
+          <a class="nav-link link text-decoration-underline link-underline-dark link-offset-1 link-offset-3-hover  link-underline-opacity-0 link-underline-opacity-100-hover"
             [routerLink]="link" (click)="routeTo(link)">{{link}}</a>
         </li>
         }

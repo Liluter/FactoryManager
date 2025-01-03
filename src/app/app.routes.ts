@@ -14,15 +14,18 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginPageComponent
+    component: LoginPageComponent,
+    title: 'login'
   },
   {
     path: 'welcome',
-    component: WelcomePageComponent
+    component: WelcomePageComponent,
+    title: 'Welcome'
   },
   {
     path: 'dashboard',
     component: DashboardPageComponent,
+    title: 'Dashboard'
   },
   {
     path: 'logout',

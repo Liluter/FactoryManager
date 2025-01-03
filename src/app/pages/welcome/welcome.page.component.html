@@ -1,7 +1,9 @@
 <div class="container text-center">
   <div class="my-5">
     <h2 class=" me-2 pacifico-regular d-inline">Hello</h2>
-    <div class="fs-1 h-1 d-inline"><span class="text-bg-warning fw-bold p-1 ">{{user$ | async}}</span></div>
+    @if(user$ | async;as user){
+    <div class="fs-1 h-1 d-inline"><span class="text-bg-warning fw-bold p-1">{{user}}</span></div>
+    }
     <div class="fs-1 d-inline"><span>.</span></div>
   </div>
   <figure class="text-center">

@@ -21,10 +21,10 @@ export class BranchDataService {
         pastTasksLength: 1
       },
       workers: [
-        { name: 'mirek', uid: '123123', workingDay: 8, hoursWorked: 3 },
-        { name: 'staszek', uid: '123123', workingDay: 8, hoursWorked: 5 },
+        { name: 'mirek', uid: '123123', workingDay: 8, hoursWorked: 1 },
+        { name: 'staszek', uid: '123123', workingDay: 8, hoursWorked: 2 },
         { name: 'janek', uid: '123123', workingDay: 12, hoursWorked: 6 },
-        { name: 'marek', uid: '123123', workingDay: 8, hoursWorked: 7 },
+        { name: 'marek', uid: '123123', workingDay: 8, hoursWorked: 8 },
       ],
       messeges: [
         { author: 'karol', message: 'Welcome new employers', createdAt: '12-12-2024 13:43', read: false },

@@ -11,13 +11,13 @@
       <li class="list-group-item py-3">Active Tasks :
         @for(task of data.tasks.activeTasks; track task){
         <ul class="list-group list-group-horizontal">
-          <li class="list-group-item "><i class="bi bi-gear"></i>
+          <li class="list-group-item p-2"><i class="bi bi-gear"></i>
           </li>
           <li class="list-group-item "><small>{{data.tasks.activeTasks[0].name}}</small></li>
           <li class="list-group-item flex-grow-1"><small>{{data.tasks.activeTasks[0].content.description
               }}</small>
           </li>
-          <button type="button" class="list-group-item list-group-item-secondary">Open</button>
+          <button type="button" class="list-group-item list-group-item-secondary p-2">Open</button>
 
         </ul>
 
@@ -35,12 +35,16 @@
       }
       <li class="list-group-item">Messages :
         @for(message of data.messeges; track message){
-        <ul class="list-group list-group-horizontal" [class]="!message.read ? 'fw-bold':''">
-          <li class="list-group-item "><i class="bi bi-envelope"></i></li>
-          <li class="list-group-item flex-grow-1  overflow-x-hidden"><small>{{message.message}}</small></li>
-          <li class="list-group-item text-end"><small>{{message.createdAt | date : 'dd.MM.YY HH:mm'}}</small>
+        <ul class="list-group list-group-horizontal " [class]="!message.read ? 'fw-bold':''">
+          <li class="list-group-item p-2"><i class="bi bi-envelope"></i></li>
+          <li class="list-group-item  flex-fill overflow-x-hidden text-nowrap text-truncate">
+            <small>{{message.message}}</small>
           </li>
-          <button type="button" class="list-group-item list-group-item-secondary">Open</button>
+          <li
+            class="list-group-item  text-end col-3 col-sm-3 col-md-2 col-lg-2 col-xl-2 col-xxl-1 overflow-x-hidden text-nowrap text-truncate">
+            <small>{{message.createdAt | date : 'HH:mm dd.MM.YY '}}</small>
+          </li>
+          <button type="button" class="list-group-item list-group-item-secondary p-2">Open</button>
 
         </ul>
         }

@@ -5,6 +5,7 @@ import { UserService } from '../../../services/user.service';
 import { Router, RouterModule } from '@angular/router';
 import { Auth, LocalUser } from '../../../types/auth.interface';
 import { NgClass } from '@angular/common';
+import { AvatarImageComponent } from "../avatar-image/avatar-image.component";
 
 enum Role {
   admin = 'admin',
@@ -14,7 +15,7 @@ enum Role {
 @Component({
   selector: 'newuser-form',
   standalone: true,
-  imports: [FormsModule, RouterModule, NgClass],
+  imports: [FormsModule, RouterModule, NgClass, AvatarImageComponent],
   templateUrl: './newuser-form.component.html',
   styleUrl: './newuser-form.component.scss'
 })
@@ -27,7 +28,8 @@ export class NewUserFormComponent {
     email: '',
     password: '',
     role: 'standard',
-    links: ['login']
+    links: ['login'],
+    selectedAvatar: '0'
   }
 
   async onSubmit(form: NgForm) {
@@ -54,5 +56,12 @@ export class NewUserFormComponent {
     } catch (error) {
       console.log('Error in new user form')
     }
+  }
+  toggleSelect(idx: string) {
+    if (this.model.selectedAvatar === idx) {
+      return
+    } else (
+      this.model.selectedAvatar = idx
+    )
   }
 }

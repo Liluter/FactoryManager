@@ -1,7 +1,7 @@
 <div class="card p-3 m-5 w320 mx-auto bg-body-tertiary"
   [ngClass]="myForm.invalid && myForm.touched ? 'border-danger' : ''">
   <h3 class="text-center m-3">Create user account</h3>
-  <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
+  <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)" class="pb-3">
     <div class="mb-3">
       <label for="username" class="form-label">User name</label>
       <input type="email" #username="ngModel" class="form-control" id="username" minlength="4" required
@@ -36,9 +36,16 @@
         <option value="standard">Standard</option>
       </select>
     </div>
-
+    <label for="avatar-img" class="form-label">Select your avatar:</label>
+    <div type="input" id="avatar-img" class="card p-3 mb-3">
+      <div class="d-flex flex-wrap justify-content-around">
+        @for(avatarID of ['0','1','2','3','4','5','6','7'];track $index){
+        <app-avatar-image [id]="avatarID" [selected]="avatarID===model.selectedAvatar"
+          (click)="toggleSelect(avatarID)"></app-avatar-image>
+        }
+      </div>
+    </div>
     <div class="text-center">
       <button class="btn btn-primary " type="submit" [disabled]="myForm.invalid">Create</button>
     </div>
   </form>
-</div>

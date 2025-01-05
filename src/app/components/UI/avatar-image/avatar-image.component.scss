@@ -1,0 +1,62 @@
+.sprite {
+	width: 331px;
+	height: 333px;
+	background-image: url("../../../../../public/assets/images/image.png");
+	background-repeat: no-repeat;
+	display: inline-block;
+	object-fit: cover;
+}
+
+.wh-76 {
+	width: 76px;
+	height: 76px;
+	border-radius: 50%;
+	&:hover {
+		background-color: hsla(216, 98%, 52%, 0.65);
+	}
+}
+.selected {
+	background-color: hsla(216, 98%, 52%, 1);
+}
+
+.wh-67 {
+	width: 66.2px;
+	height: 66.6px;
+}
+
+.rounded {
+	clip-path: circle(50% at 50% 50%);
+	transform-origin: top left;
+	transform: scale(0.2);
+}
+
+.sprite-0 {
+	background-position: 0 0;
+}
+
+.sprite-1 {
+	background-position: -331px 0;
+}
+
+.sprite-2 {
+	background-position: -665px 0;
+}
+
+.sprite-3 {
+	background-position: -996px 0;
+}
+.sprite-4 {
+	background-position: 0 -333px;
+}
+
+.sprite-5 {
+	background-position: -333px -333px;
+}
+
+.sprite-6 {
+	background-position: -667px -333px;
+}
+
+.sprite-7 {
+	background-position: -998px -333px;
+}

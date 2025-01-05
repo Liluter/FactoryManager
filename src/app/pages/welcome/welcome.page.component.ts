@@ -53,7 +53,7 @@ const quotes = [
 export class WelcomePageComponent {
   userService: UserService = inject(UserService);
   quotes = quotes
-  user$: Observable<string | undefined> = this.userService.getloggedInUser().pipe(map(user => user?.username))
+  user$: Observable<string | undefined> = this.userService.userSubject$.pipe(map(user => user?.username))
   randomQuotes$ = interval(10000).pipe(
     startWith(Math.floor(Math.random() * this.quotes.length)),
     map(() => this.quotes[Math.floor(Math.random() * this.quotes.length)])

@@ -14,9 +14,12 @@ import { FSUser } from '../../types/auth.interface';
 })
 export class UserPageComponent {
   private userService = inject(UserService)
-  user$: Observable<FSUser | null> = this.userService.getloggedInUser()
+  // user$: Observable<FSUser | null> = this.userService.getloggedInUser().pipe(tap(user => console.log('W user.page')))
+  user$: Observable<FSUser | null> = this.userService.userSubject$
 
   async logOut() {
     await this.userService.logAuthOut()
+    console.log('Logged Out from user page')
+
   }
 }

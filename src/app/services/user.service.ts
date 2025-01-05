@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { collection, query, where, getDocs, Firestore, collectionData, doc, updateDoc, setDoc, docData } from '@angular/fire/firestore';
-import { BehaviorSubject, map, Observable, of, switchMap } from 'rxjs';
+import { BehaviorSubject, catchError, from, fromEvent, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import { Users } from '../types/users.interface';
 import { Auth, signInWithEmailAndPassword, user, UserCredential, signOut, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { User } from 'firebase/auth'
@@ -13,9 +13,15 @@ export class UserService {
   defaultUser = [{ name: 'none', links: ['login'] }] as Users[]
   private firestore: Firestore = inject(Firestore)
   private auth: Auth = inject(Auth)
-  loginSubject = new BehaviorSubject('')
-  loginSubject$ = this.loginSubject.asObservable()
-  loggedUser!: User
+  private userSubject = new BehaviorSubject<FSUser | null>(null)
+  public userSubject$: Observable<FSUser | null> = this.userSubject.asObservable()
+  private userSubscription!: Subscription
+  userFS$!: Observable<FSUser | null>
+  loggedFSUser: FSUser | null = null
+
+  constructor() {
+    this.init()
+  }
 
   // getLoggedInUsers(): Observable<Users[]> {
   //   const userCollection = collection(this.firestore, 'users');
@@ -52,87 +58,122 @@ export class UserService {
   //   // ), this.loginSubject$]).pipe(map(([loggedInUsers, log]) => (loggedInUsers)))
   //   return loggedInUsers$
   // }
-  getloggedInUser(): Observable<FSUser | null> {
-    const userCollection = collection(this.firestore, 'users');
-    console.log('getloggoedInUser() => this.auth current sign-in user :', this.auth.currentUser)
+  // getloggedInUser(): FSUser | null {
+  //   // const userCollection = collection(this.firestore, 'users');
+  //   console.log('getloggoedInUser()', this.auth.currentUser)
+  //   const userAuth$: Observable<User> = user(this.auth)
+  //   if (this.loggedFSUser) {
+  //     return this.loggedFSUser
+  //   } else {
+  //     this.userFS$ = userAuth$.pipe(
+  //       switchMap((user) => {
+  //         if (user) {
+  //           return docData(doc(this.firestore, 'users/' + user.uid), { idField: 'id' }) as Observable<FSUser | null>
+  //         } else {
+  //           return of(null)
+  //         }
+  //       }
+  //       ),
+  //       tap(user => {
+  //         this.loggedFSUser = user
+  //         // this.userSubject.next(user)
+  //       })
+  //     )
+  //     return this.loggedFSUser
+  //   }
+  // }
+
+  private init() {
     const userAuth$: Observable<User> = user(this.auth)
-    const userFS$: Observable<FSUser | null> = userAuth$.pipe(switchMap((user) => {
-      if (user) {
-        return docData(doc(this.firestore, 'users/' + user.uid), { idField: 'id' })
-      } else {
-        return of(null)
-      }
-    }
-    ))
-    return userFS$
-  }
-  getAllUsers(): Observable<Users[]> {
-    const userCollection = collection(this.firestore, 'users');
-    return collectionData(userCollection, { idField: 'id' }) as Observable<Users[]>
-  }
-
-  async logOut(id: string): Promise<void> {
-
-    // this.loginSubject.next('logOutOne')
-    const itemRef = doc(this.firestore, 'users', id);
-    const updatedData = {
-      loggedIn: false
-    }
-    updateDoc(itemRef, updatedData)
-      .then(() => console.log('Wylogowano użytkownika.'))
-      .catch((error) => console.error('Błąd aktualizacji dokumentu', error))
-  }
-  async logIn(id: string): Promise<void> {
-    const itemRef = doc(this.firestore, 'users', id);
-    const updatedData = {
-      loggedIn: true
-    }
-    updateDoc(itemRef, updatedData)
-      .then(() => console.log('Dokument zaktualizowany.'))
-      .catch((error) => console.error('Błąd aktualizacji dokumentu', error))
-  }
-  async logInUser(name: string, password: string) {
-
-    const userCollection = collection(this.firestore, 'users');
-    const nameQuerry = query(userCollection, where('name', '==', name));
-    try {
-      const querySnapshot = await getDocs(nameQuerry)
-      if (querySnapshot.size > 1) {
-        let err = new Error('Więcej niż jeden użytkownik o tym imieniu', { cause: 'toomany-users' })
-        throw err
-      } else if (querySnapshot.empty) {
-        let err = new Error('Nie znaleziono użytkownika o tym imieniu', { cause: 'not-found' })
-        throw err
-      } else {
-        const userDoc = querySnapshot.docs[0]
-        const userRef = doc(this.firestore, 'users', userDoc.id);
-        const userData = userDoc.data() as Users;
-        if (userData.password === password) {
-          await updateDoc(userRef, { loggedIn: true })
-          return
+    this.userSubscription = userAuth$.pipe(
+      switchMap((firebaseUser
+      ) => {
+        if (firebaseUser) {
+          return (docData(doc(this.firestore, 'users/' + firebaseUser.uid), { idField: 'id' }) as Observable<FSUser | null>).pipe(
+            tap(user => {
+              this.userSubject.next(user)
+            }),
+            catchError(error => {
+              console.log('Error fetching firastore user', error)
+              return of(null)
+            })
+          )
         } else {
-          let err = new Error('Niepoprawne hasło', { cause: 'password' })
-          throw err
+          this.userSubject.next(null)
+          return of(null)
         }
       }
-    } catch (error: any) {
-      throw error
-    }
+      ),
+    ).subscribe()
 
   }
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe()
+  }
+  // getAllUsers(): Observable<Users[]> {
+  //   const userCollection = collection(this.firestore, 'users');
+  //   return collectionData(userCollection, { idField: 'id' }) as Observable<Users[]>
+  // }
+
+  // async logOut(id: string): Promise<void> {
+
+  //   // this.loginSubject.next('logOutOne')
+  //   const itemRef = doc(this.firestore, 'users', id);
+  //   const updatedData = {
+  //     loggedIn: false
+  //   }
+  //   updateDoc(itemRef, updatedData)
+  //     .then(() => console.log('Wylogowano użytkownika.'))
+  //     .catch((error) => console.error('Błąd aktualizacji dokumentu', error))
+  // }
+  // async logIn(id: string): Promise<void> {
+  //   const itemRef = doc(this.firestore, 'users', id);
+  //   const updatedData = {
+  //     loggedIn: true
+  //   }
+  //   updateDoc(itemRef, updatedData)
+  //     .then(() => console.log('Dokument zaktualizowany.'))
+  //     .catch((error) => console.error('Błąd aktualizacji dokumentu', error))
+  // }
+  // async logInUser(name: string, password: string) {
+
+  //   const userCollection = collection(this.firestore, 'users');
+  //   const nameQuerry = query(userCollection, where('name', '==', name));
+  //   try {
+  //     const querySnapshot = await getDocs(nameQuerry)
+  //     if (querySnapshot.size > 1) {
+  //       let err = new Error('Więcej niż jeden użytkownik o tym imieniu', { cause: 'toomany-users' })
+  //       throw err
+  //     } else if (querySnapshot.empty) {
+  //       let err = new Error('Nie znaleziono użytkownika o tym imieniu', { cause: 'not-found' })
+  //       throw err
+  //     } else {
+  //       const userDoc = querySnapshot.docs[0]
+  //       const userRef = doc(this.firestore, 'users', userDoc.id);
+  //       const userData = userDoc.data() as Users;
+  //       if (userData.password === password) {
+  //         await updateDoc(userRef, { loggedIn: true })
+  //         return
+  //       } else {
+  //         let err = new Error('Niepoprawne hasło', { cause: 'password' })
+  //         throw err
+  //       }
+  //     }
+  //   } catch (error: any) {
+  //     throw error
+  //   }
+
+  // }
 
   async logAuthIn(email: string, password: string) {
     try {
       const userCredentials: UserCredential = await signInWithEmailAndPassword(this.auth, email, password)
-      // console.log(userCredentioals.user)
-      if (userCredentials) {
-        this.loggedUser = userCredentials.user
-      }
     } catch (error) {
+      console.log('LogAuthIn error, error')
       throw error
     }
   }
-  async logAuthOut() {
+  async logAuthOut(): Promise<void> {
     try {
       await signOut(this.auth)
     } catch (error) {

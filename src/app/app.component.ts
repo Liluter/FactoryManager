@@ -28,8 +28,9 @@ export class AppComponent {
   links: string[] = ['login']
   // allUsers$: Observable<Users[]> = this.userService.getAllUsers()
   // loggedUser$: Observable<User[] | null> = this.userService.getLoggedInUsers()
-  loggedUser$: Observable<FSUser | null> = this.userService.getloggedInUser().pipe(
+  loggedUser$: Observable<FSUser | null> = this.userService.userSubject$.pipe(
     tap(user => {
+      console.log('W app component', user)
       if (user?.role === 'standard') {
         this.links = ['user', 'dashboard', 'logout']
       } else if (user?.role === 'admin') {
@@ -37,11 +38,12 @@ export class AppComponent {
         return
       }
       if (user?.links) {
-        this.links = user.links
+        this.links = user?.links
         return
       }
     })
   )
+
   private routesServise: RoutesService = inject(RoutesService)
   currentUrl$ = this.routesServise.currenttUrl$
 

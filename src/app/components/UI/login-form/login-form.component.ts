@@ -34,7 +34,7 @@ export class LoginFormComponent {
       await this.userService.logAuthIn(this.model.email, this.model.password)
       await this.router.navigate(['/dashboard'])
     } catch (err: any) {
-      console.log(err.message)
+      console.log('Login form :', err.message)
       switch (err.code) {
         case 'auth/invalid-credential': this.credentialError = err.message; break
         case 'auth/missing-password': this.passwordError = err.message; break

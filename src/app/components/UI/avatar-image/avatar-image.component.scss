@@ -1,15 +1,15 @@
 .sprite {
-	width: 331px;
+	width: 333px;
 	height: 333px;
-	background-image: url("../../../../../public/assets/images/image.png");
+	background-image: url("../../../../../public/assets/images/avatars.png");
 	background-repeat: no-repeat;
 	display: inline-block;
 	object-fit: cover;
 }
 
-.wh-76 {
-	width: 76px;
-	height: 76px;
+.wh-75 {
+	width: 75px;
+	height: 75px;
 	border-radius: 50%;
 	&:hover {
 		background-color: hsla(216, 98%, 52%, 0.65);
@@ -20,7 +20,7 @@
 }
 
 .wh-67 {
-	width: 66.2px;
+	width: 66.6px;
 	height: 66.6px;
 }
 
@@ -35,15 +35,15 @@
 }
 
 .sprite-1 {
-	background-position: -331px 0;
+	background-position: -333px 0;
 }
 
 .sprite-2 {
-	background-position: -665px 0;
+	background-position: -666px 0;
 }
 
 .sprite-3 {
-	background-position: -996px 0;
+	background-position: -999px 0;
 }
 .sprite-4 {
 	background-position: 0 -333px;
@@ -54,9 +54,9 @@
 }
 
 .sprite-6 {
-	background-position: -667px -333px;
+	background-position: -666px -333px;
 }
 
 .sprite-7 {
-	background-position: -998px -333px;
+	background-position: -999px -333px;
 }

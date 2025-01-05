@@ -9,6 +9,6 @@ import { Component, Input } from '@angular/core';
   styleUrl: './avatar-image.component.scss'
 })
 export class AvatarImageComponent {
-  @Input() id: string = ''
+  @Input() id: string = '0'
   @Input() selected: boolean = false
 }

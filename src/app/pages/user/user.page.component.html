@@ -1,8 +1,9 @@
 <div class="container text-center d-flex justify-content-center">
   @if(user$ | async; as user){
   <div class="card text-center m-5 maxw-320">
-    <div class="card-header">
-      <img src="assets/images/avatar.png" class="card-img-top  w-50" alt="...">
+    <div class="card-header d-flex justify-content-center">
+      <!-- <img src="assets/images/avatar.png" class="card-img-top  w-50" alt="..."> -->
+      <app-avatar-image [id]="user.selectedAvatar ?? ''"></app-avatar-image>
     </div>
     <div class="card-body">
       <h5 class="card-title text-capitalize">{{user.username}}</h5>

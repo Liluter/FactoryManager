@@ -4,12 +4,13 @@ import { UserService } from '../../services/user.service';
 import { Observable, tap } from 'rxjs';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { FSUser } from '../../types/auth.interface';
+import { AvatarImageComponent } from "../../components/UI/avatar-image/avatar-image.component";
 
 @Component({
   selector: 'user-page',
   templateUrl: './user.page.component.html',
   styleUrl: './user.page.component.scss',
-  imports: [RouterModule, AsyncPipe, DatePipe],
+  imports: [RouterModule, AsyncPipe, DatePipe, AvatarImageComponent],
   standalone: true
 })
 export class UserPageComponent {

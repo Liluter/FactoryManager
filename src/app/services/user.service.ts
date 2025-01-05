@@ -192,6 +192,7 @@ export class UserService {
         password: userData.password,
         role: userData.role,
         links: userData.links,
+        selectedAvatar: userData.selectedAvatar,
         emailverified: newUserAuth.emailVerified,
         cratedAt: newUserAuth.metadata.creationTime,
         lastSignIn: newUserAuth.metadata.lastSignInTime,

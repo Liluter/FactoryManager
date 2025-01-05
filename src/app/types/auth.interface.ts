@@ -1,3 +1,8 @@
+export enum ROLES {
+  admin = 'admin',
+  standard = 'standard'
+}
+
 export interface Auth {
   email: string
   password: string
@@ -5,7 +10,7 @@ export interface Auth {
 
 export interface LocalUser extends Auth {
   username: string,
-  role: string,
+  role: ROLES.admin | ROLES.standard,
   links: string[],
   selectedAvatar?: string
 }

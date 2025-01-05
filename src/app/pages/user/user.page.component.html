@@ -16,7 +16,9 @@
       </ul>
       <div class="d-flex justify-content-center mt-3">
         <button class="btn btn-primary me-3" (click)="logOut()">Log out</button>
-        <button class="btn btn-primary">Edit</button>
+        <button class="btn btn-primary me-3">Edit</button>
+        <button class="btn btn-primary" [routerLink]="['/create-user']" [disabled]="user.role!=='admin'">Create
+          New</button>
       </div>
     </div>
     <div class="card-footer text-body-secondary">

@@ -3,7 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms'
 import { Users } from '../../../types/users.interface';
 import { UserService } from '../../../services/user.service';
 import { Router, RouterModule } from '@angular/router';
-import { Auth, LocalUser } from '../../../types/auth.interface';
+import { Auth, LocalUser, ROLES } from '../../../types/auth.interface';
 import { NgClass } from '@angular/common';
 import { AvatarImageComponent } from "../avatar-image/avatar-image.component";
 
@@ -22,15 +22,20 @@ enum Role {
 export class NewUserFormComponent {
   private readonly userService: UserService = inject(UserService)
   private readonly router: Router = inject(Router)
-  @Input() creatorRole: string = 'standard'
+  @Input() creatorRole!: ROLES
+  roles = ROLES
   model: LocalUser = {
     username: '',
     email: '',
     password: '',
-    role: 'standard',
+    role: ROLES.standard,
     links: ['login'],
     selectedAvatar: '0'
   }
+  emailError: string | null = null
+  passwordError: string | null = null
+  credentialError: string | null = null
+  networkError: string | null = null
 
   async onSubmit(form: NgForm) {
     // this.emailError = null
@@ -48,13 +53,26 @@ export class NewUserFormComponent {
     //   //   case 'auth/invalid-email': this.emailError = err.message; break
     //   // }
     // }
+    this.emailError = null
+    this.credentialError = null
+    this.passwordError = null
+    this.networkError = null
     try {
       console.log('try submit ', this.model)
       await this.userService.createUser(this.model)
       this.router.navigate(['/user'])
       console.log('Submitted')
-    } catch (error) {
+    } catch (error: any) {
       console.log('Error in new user form')
+      console.log(error.code)
+      switch (error.code) {
+        case 'auth/invalid-credential': this.credentialError = error.message; break
+        case 'auth/missing-password': this.passwordError = error.message; break
+        case 'auth/invalid-email': this.emailError = error.message; break
+        case 'auth/network-request-failed': this.networkError = error.message; break
+        case 'auth/email-already-in-use': this.emailError = error.message; break
+      }
+      console.log(error.message)
     }
   }
   toggleSelect(idx: string) {

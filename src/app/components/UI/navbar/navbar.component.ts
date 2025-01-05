@@ -17,7 +17,7 @@ export class NavbarComponent {
   async routeTo(link: string) {
     if (link === 'logout') {
       await this.userService.logAuthOut()
-      console.log('Logged Out')
+      console.log('Logged Out from navbar')
     }
   }
 

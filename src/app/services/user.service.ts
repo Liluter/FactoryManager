@@ -200,7 +200,8 @@ export class UserService {
       await setDoc(userDocRef, data)
       console.log('New user sotore in FireStore : ', data)
     } catch (error) {
-      console.log(error)
+      console.log('in userservice ', error)
+      throw error
     }
   }
 

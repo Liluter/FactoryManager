@@ -1,3 +1,17 @@
+:host,
+:root {
+	--size-s: 66.6px;
+	--size-m: 99.9px;
+	--size-l: 133.2px;
+	--size-xl: 166.5px;
+	--scale-s: 0.2;
+	--scale-m: 0.3;
+	--scale-l: 0.4;
+	--scale-xl: 0.5;
+	--size: var(--size-s);
+	--scale: var(--scale-s);
+}
+
 .sprite {
 	width: 333px;
 	height: 333px;
@@ -8,26 +22,28 @@
 }
 
 .wh-75 {
-	width: 75px;
-	height: 75px;
+	width: calc(var(--size) * 1.1);
+	height: calc(var(--size) * 1.1);
+	transform-origin: top left;
 	border-radius: 50%;
-	&:hover {
+	&.hoverable:hover {
 		background-color: hsla(216, 98%, 52%, 0.65);
 	}
 }
+
 .selected {
 	background-color: hsla(216, 98%, 52%, 1);
 }
 
 .wh-67 {
-	width: 66.6px;
-	height: 66.6px;
+	width: var(--size);
+	height: var(--size);
 }
 
 .rounded {
 	clip-path: circle(50% at 50% 50%);
 	transform-origin: top left;
-	transform: scale(0.2);
+	transform: scale(var(--scale));
 }
 
 .sprite-0 {

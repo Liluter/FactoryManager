@@ -47,7 +47,7 @@
     <div type="input" id="avatar-img" class="card p-3 mb-3">
       <div class="d-flex flex-wrap justify-content-around">
         @for(avatarID of ['0','1','2','3','4','5','6','7'];track $index){
-        <app-avatar-image [id]="avatarID" [selected]="avatarID===model.selectedAvatar"
+        <app-avatar-image [id]="avatarID" [selected]="avatarID===model.selectedAvatar" [hoverable]="true"
           (click)="toggleSelect(avatarID)"></app-avatar-image>
         }
       </div>

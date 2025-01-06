@@ -32,12 +32,12 @@ export const routes: Routes = [
     redirectTo: 'login'
   },
   {
-    path: 'create-user',
-    component: CreateUserPageComponent,
-  },
-  {
     path: 'user',
     component: UserPageComponent,
+  },
+  {
+    path: 'user/create',
+    component: CreateUserPageComponent,
   },
   {
     path: 'workshop',

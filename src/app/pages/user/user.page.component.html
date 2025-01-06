@@ -2,8 +2,7 @@
   @if(user$ | async; as user){
   <div class="card text-center m-5 maxw-320">
     <div class="card-header d-flex justify-content-center">
-      <!-- <img src="assets/images/avatar.png" class="card-img-top  w-50" alt="..."> -->
-      <app-avatar-image [id]="user.selectedAvatar ?? ''" [size]="'m'" [hoverable]="false"></app-avatar-image>
+      <app-avatar-image [id]="user.selectedAvatar ?? ''" [hoverable]="false"></app-avatar-image>
     </div>
     <div class="card-body">
       <h5 class="card-title text-capitalize">{{user.username}}</h5>
@@ -18,7 +17,7 @@
       <div class="d-flex justify-content-center mt-3">
         <button class="btn btn-primary me-3" (click)="logOut()">Log out</button>
         <button class="btn btn-primary me-3">Edit</button>
-        <button class="btn btn-primary" [routerLink]="['/create-user']" [disabled]="user.role!=='admin'">Create
+        <button class="btn btn-primary" [routerLink]="['create']" [disabled]="user.role!=='admin'">Create
           New</button>
       </div>
     </div>

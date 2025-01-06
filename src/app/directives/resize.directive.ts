@@ -15,7 +15,5 @@ export class ResizeDirective {
       case 'l': this.mySize = 'var(--size-l)'; this.myScale = 'var(--scale-l)'; break
       case 'xl': this.mySize = 'var(--size-xl)'; this.myScale = 'var(--scale-xl)'; break
     }
-
-    console.log('resie dir', this.resize, this.mySize, this.myScale)
   }
 }

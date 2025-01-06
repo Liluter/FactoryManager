@@ -21,10 +21,10 @@ export class BranchDataService {
         pastTasksLength: 1
       },
       workers: [
-        { name: 'mirek', uid: '123123', workingDay: 8, hoursWorked: 1 },
-        { name: 'staszek', uid: '123123', workingDay: 8, hoursWorked: 2 },
-        { name: 'janek', uid: '123123', workingDay: 12, hoursWorked: 6 },
-        { name: 'marek', uid: '123123', workingDay: 8, hoursWorked: 8 },
+        { name: 'mirek', uid: '123123', workingDay: 8, hoursWorked: 1, avatarID: '0' },
+        { name: 'staszek', uid: '123123', workingDay: 8, hoursWorked: 2, avatarID: '3' },
+        { name: 'janek', uid: '123123', workingDay: 12, hoursWorked: 6, avatarID: '4' },
+        { name: 'marek', uid: '123123', workingDay: 8, hoursWorked: 8, avatarID: '5' },
       ],
       messeges: [
         { author: 'karol', message: 'Welcome new employers', createdAt: '12-12-2024 13:43', read: false },
@@ -56,7 +56,7 @@ export class BranchDataService {
         pastTasks: [{ name: 'Demontage Montage preparation', content: { description: '240 x 240 banner for Nike', files: '' }, taskId: '000001', createdAt: '13-12-2024 09:05' }],
         pastTasksLength: 1
       },
-      workers: [{ name: 'mirek', uid: '123123', workingDay: 8, hoursWorked: 5 }],
+      workers: [{ name: 'mirek', uid: '123123', workingDay: 8, hoursWorked: 5, avatarID: '3' }],
       messeges: [
         { author: 'karol', message: 'Welcome new employers', createdAt: '12-12-2024 13:43', read: false },
         { author: 'mirek', message: 'Wrong parts', createdAt: '12-12-2024 13:43', read: true },

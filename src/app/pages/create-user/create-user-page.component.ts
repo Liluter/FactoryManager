@@ -15,11 +15,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class CreateUserPageComponent {
   private userService: UserService = inject(UserService)
   role: ROLES = ROLES.standard
-
-
   loggedUser = this.userService.userSubject$.pipe(
     tap(user => {
-      console.log('in create-user', user?.role)
       if (user) {
         if (user?.role === ROLES.admin) {
           this.role = ROLES.admin

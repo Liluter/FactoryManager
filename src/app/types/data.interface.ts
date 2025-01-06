@@ -8,7 +8,7 @@ export interface BranchDataModel {
     activeTasksLength: number,
     pastTasksLength: number
   },
-  workers: { name: string, uid: string, workingDay: number, hoursWorked: number }[] | null
+  workers: { name: string, uid: string, workingDay: number, hoursWorked: number, avatarID: string }[] | null
   messeges: { author: string, message: string, createdAt: string, read: boolean }[]
 
 }

@@ -1,5 +1,7 @@
 <div class="card w-128 text-center m-1">
-  <img src="assets/images/avatar.png" class="card-img-top p-3" alt="...">
+  <div class="d-flex justify-content-center fill mt-2">
+    <app-avatar-image [size]="'m'" [id]="_user.avatarID"></app-avatar-image>
+  </div>
   <div class="card-body">
     <h5 class="card-title text-capitalize">{{_user.name}}</h5>
     <div class="progress text-dark" role="progressbar">

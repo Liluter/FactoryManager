@@ -13,7 +13,10 @@ import { RouterModule } from '@angular/router';
 export class CardWidgetComponent {
   @Input() data: BranchDataModel = {
     branchTitle: '',
-    messeges: [{ author: '', createdAt: '', message: '', read: false, id: '0' }],
+    messages: {
+      read: [],
+      unread: []
+    },
     workers: null,
     notifications: 0,
     lastnotification: 0

@@ -1,12 +1,32 @@
 <div class="card ">
-  <!-- <div class="card-header fw-bold text-body text-center orange text-capitalize">
-    <span class="fs-5 me-1">{{data.branchTitle}}</span>
-    @if(data.notifications>0){
-    <span class="badge bg-success align-top">{{data.notifications}}</span>
-    }
-  </div> -->
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs">
+      @for(tab of tabs; track $index){
+      <li class="nav-item" (click)="selectTab(tab)">
+        <button class="nav-link text-reset" [class.active]="actualTab===tab">{{tab}}
+          @if(tab === 'Active Tasks' && notifications.activeTasks){
+          <span class="badge text-bg-danger">
+            {{notifications.activeTasks}}
+          </span>
+          }
+          @if(tab === 'Messages' && notifications.messages){
+          <span class="badge text-bg-danger">
+            {{notifications.messages}}
+          </span>
+          }
+          @if(tab === 'Workers' && notifications.workers){
+          <span class="badge text-bg-danger">
+            {{notifications.workers}}
+          </span>
+          }
+        </button>
+      </li>
+      }
+    </ul>
+  </div>
   <div class="card-body p-0">
     <ul class="list-group list-group-flush">
+      @if(actualTab==="Active Tasks" || actualTab==="All"){
       @if(data.tasks && data.tasks.activeTasks){
       <li class="list-group-item py-3">Active Tasks :
         @for(task of data.tasks.activeTasks; track task){
@@ -18,24 +38,48 @@
               }}</small>
           </li>
           <button type="button" class="list-group-item list-group-item-secondary p-2">Open</button>
-
         </ul>
-
         }
       </li>
       }
+      }
+      @if(actualTab==="Workers" || actualTab==="All"){
       @if(data.tasks && data.tasks.activeTasks){
       <li class="list-group-item py-3 ">Workers :
-        <div class="d-flex justify-content-start">
+        <div class="d-flex justify-content-start flex-wrap">
           @for(worker of data.workers; track worker){
           <app-medium-avatar [user]="worker"></app-medium-avatar>
           }
         </div>
       </li>
       }
+      }
+      @if(actualTab==="Messages" || actualTab==="All"){
       <li class="list-group-item">Messages :
+        <div class="list-group ">
+          unread
+          @for(message of data.messages.unread; track message){
+          <button type="button" class="list-group-item list-group-item-action " (click)="open(message)">
+            <div class="row parent">
+              <div class="col-1  ps-2 pe-0">
+                <i class="bi bi-envelope"></i>
+              </div>
+              <div class="col text-truncate fw-bold">
+                <small>{{message.message}}</small>
+              </div>
+              <div class="col-2 text-end text-truncate ps-0 pe-2 fw-bold">
+                <small>{{message.createdAt | date : 'HH:mm dd.MM.YY '}}</small>
+              </div>
+              <div class="badge text-bg-secondary sibling  bg-opacity-50 align-middle fs-4">
+                Open
+              </div>
+            </div>
+          </button>
+          }
+        </div>
         <div class="list-group">
-          @for(message of data.messeges; track message){
+          read
+          @for(message of data.messages.read; track message){
           <button type="button" class="list-group-item list-group-item-action " (click)="open(message)">
             <div class="row parent">
               <div class="col-1  ps-2 pe-0">
@@ -55,10 +99,7 @@
           }
         </div>
       </li>
+      }
     </ul>
   </div>
-  <!-- <div class="card-footer text-center p-0">
-    <i class="bi bi-three-dots"></i>
-    info
-  </div> -->
 </div>

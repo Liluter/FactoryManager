@@ -6,7 +6,7 @@ import { ProgressBarComponent } from "../progress-bar/progress-bar.component";
 @Component({
   selector: 'app-medium-avatar',
   standalone: true,
-  imports: [NgClass, AvatarImageComponent, ProgressBarComponent],
+  imports: [AvatarImageComponent, ProgressBarComponent],
   templateUrl: './medium-avatar.component.html',
   styleUrl: './medium-avatar.component.scss'
 })

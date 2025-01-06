@@ -26,11 +26,19 @@ export class BranchDataService {
         { name: 'janek', uid: '123123', workingDay: 12, hoursWorked: 6, avatarID: '4' },
         { name: 'marek', uid: '123123', workingDay: 8, hoursWorked: 8, avatarID: '5' },
       ],
-      messeges: [
-        { author: 'karol', message: 'Welcome new employers', createdAt: '12-12-2024 13:43', read: false, id: '1' },
-        { author: 'mirek', message: 'Wrong parts', createdAt: '12-12-2024 13:43', read: true, id: '2' },
-        { author: 'ania', message: 'Where is projecgt of new part.', createdAt: '12-13-2024 10:43', read: false, id: '3' },
-      ]
+      messages: {
+        unread: [
+          { author: 'karol', message: 'Welcome new employers', createdAt: '12-12-2024 13:43', read: false, id: '1' },
+          { author: 'karol', message: 'Welcome new employers', createdAt: '12-12-2024 13:44', read: false, id: '1' },
+          { author: 'mirek', message: 'Wrong parts', createdAt: '12-12-2024 13:43', read: true, id: '2' },
+          { author: 'ania', message: 'Where is projecgt of new part.', createdAt: '12-13-2024 10:43', read: false, id: '3' },
+        ],
+        read: [
+          { author: 'karol', message: 'Welcome new employers', createdAt: '12-12-2024 13:43', read: false, id: '1' },
+          { author: 'mirek', message: 'Wrong parts', createdAt: '12-12-2024 13:43', read: true, id: '2' },
+          { author: 'ania', message: 'Where is projecgt of new part.', createdAt: '12-13-2024 10:43', read: false, id: '3' },
+        ]
+      }
     },
     {
       branchTitle: 'warehouse',
@@ -43,7 +51,10 @@ export class BranchDataService {
         pastTasksLength: 1
       },
       workers: null,
-      messeges: [{ author: 'karol', message: 'new employee ...', createdAt: '07-22-2024 13:43', read: false, id: '4' }, { author: 'ania', message: 'invitation ...', createdAt: '07-22-2024 13:43', read: true, id: '5' }]
+      messages: {
+        unread: [{ author: 'karol', message: 'new employee ...', createdAt: '07-22-2024 13:43', read: false, id: '4' }, { author: 'ania', message: 'invitation ...', createdAt: '07-22-2024 13:43', read: true, id: '5' }],
+        read: []
+      }
     },
     {
       branchTitle: 'outside jobs',
@@ -57,11 +68,12 @@ export class BranchDataService {
         pastTasksLength: 1
       },
       workers: [{ name: 'mirek', uid: '123123', workingDay: 8, hoursWorked: 5, avatarID: '3' }],
-      messeges: [
-        { author: 'karol', message: 'Welcome new employers', createdAt: '12-12-2024 13:43', read: false, id: '6' },
+      messages: {
+        unread: [{ author: 'karol', message: 'Welcome new employers', createdAt: '12-12-2024 13:43', read: false, id: '6' },
         { author: 'mirek', message: 'Wrong parts', createdAt: '12-12-2024 13:43', read: true, id: '7' },
-        { author: 'ania', message: 'Where is projecgt of new part.', createdAt: '12-13-2024 10:43', read: false, id: '8' },
-      ]
+        { author: 'ania', message: 'Where is projecgt of new part.', createdAt: '12-13-2024 10:43', read: false, id: '8' },],
+        read: []
+      }
     },
     {
       branchTitle: 'hr',
@@ -74,11 +86,12 @@ export class BranchDataService {
         pastTasksLength: 1
       },
       workers: null,
-      messeges: [
-        { author: 'karol', message: 'Welcome new ...', createdAt: '12-25-2024 13:43', read: true, id: '9' },
+      messages: {
+        unread: [],
+        read: [{ author: 'karol', message: 'Welcome new ...', createdAt: '12-25-2024 13:43', read: true, id: '9' },
         { author: 'ania', message: 'Done new ...', createdAt: '12-26-2024 15:43', read: false, id: '10' },
-        { author: 'mirek', message: 'Send ...', createdAt: '12-27-2024 11:43', read: true, id: '11' },
-      ]
+        { author: 'mirek', message: 'Send ...', createdAt: '12-27-2024 11:43', read: true, id: '11' },]
+      }
     },
     {
       branchTitle: 'marketing',
@@ -91,7 +104,12 @@ export class BranchDataService {
         pastTasksLength: 1
       },
       workers: null,
-      messeges: [{ author: 'karol', message: 'where can I find...', createdAt: '12-12-2024 13:43', read: false, id: '12' }]
+      messages: {
+        unread:
+          [{ author: 'karol', message: 'where can I find...', createdAt: '12-12-2024 13:43', read: false, id: '12' }]
+        ,
+        read: []
+      }
     },
   ]
 }

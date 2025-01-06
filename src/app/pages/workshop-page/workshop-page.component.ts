@@ -13,9 +13,18 @@ import { BranchDataModel, Message } from '../../types/data.interface';
 })
 export class WorkshopPageComponent {
   service: BranchDataService = inject(BranchDataService)
-  data = this.service.branchDataMockup.filter(el => el.branchTitle === 'workshop')[0]
-
+  data: BranchDataModel = this.service.branchDataMockup.filter(el => el.branchTitle === 'workshop')[0]
+  tabs = ['Active Tasks', 'Workers', 'Messages', 'All']
+  notifications = {
+    activeTasks: this.data.tasks?.activeTasks?.length,
+    messages: this.data.messages.unread.length,
+    workers: this.data.workers?.length
+  }
+  actualTab: string = this.tabs[0]
   open(message: Message) {
     console.log(message)
+  }
+  selectTab(tab: string) {
+    this.actualTab = tab
   }
 }

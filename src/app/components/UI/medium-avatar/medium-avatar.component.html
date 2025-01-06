@@ -4,13 +4,9 @@
   </div>
   <div class="card-body">
     <h5 class="card-title text-capitalize">{{_user.name}}</h5>
-    <div class="progress text-dark" role="progressbar">
-      <div class="progress-bar" [ngClass]="{'bg-success': percent === 100, 'bg-danger': percent <= 13}"
-        [style]="'width: '+percent+'%'"></div>
-    </div>
-    <small>
+    <app-progress-bar [percent]="percent">
       {{_user.hoursWorked}}/{{_user.workingDay}} h
-    </small>
+    </app-progress-bar>
   </div>
   <small class="card-text"># {{_user.uid}}</small>
 </div>

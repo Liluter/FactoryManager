@@ -1,11 +1,12 @@
 import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { AvatarImageComponent } from "../avatar-image/avatar-image.component";
+import { ProgressBarComponent } from "../progress-bar/progress-bar.component";
 
 @Component({
   selector: 'app-medium-avatar',
   standalone: true,
-  imports: [NgClass, AvatarImageComponent],
+  imports: [NgClass, AvatarImageComponent, ProgressBarComponent],
   templateUrl: './medium-avatar.component.html',
   styleUrl: './medium-avatar.component.scss'
 })

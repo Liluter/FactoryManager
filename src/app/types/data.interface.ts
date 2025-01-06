@@ -9,6 +9,13 @@ export interface BranchDataModel {
     pastTasksLength: number
   },
   workers: { name: string, uid: string, workingDay: number, hoursWorked: number, avatarID: string }[] | null
-  messeges: { author: string, message: string, createdAt: string, read: boolean }[]
+  messeges: Message[]
 
+}
+export interface Message {
+  author: string,
+  message: string,
+  createdAt: string,
+  read: boolean,
+  id: string
 }

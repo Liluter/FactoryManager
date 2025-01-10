@@ -5,7 +5,7 @@ import { Directive, HostBinding, Input } from '@angular/core';
   standalone: true
 })
 export class ResizeDirective {
-  @Input() resize: 's' | 'm' | 'l' | 'xl' | null = null
+  @Input() resize: 'xs' | 's' | 'm' | 'l' | 'xl' | null = null
   @HostBinding('style.--size') mySize = 'var(--size-s)'
   @HostBinding('style.--scale') myScale = 'var(--size-s)'
   ngOnInit() {

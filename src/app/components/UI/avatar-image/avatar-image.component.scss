@@ -1,78 +1,70 @@
-:host,
-:root {
-	--size-s: 66.6px;
-	--size-m: 99.9px;
-	--size-l: 133.2px;
-	--size-xl: 166.5px;
-	--scale-s: 0.2;
-	--scale-m: 0.3;
-	--scale-l: 0.4;
-	--scale-xl: 0.5;
-	--size: var(--size-s);
-	--scale: var(--scale-s);
+@use "sass:meta";
+$global-width: 100px;
+@function avtr($i, $j) {
+	$url: "";
+	@if ($j == "xs") {
+		$url: "../../../../../public/assets/images/thumbnails/output_kwadrat_avatar_cropped_#{$i}_0_2.png";
+	} @else if ($j == "s") {
+		$url: "../../../../../public/assets/images/thumbnails/output_kwadrat_avatar_cropped_#{$i}_0_3.png";
+	} @else if ($j == "m") {
+		$url: "../../../../../public/assets/images/thumbnails/output_kwadrat_avatar_cropped_#{$i}_0_6.png";
+	} @else if ($j == "l") {
+		$url: "../../../../../public/assets/images/thumbnails/output_kwadrat_avatar_cropped_#{$i}_0_8.png";
+	} @else if ($j == "xl") {
+		$url: "../../../../../public/assets/images/thumbnails/output_kwadrat_avatar_cropped_#{$i}_1.png";
+	}
+
+	@return $url;
 }
 
-.sprite {
-	width: 333px;
-	height: 333px;
-	background-image: url("../../../../../public/assets/images/avatars.png");
-	background-repeat: no-repeat;
-	display: inline-block;
-	object-fit: cover;
+@function pxl($size) {
+	$wh: 333px;
+	@if ($size == "xs") {
+		$wh: 67px;
+	} @else if ($size == "s") {
+		$wh: 100px;
+	} @else if ($size == "m") {
+		$wh: 200px;
+	} @else if ($size == "l") {
+		$wh: 266px;
+	} @else if ($size == "xl") {
+		$wh: 333px;
+	}
+	@return $wh;
 }
 
-.wh-75 {
-	width: calc(var(--size) * 1.1);
-	height: calc(var(--size) * 1.1);
-	transform-origin: top left;
-	border-radius: 50%;
-	&.hoverable:hover {
-		background-color: hsla(216, 98%, 52%, 0.65);
+@mixin bck-img($num, $size) {
+	.image-#{$num}-#{$size} {
+		$wh: pxl($size);
+		width: $wh;
+		height: $wh;
+		background-image: url(avtr($num, $size));
 	}
 }
+@mixin wrp($size) {
+	.wrapper-#{$size} {
+		transform-origin: top left;
+		border-radius: 50%;
+		$wh: calc(pxl($size) + 14%);
+		width: calc($wh);
+		height: calc($wh);
+		&.hoverable:hover {
+			background-color: hsla(216, 98%, 52%, 0.65);
+		}
+	}
+}
+@mixin apply-to-all($num, $sizes) {
+	@each $element in $num {
+		@each $size in $sizes {
+			@include wrp($size);
+			@include bck-img($element, $size);
+		}
+	}
+}
+$numbers: 0, 1, 2, 3, 4, 5, 6, 7;
+$sizes: "xs", "s", "m", "l", "xl";
+@include apply-to-all($numbers, $sizes);
 
 .selected {
 	background-color: hsla(216, 98%, 52%, 1);
-}
-
-.wh-67 {
-	width: var(--size);
-	height: var(--size);
-}
-
-.rounded {
-	clip-path: circle(50% at 50% 50%);
-	transform-origin: top left;
-	transform: scale(var(--scale));
-}
-
-.sprite-0 {
-	background-position: 0 0;
-}
-
-.sprite-1 {
-	background-position: -333px 0;
-}
-
-.sprite-2 {
-	background-position: -666px 0;
-}
-
-.sprite-3 {
-	background-position: -999px 0;
-}
-.sprite-4 {
-	background-position: 0 -333px;
-}
-
-.sprite-5 {
-	background-position: -333px -333px;
-}
-
-.sprite-6 {
-	background-position: -666px -333px;
-}
-
-.sprite-7 {
-	background-position: -999px -333px;
 }

@@ -14,6 +14,7 @@ export class MediumAvatarComponent {
   percent: number = 0
   _user = { name: '', uid: '', workingDay: 0, hoursWorked: 8, avatarID: '0' }
   @Input() set user(user: { name: string, uid: string, workingDay: number, hoursWorked: number, avatarID: string }) {
+    console.log(user)
     this.percent = 100 * (user.hoursWorked / user.workingDay)
     this._user = {
       hoursWorked: user.hoursWorked,

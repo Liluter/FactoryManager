@@ -14,11 +14,14 @@
         <li class="list-group-item">Email verified : {{user.emailverified}}</li>
         <li class="list-group-item">Role : {{user.role}}</li>
       </ul>
-      <div class="d-flex justify-content-center mt-3">
+      <div class="d-flex justify-content-center my-2">
         <button class="btn btn-primary me-3" (click)="logOut()">Log out</button>
         <button class="btn btn-primary me-3">Edit</button>
-        <button class="btn btn-primary" [routerLink]="['create']" [disabled]="user.role!=='admin'">Create
+        @if(user.role!=='admin'){
+        <button class="btn btn-primary" [routerLink]="['create']">Create
           New</button>
+        }
+
       </div>
     </div>
     <div class="card-footer text-body-secondary">

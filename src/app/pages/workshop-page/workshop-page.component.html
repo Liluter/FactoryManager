@@ -55,50 +55,7 @@
       }
       }
       @if(actualTab==="Messages" || actualTab==="All"){
-      <li class="list-group-item">Messages :
-        <div class="list-group ">
-          unread
-          @for(message of data.messages.unread; track message){
-          <button type="button" class="list-group-item list-group-item-action " (click)="open(message)">
-            <div class="row parent">
-              <div class="col-1  ps-2 pe-0">
-                <i class="bi bi-envelope"></i>
-              </div>
-              <div class="col text-truncate fw-bold">
-                <small>{{message.message}}</small>
-              </div>
-              <div class="col-2 text-end text-truncate ps-0 pe-2 fw-bold">
-                <small>{{message.createdAt | date : 'HH:mm dd.MM.YY '}}</small>
-              </div>
-              <div class="badge text-bg-secondary sibling  bg-opacity-50 align-middle fs-5 lh-sm ">
-                Open
-              </div>
-            </div>
-          </button>
-          }
-        </div>
-        <div class="list-group">
-          read
-          @for(message of data.messages.read; track message){
-          <button type="button" class="list-group-item list-group-item-action " (click)="open(message)">
-            <div class="row parent">
-              <div class="col-1  ps-2 pe-0">
-                <i class="bi bi-envelope"></i>
-              </div>
-              <div class="col text-truncate">
-                <small>{{message.message}}</small>
-              </div>
-              <div class="col-2 text-end text-truncate ps-0 pe-2">
-                <small>{{message.createdAt | date : 'HH:mm dd.MM.YY '}}</small>
-              </div>
-              <div class="badge text-bg-secondary sibling  bg-opacity-50 align-middle fs-4">
-                Open
-              </div>
-            </div>
-          </button>
-          }
-        </div>
-      </li>
+      <app-message-list-page></app-message-list-page>
       }
     </ul>
   </div>

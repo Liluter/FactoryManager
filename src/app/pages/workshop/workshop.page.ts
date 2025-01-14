@@ -9,11 +9,11 @@ import { MessageListPage } from '../message-list-page/message-list-page';
 @Component({
   selector: 'app-workshop-page',
   standalone: true,
-  imports: [DatePipe, MediumAvatarComponent, MessageListPage],
-  templateUrl: './workshop-page.component.html',
-  styleUrl: './workshop-page.component.scss'
+  imports: [MediumAvatarComponent, MessageListPage],
+  templateUrl: './workshop.page.html',
+  styleUrl: './workshop.page.scss'
 })
-export class WorkshopPageComponent {
+export class WorkshopPage {
   service: BranchDataService = inject(BranchDataService)
   data: BranchDataModel = this.service.branchDataMockup.filter(el => el.branchTitle === 'workshop')[0]
   tabs = ['Active Tasks', 'Workers', 'Messages', 'All']

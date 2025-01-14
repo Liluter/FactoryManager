@@ -4,6 +4,7 @@ import { DatePipe } from '@angular/common';
 import { MessageService } from '../../../services/message.service';
 import { RouterModule } from '@angular/router';
 
+
 interface ConfigModel {
   readonly actions: { label: string, redirectTo: string }[];
   readonly type: string

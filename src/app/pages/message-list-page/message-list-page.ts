@@ -11,7 +11,7 @@ import { MessageListComponent } from "../../components/UI/message-list/message-l
 export class MessageListPage {
   actions = [
     {
-      label: 'Open Message',
+      label: 'Open message',
       redirectTo: '/message'
     }
   ]

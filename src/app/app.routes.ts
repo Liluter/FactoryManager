@@ -4,7 +4,9 @@ import { LoginPageComponent } from './pages/login/login.page.component';
 import { WelcomePageComponent } from './pages/welcome/welcome.page.component';
 import { CreateUserPageComponent } from './pages/create-user/create-user-page.component';
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
-import { WorkshopPageComponent } from './pages/workshop-page/workshop-page.component';
+import { MessageDetailPage } from './pages/message-detail/message-detail.page';
+import { WorkshopPage } from './pages/workshop/workshop.page';
+
 
 export const routes: Routes = [
   {
@@ -41,8 +43,13 @@ export const routes: Routes = [
   },
   {
     path: 'workshop',
-    component: WorkshopPageComponent,
+    component: WorkshopPage,
   },
+  {
+    path: 'message/:id',
+    component: MessageDetailPage,
+    title: 'Message'
+  }
   // {
   //   path: 'add/task',
   //   component: AddTaskPageComponent

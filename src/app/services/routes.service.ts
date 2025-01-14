@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter, switchMap, map, distinctUntilChanged, of } from 'rxjs';
+import { filter, switchMap, map, distinctUntilChanged, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,7 @@ export class RoutesService {
       }
       return of(route)
     }),
+    tap((r) => console.log('route', r.snapshot.title)),
     map(route => route.snapshot.routeConfig?.path || '/'),
     distinctUntilChanged()
   )

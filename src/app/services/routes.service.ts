@@ -18,7 +18,6 @@ export class RoutesService {
       }
       return of(route)
     }),
-    tap((r) => console.log('route', r.snapshot.title)),
     map(route => route.snapshot.routeConfig?.path || '/'),
     distinctUntilChanged()
   )

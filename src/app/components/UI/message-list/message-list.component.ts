@@ -1,7 +1,7 @@
 import { Component, computed, inject, input, Signal } from '@angular/core';
 import { BranchDataModel, Message } from '../../../types/data.interface';
 import { DatePipe } from '@angular/common';
-import { MessageService } from '../../../services/message.service';
+import { GroupService } from '../../../services/group.service';
 import { RouterModule } from '@angular/router';
 
 
@@ -20,13 +20,13 @@ interface ConfigModel {
 export class MessageListComponent {
   config = input<ConfigModel>()
   data!: Signal<BranchDataModel> //service
-  private messageService = inject(MessageService)
+  private groupService = inject(GroupService)
 
   messages = computed(() => {
     if (this.config()?.type !== 'unread') {
-      return this.messageService.messagesMocup['unread']
+      return this.groupService.messagesMocup['unread']
     } else {
-      return this.messageService.messagesMocup['read']
+      return this.groupService.messagesMocup['read']
     }
   })
   open(messageId: string) {

@@ -16,10 +16,10 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav">
+      <ul class="navbar-nav d-flex flex-row flex-wrap justify-content-between">
         @for(link of links; track link){
-        <li class="nav-item me-3 ">
-          <a class="nav-link link text-decoration-underline link-underline-dark link-offset-1 link-offset-3-hover  link-underline-opacity-0 link-underline-opacity-100-hover"
+        <li class="nav-item  m-1 ">
+          <a class="nav-link link text-center text-decoration-underline link-underline-dark link-offset-1 link-offset-3-hover  link-underline-opacity-0 link-underline-opacity-100-hover"
             [routerLink]="link" (click)="routeTo(link)">{{link}}</a>
         </li>
         }

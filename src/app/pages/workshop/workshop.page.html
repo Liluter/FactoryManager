@@ -1,23 +1,33 @@
 <div class="card ">
+  @let tasks = (tasks$ | async) ?? [];
+  @if(group$ | async; as group) {
+
   <div class="card-header">
     <ul class="nav nav-tabs card-header-tabs">
       @for(tab of tabs; track $index){
       <li class="nav-item" (click)="selectTab(tab)">
         <button class="nav-link text-reset" [class.active]="actualTab===tab">{{tab}}
-          @if(tab === 'Active Tasks' && notifications.activeTasks){
+          @if(tab === 'Active Tasks'){
+          @if(tasks){
+
           <span class="badge text-bg-danger">
-            {{notifications.activeTasks}}
+            {{tasks.length}}
           </span>
           }
-          @if(tab === 'Messages' && notifications.messages){
+          }
+          @if(tab === 'Messages'){
+          @if(messages$ | async; as messages){
           <span class="badge text-bg-danger">
-            {{notifications.messages}}
+            {{messages.length}}
           </span>
           }
-          @if(tab === 'Workers' && notifications.workers){
+          }
+          @if(tab === 'Workers' ){
+          @if(workers.length > 0 ){
           <span class="badge text-bg-danger">
-            {{notifications.workers}}
+            {{workers.length}}
           </span>
+          }
           }
         </button>
       </li>
@@ -26,22 +36,48 @@
   </div>
   <div class="card-body p-0">
     <ul class="list-group list-group-flush">
+
       @if(actualTab==="Active Tasks" || actualTab==="All"){
-      @if(data.tasks && data.tasks.activeTasks){
+      @if(tasks.length > 0){
       <li class="list-group-item py-3">Active Tasks :
-        @for(task of data.tasks.activeTasks; track task){
+        @for(task of tasks; track $index){
         <ul class="list-group list-group-horizontal">
           <li class="list-group-item p-2"><i class="bi bi-gear"></i>
           </li>
-          <li class="list-group-item "><small>{{data.tasks.activeTasks[0].name}}</small></li>
-          <li class="list-group-item flex-grow-1"><small>{{data.tasks.activeTasks[0].content.description
+          <li class="list-group-item "><small>{{task.name}}</small></li>
+          <li class="list-group-item flex-grow-1"><small>{{task.description
               }}</small>
           </li>
           <button type="button" class="list-group-item list-group-item-secondary p-2">Open</button>
         </ul>
         }
       </li>
+      <div class="table-responsive-md mx-3">
+        <table class="table table-hover table-borderless text-center">
+          <thead>
+            <tr>
+              <th scope="col"><i class="bi bi-clock"></i></th>
+              <th scope="col">Name</th>
+              <th scope="col">Info</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for(task of tasks; track $index){
+            <tr>
+              <th scope="row"><span class="badge rounded-pill text-bg-warning">{{task.priority}}</span></th>
+              <td>{{task.name}}</td>
+              <td>{{task.description}}</td>
+              <td> <button type="button" class="btn btn-sm btn-primary" (click)="open(task)">Open</button>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
       }
+
       }
       @if(actualTab==="Workers" || actualTab==="All"){
       @if(data.tasks && data.tasks.activeTasks){
@@ -57,6 +93,11 @@
       @if(actualTab==="Messages" || actualTab==="All"){
       <app-message-list-page></app-message-list-page>
       }
+
+
     </ul>
+
+
   </div>
+  }
 </div>

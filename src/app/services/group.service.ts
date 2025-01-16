@@ -24,7 +24,7 @@ export interface Task {
   files: string[]
   active: boolean
   timestamp: any
-  priority: number
+  priority: 0 | 1 | 2 | 3
 }
 
 @Injectable({
@@ -101,5 +101,8 @@ export class GroupService {
     //   return this.loggedFSUser
     // }
   }
+
+
+  // generyczne funkje utworzyć dla róznych dział
 
 }

@@ -1,7 +1,6 @@
 <div class="card ">
   @let tasks = (tasks$ | async) ?? [];
-  @if(group$ | async; as group) {
-
+  @let group = (group$ | async) ;
   <div class="card-header">
     <ul class="nav nav-tabs card-header-tabs">
       @for(tab of tabs; track $index){
@@ -36,7 +35,6 @@
   </div>
   <div class="card-body p-0">
     <ul class="list-group list-group-flush">
-
       @if(actualTab==="Active Tasks" || actualTab==="All"){
       @if(tasks.length > 0){
       <li class="list-group-item py-3">Active Tasks :
@@ -53,10 +51,10 @@
         }
       </li>
       <div class="table-responsive-md mx-3">
-        <table class="table table-hover table-borderless text-center">
+        <table class="table table-hover table-borderless ">
           <thead>
             <tr>
-              <th scope="col"><i class="bi bi-clock"></i></th>
+              <th scope="col">Prio</th>
               <th scope="col">Name</th>
               <th scope="col">Info</th>
               <th scope="col">Action</th>
@@ -65,7 +63,8 @@
           <tbody>
             @for(task of tasks; track $index){
             <tr>
-              <th scope="row"><span class="badge rounded-pill text-bg-warning">{{task.priority}}</span></th>
+              <th scope="row"><span class="badge rounded-pill"
+                  [class]="setColor(task.priority)">{{task.priority}}</span></th>
               <td>{{task.name}}</td>
               <td>{{task.description}}</td>
               <td> <button type="button" class="btn btn-sm btn-primary" (click)="open(task)">Open</button>
@@ -75,9 +74,7 @@
           </tbody>
         </table>
       </div>
-
       }
-
       }
       @if(actualTab==="Workers" || actualTab==="All"){
       @if(data.tasks && data.tasks.activeTasks){
@@ -93,11 +90,7 @@
       @if(actualTab==="Messages" || actualTab==="All"){
       <app-message-list-page></app-message-list-page>
       }
-
-
     </ul>
-
-
   </div>
-  }
 </div>
+<div class="display display-1 z-1 text-end pe-3">{{group?.name}}</div>

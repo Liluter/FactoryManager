@@ -9,3 +9,24 @@
 	display: inline-block;
 	height: 40px;
 }
+:root {
+	overflow-x: hidden;
+}
+.display {
+	width: 100%;
+	font-size: 5rem;
+	font-weight: 900;
+	position: sticky;
+	bottom: 0;
+	color: rgba(255, 110, 13, 0.485);
+	clip-path: polygon(
+		0 0,
+		100% 0,
+		100% calc(57% - 3%),
+		0% calc(57% - 3%),
+		0% calc(57% + 3%),
+		100% calc(57% + 3%),
+		100% 100%,
+		0% 100%
+	);
+}

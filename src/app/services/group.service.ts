@@ -24,6 +24,7 @@ export interface Task {
   files: string[]
   active: boolean
   timestamp: any
+  started?: string
   priority: 0 | 1 | 2 | 3
 }
 
@@ -57,7 +58,7 @@ export class GroupService {
   getActiveTasksForWorkshop(): Observable<Task[]> {
     const groupId = '5rGeu1EDa4xsBlsz616a'
     const tasksCollection = collection(this.firestore, `groups/${groupId}/tasks`)
-    const q = query(tasksCollection, where('active', "==", true), orderBy('priority', 'desc'))
+    const q = query(tasksCollection, where('active', "==", true), orderBy('priority'))
     return collectionData(q, { idField: 'id' }) as Observable<Task[]>
   }
   getMessagesForWorkshop(): Observable<MessageGr[]> {

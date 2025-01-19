@@ -8,7 +8,6 @@
         <button class="nav-link text-reset" [class.active]="actualTab===tab">{{tab}}
           @if(tab === 'Active Tasks'){
           @if(tasks){
-
           <span class="badge text-bg-danger">
             {{tasks.length}}
           </span>
@@ -38,42 +37,37 @@
       @if(actualTab==="Active Tasks" || actualTab==="All"){
       @if(tasks.length > 0){
       <li class="list-group-item py-3">Active Tasks :
-        @for(task of tasks; track $index){
-        <ul class="list-group list-group-horizontal">
-          <li class="list-group-item p-2"><i class="bi bi-gear"></i>
-          </li>
-          <li class="list-group-item "><small>{{task.name}}</small></li>
-          <li class="list-group-item flex-grow-1"><small>{{task.description
-              }}</small>
-          </li>
-          <button type="button" class="list-group-item list-group-item-secondary p-2">Open</button>
-        </ul>
-        }
+        <div class="table-responsive-md mx-3">
+          <table class="table table-hover table-borderless ">
+            <thead>
+              <tr>
+                <th scope="col">Prio</th>
+                <th scope="col">Name</th>
+                <th scope="col">Info</th>
+                <th scope="col">Started</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for(task of tasks; track $index){
+              <tr>
+                <th scope="row"><span class="badge rounded-pill"
+                    [class]="setColor(task.priority)">{{task.priority}}</span></th>
+                <td>{{task.name}}</td>
+                <td>{{task.description}}</td>
+                <td>{{task.started | date : 'dd MMM yyyy, HH:mm'}}</td>
+                <td> <button type="button" class="btn btn-sm btn-primary rounded-pill "
+                    (click)="open(task)">Open</button>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button class="btn  btn-outline-warning fw-bold "><i class="bi bi-clock-history"></i> History</button>
+        </div>
       </li>
-      <div class="table-responsive-md mx-3">
-        <table class="table table-hover table-borderless ">
-          <thead>
-            <tr>
-              <th scope="col">Prio</th>
-              <th scope="col">Name</th>
-              <th scope="col">Info</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for(task of tasks; track $index){
-            <tr>
-              <th scope="row"><span class="badge rounded-pill"
-                  [class]="setColor(task.priority)">{{task.priority}}</span></th>
-              <td>{{task.name}}</td>
-              <td>{{task.description}}</td>
-              <td> <button type="button" class="btn btn-sm btn-primary" (click)="open(task)">Open</button>
-              </td>
-            </tr>
-            }
-          </tbody>
-        </table>
-      </div>
       }
       }
       @if(actualTab==="Workers" || actualTab==="All"){
@@ -94,3 +88,16 @@
   </div>
 </div>
 <div class="display display-1 z-1 text-end pe-3">{{group?.name}}</div>
+<div class="container">
+  <div class="workshop">
+    <span>w</span>
+    <span>o</span>
+    <span>r</span>
+    <span>k</span>
+    <span>s</span>
+    <span>h</span>
+    <span>o</span>
+    <span>p</span>
+  </div>
+
+</div>

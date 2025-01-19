@@ -10,15 +10,16 @@
 	height: 40px;
 }
 :root {
-	overflow-x: hidden;
+	// overflow-x: hidden;
 }
+
 .display {
 	width: 100%;
 	font-size: 5rem;
 	font-weight: 900;
 	position: sticky;
 	bottom: 0;
-	color: rgba(255, 110, 13, 0.485);
+	color: rgba(6, 117, 23, 0.485);
 	clip-path: polygon(
 		0 0,
 		100% 0,
@@ -29,4 +30,109 @@
 		100% 100%,
 		0% 100%
 	);
+}
+
+.color-1 {
+	color: #5eadfc;
+}
+.color-2 {
+	color: #2faf7e;
+}
+.color-3 {
+	color: #00ff5c;
+}
+.color-4 {
+	color: #00ff00;
+}
+.color-5 {
+	color: #55ff00;
+}
+.color-6 {
+	color: #aaff00;
+}
+.color-7 {
+	color: #ffff00;
+}
+.color-8 {
+	color: #dcbb04;
+}
+.color-9 {
+	color: #b97708;
+}
+.color-10 {
+	color: #95340d;
+}
+.color-11 {
+	color: #7a6f83;
+}
+.color-12 {
+	color: #6790b7;
+}
+
+.display {
+	animation: slide-in 1s 1 ease-in-out;
+}
+
+@keyframes slide-in {
+	from {
+		translate: 0 100%;
+	}
+	to {
+		translate: 0 0;
+	}
+}
+
+.workshop {
+	position: relative;
+	font-size: 40px; /* Dostosuj rozmiar czcionki */
+	white-space: nowrap; /* Zapobiega łamaniu wiersza */
+	// overflow-y: hidden;
+	display: inline-block;
+}
+.workshop span {
+	position: absolute;
+	bottom: 0;
+	// opacity: 0;
+	overflow-y: hidden;
+
+	animation-name: showLetter;
+	animation-delay: 1s;
+	animation-duration: 0.5s; /* Czas trwania animacji */
+	animation-timing-function: ease-out; /* Funkcja animacji */
+	animation-fill-mode: forwards; /* Utrzymuje stan końcowy animacji */
+	// border: 1px solid blue;
+	translate: 0 100%;
+	display: inline-block;
+}
+
+@keyframes showLetter {
+	to {
+		// opacity: 1;
+		translate: 0 0;
+	}
+}
+/* Opóźnienia dla poszczególnych liter */
+.workshop span:nth-child(1) {
+	animation-delay: 0.1s;
+}
+.workshop span:nth-child(2) {
+	animation-delay: 0.2s;
+}
+.workshop span:nth-child(3) {
+	animation-delay: 0.3s;
+}
+.workshop span:nth-child(4) {
+	animation-delay: 0.4s;
+}
+.workshop span:nth-child(5) {
+	animation-delay: 0.5s;
+}
+.workshop span:nth-child(6) {
+	animation-delay: 0.6s;
+}
+.workshop span:nth-child(7) {
+	animation-delay: 0.7s;
+}
+.workshop span:nth-child(8) {
+	animation-delay: 0.8s;
 }

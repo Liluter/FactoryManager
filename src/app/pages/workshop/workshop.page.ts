@@ -5,13 +5,13 @@ import { MediumAvatarComponent } from "../../components/UI/medium-avatar/medium-
 import { BranchDataModel, Message } from '../../types/data.interface';
 import { MessageListPage } from '../message-list-page/message-list-page';
 import { MessageGr, GroupService, Task, Group } from '../../services/group.service';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 
 
 @Component({
   selector: 'app-workshop-page',
   standalone: true,
-  imports: [MediumAvatarComponent, MessageListPage, AsyncPipe],
+  imports: [MediumAvatarComponent, MessageListPage, AsyncPipe, DatePipe],
   templateUrl: './workshop.page.html',
   styleUrl: './workshop.page.scss'
 })
@@ -34,10 +34,14 @@ export class WorkshopPage {
         this.tabs = data.tabs
         this.actualTab = this.tabs[0]
         console.log('grupe', data)
-      }),
+      })
     )
   messages$: Observable<MessageGr[]> = this.groupService.getMessagesForWorkshop()
-  tasks$: Observable<Task[]> = this.groupService.getActiveTasksForWorkshop().pipe(tap(data => console.log('tasks', data)))
+  tasks$: Observable<Task[]> = this.groupService.getActiveTasksForWorkshop()
+    .pipe(
+      tap(data => console.log('tasks', data)),
+      map(tasks => tasks.map(task => ({ ...task, started: new Date(task.timestamp.seconds * 1000).toISOString() })))
+    )
   open(task: Task) {
     console.log(task)
   }

@@ -1,5 +1,5 @@
-import { inject, Injectable } from '@angular/core';
-import { collection, query, where, getDocs, Firestore, collectionData, doc, updateDoc, setDoc, docData } from '@angular/fire/firestore';
+import { inject, Injectable } from '@angular/core'
+import { collection, query, where, getDocs, Firestore, collectionData, doc, updateDoc, setDoc, docData, DocumentData } from '@angular/fire/firestore';
 import { BehaviorSubject, catchError, from, fromEvent, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import { Users } from '../types/users.interface';
 import { Auth, signInWithEmailAndPassword, user, UserCredential, signOut, createUserWithEmailAndPassword } from '@angular/fire/auth';
@@ -206,21 +206,31 @@ export class UserService {
     }
   }
 
-  // async logOutAll(): Promise<void> {
-  //   this.loginSubject.next('logOut')
-  //   const userCollection = collection(this.firestore, 'users');
-  //   const q = query(userCollection, where('loggedIn', '==', true));
-  //   try {
-  //     const querySnapshot = await getDocs(q);
-
-  //     querySnapshot.forEach(async (dok) => {
-  //       const userRef = doc(this.firestore, 'users', dok.id);
-  //       const userData = dok.data() as Users;
-  //       await updateDoc(userRef, { loggedIn: false })
-  //     })
-  //     console.log('Wylogowano wszystkich zalogowanych')
-  //   } catch (error) {
-  //     console.error("Błąd aktualizacji userów: ", error)
-  //   }
-  // }
+  async getMany(ids: string[]) {
+    const q = query(collection(this.firestore, "workers"), where("__name__", "in", ids));
+    const querySnapshot = await getDocs(q);
+    const dokumenty: any[] = [];
+    querySnapshot.forEach((doc) => {
+      dokumenty.push(doc.data());
+    });
+    return dokumenty
+  }
 }
+// async logOutAll(): Promise<void> {
+//   this.loginSubject.next('logOut')
+//   const userCollection = collection(this.firestore, 'users');
+//   const q = query(userCollection, where('loggedIn', '==', true));
+//   try {
+//     const querySnapshot = await getDocs(q);
+
+//     querySnapshot.forEach(async (dok) => {
+//       const userRef = doc(this.firestore, 'users', dok.id);
+//       const userData = dok.data() as Users;
+//       await updateDoc(userRef, { loggedIn: false })
+//     })
+//     console.log('Wylogowano wszystkich zalogowanych')
+//   } catch (error) {
+//     console.error("Błąd aktualizacji userów: ", error)
+//   }
+// }
+// }

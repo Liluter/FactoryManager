@@ -21,9 +21,9 @@
           }
           }
           @if(tab === 'Workers' ){
-          @if(workers.length > 0 ){
+          @if(workers().length > 0 ){
           <span class="badge text-bg-danger">
-            {{workers.length}}
+            {{workers().length}}
           </span>
           }
           }
@@ -68,43 +68,13 @@
           <button class="btn  btn-outline-warning fw-bold "><i class="bi bi-clock-history"></i> History</button>
         </div>
       </li>
-      <div class="table-responsive-md mx-3">
-        <table class="table table-hover table-borderless ">
-          <thead>
-            <tr>
-              <th scope="col">Prio</th>
-              <th scope="col">Name</th>
-              <th scope="col">Info</th>
-              <th scope="col">Started</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for(task of tasks; track $index){
-            <tr>
-              <th scope="row"><span class="badge rounded-pill"
-                  [class]="setColor(task.priority)">{{task.priority}}</span></th>
-              <td>{{task.name}}</td>
-              <td>{{task.description}}</td>
-              <td>{{task.started | date : 'dd MMM yyyy, HH:mm'}}</td>
-              <td> <button type="button" class="btn btn-sm btn-primary rounded-pill " (click)="open(task)">Open</button>
-              </td>
-            </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-      <div class="d-flex justify-content-end">
-        <button class="btn  btn-outline-warning fw-bold "><i class="bi bi-clock-history"></i> History</button>
-      </div>
-      </li>
       }
       }
       @if(actualTab==="Workers" || actualTab==="All"){
       @if(data.tasks && data.tasks.activeTasks){
       <li class="list-group-item py-3 ">Workers :
         <div class="d-flex justify-content-start flex-wrap">
-          @for(worker of data.workers; track worker){
+          @for(worker of workers(); track $index){
           <app-medium-avatar [user]="worker"></app-medium-avatar>
           }
         </div>

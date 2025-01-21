@@ -6,6 +6,7 @@ import { CreateUserPageComponent } from './pages/create-user/create-user-page.co
 import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
 import { MessageDetailPage } from './pages/message-detail/message-detail.page';
 import { WorkshopPage } from './pages/workshop/workshop.page';
+import { WorkerPage } from './pages/worker/worker.page';
 
 
 export const routes: Routes = [
@@ -49,7 +50,12 @@ export const routes: Routes = [
     path: 'message/:id',
     component: MessageDetailPage,
     title: 'Message'
+  },
+  {
+    path: 'worker',
+    component: WorkerPage
   }
+
   // {
   //   path: 'add/task',
   //   component: AddTaskPageComponent

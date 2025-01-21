@@ -46,7 +46,6 @@ export class GroupService {
     ]
   }
   private firestore: Firestore = inject(Firestore)
-  private auth: Auth = inject(Auth)
 
 
 
@@ -77,7 +76,6 @@ export class GroupService {
     const groupeId = '5rGeu1EDa4xsBlsz616a'
     const itemDoc = doc(this.firestore, 'groups/' + groupeId)
     const workshop$ = docData(itemDoc) as Observable<Group>
-    console.log('worshop group', itemDoc)
     return workshop$.pipe(tap((data) => console.log('group', data)))
     // console.log('getloggoedInUser()', this.auth.currentUser)
     // const userCollection = collection(this.firestore, 'users');

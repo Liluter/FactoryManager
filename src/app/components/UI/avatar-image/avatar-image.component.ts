@@ -1,6 +1,5 @@
 import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { ResizeDirective } from '../../../directives/resize.directive';
 
 @Component({
   selector: 'app-avatar-image',

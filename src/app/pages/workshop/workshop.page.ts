@@ -11,12 +11,13 @@ import { DocumentData } from '@angular/fire/firestore';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { WorkerService } from '../../services/worker.service';
 import { Worker } from '../../types/worker.interface';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-workshop-page',
   standalone: true,
-  imports: [MediumAvatarComponent, MessageListPage, AsyncPipe, DatePipe],
+  imports: [MediumAvatarComponent, MessageListPage, AsyncPipe, DatePipe, RouterModule],
   templateUrl: './workshop.page.html',
   styleUrl: './workshop.page.scss'
 })
@@ -32,7 +33,7 @@ export class WorkshopPage {
     workers: this.data.workers?.length
   }
   actualTab: string = this.tabs[0]
-  workers$!: Observable<{ name: string, uid: string, workingDay: number, hoursWorked: number, avatarID: string }[]>
+  // workers$!: Observable<{ name: string, uid: string, workingDay: number, hoursWorked: number, avatarID: string }[]>
   groupService = inject(GroupService)
   group$: Observable<Group> = this.groupService.getWorkshopGroup()
     .pipe(

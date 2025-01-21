@@ -1,10 +1,11 @@
 import { inject, Injectable } from '@angular/core'
-import { collection, query, where, getDocs, Firestore, collectionData, doc, updateDoc, setDoc, docData, DocumentData } from '@angular/fire/firestore';
+import { collection, query, where, getDocs, Firestore, collectionData, doc, updateDoc, setDoc, docData, DocumentData, documentId } from '@angular/fire/firestore';
 import { BehaviorSubject, catchError, from, fromEvent, map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import { Users } from '../types/users.interface';
 import { Auth, signInWithEmailAndPassword, user, UserCredential, signOut, createUserWithEmailAndPassword } from '@angular/fire/auth';
 import { User } from 'firebase/auth'
 import { FSUser, LocalUser } from '../types/auth.interface';
+import { Worker } from '../types/worker.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -206,16 +207,9 @@ export class UserService {
     }
   }
 
-  async getMany(ids: string[]) {
-    const q = query(collection(this.firestore, "workers"), where("__name__", "in", ids));
-    const querySnapshot = await getDocs(q);
-    const dokumenty: any[] = [];
-    querySnapshot.forEach((doc) => {
-      dokumenty.push(doc.data());
-    });
-    return dokumenty
-  }
 }
+
+
 // async logOutAll(): Promise<void> {
 //   this.loginSubject.next('logOut')
 //   const userCollection = collection(this.firestore, 'users');

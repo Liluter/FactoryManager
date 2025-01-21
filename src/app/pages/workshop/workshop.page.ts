@@ -1,13 +1,16 @@
-import { Component, inject, signal, WritableSignal } from '@angular/core';
+import { Component, inject, Signal, signal, WritableSignal } from '@angular/core';
 import { BranchDataService } from '../../services/branch-data.service';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { MediumAvatarComponent } from "../../components/UI/medium-avatar/medium-avatar.component";
 import { BranchDataModel, Message } from '../../types/data.interface';
 import { MessageListPage } from '../message-list-page/message-list-page';
 import { MessageGr, GroupService, Task, Group } from '../../services/group.service';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { DocumentData } from '@angular/fire/firestore';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { WorkerService } from '../../services/worker.service';
+import { Worker } from '../../types/worker.interface';
 
 
 @Component({
@@ -20,6 +23,7 @@ import { DocumentData } from '@angular/fire/firestore';
 export class WorkshopPage {
   service: BranchDataService = inject(BranchDataService)
   userService: UserService = inject(UserService)
+  workerService: WorkerService = inject(WorkerService)
   data: BranchDataModel = this.service.branchDataMockup.filter(el => el.branchTitle === 'workshop')[0]
   tabs: string[] = []
   notifications = {
@@ -28,21 +32,17 @@ export class WorkshopPage {
     workers: this.data.workers?.length
   }
   actualTab: string = this.tabs[0]
-  workers: WritableSignal<{ name: string, uid: string, workingDay: number, hoursWorked: number, avatarID: string }[]> = signal([])
+  workers$!: Observable<{ name: string, uid: string, workingDay: number, hoursWorked: number, avatarID: string }[]>
   groupService = inject(GroupService)
   group$: Observable<Group> = this.groupService.getWorkshopGroup()
     .pipe(
       tap(data => {
-        // this.workers = data.members
         this.tabs = data.tabs
         this.actualTab = this.tabs[0]
-        console.log('grupe', data)
-        this.userService.getMany(data.members)
-          .then((data) => {
-            this.workers.set(data)
-          })
       })
     )
+  workers: Signal<Worker[]> = toSignal(this.group$.pipe(switchMap(data => this.workerService.getMany(data.members))), { initialValue: [] })
+
   messages$: Observable<MessageGr[]> = this.groupService.getMessagesForWorkshop()
   tasks$: Observable<Task[]> = this.groupService.getActiveTasksForWorkshop()
     .pipe(

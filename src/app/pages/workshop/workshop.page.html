@@ -75,7 +75,7 @@
       <li class="list-group-item py-3 ">Workers :
         <div class="d-flex justify-content-start flex-wrap">
           @for(worker of workers(); track $index){
-          <app-medium-avatar class="btn p-0" [user]="worker" [routerLink]="'/worker'"></app-medium-avatar>
+          <app-medium-avatar class="btn p-0" [user]="worker" [routerLink]="['/worker',worker.id]"></app-medium-avatar>
           }
         </div>
       </li>

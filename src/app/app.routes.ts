@@ -52,7 +52,7 @@ export const routes: Routes = [
     title: 'Message'
   },
   {
-    path: 'worker',
+    path: 'worker/:id',
     component: WorkerPage
   }
 

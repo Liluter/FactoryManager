@@ -1,12 +1,14 @@
 <div class="container m-auto mt-5">
   <app-horizontal-card>
     <app-avatar-image class="image" size="m" [id]="'1'"></app-avatar-image>
-    <h5 class="card-title title">Worker Name</h5>
-    <p class="card-text text">Here will be more information aboute this worker.</p>
-    <p>Actual task: </p>
-    <label for="customRange2" class="form-label">Working Day :</label>
-    <input type="range" class="form-range" min="0" max="5" id="customRange2" disabled>
-    <p>Total hours actual month : </p>
+    <h5 class="card-title title text-capitalize fw-bold">{{worker()?.name ?? 'loading...'}}</h5>
+    <p class="card-text text">{{worker()?.description}}.</p>
+    <p>Actual task: {{actualTask()?.name}}</p>
+    <label for="customRange2" class="form-label">Working Day : {{workingDayModel() ?? worker()?.workingDay}}</label>
+    <input type="range" class="form-range" min="0" max="8" id="customRange2" [value]="worker()?.workingDay"
+      name="workingDay" [(ngModel)]="workingDayModel">
+    <p>Actual month total hours : {{worker()?.actualMonthHours}} h</p>
     <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
   </app-horizontal-card>
+
 </div>

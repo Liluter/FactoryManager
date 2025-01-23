@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Message } from '../types/data.interface';
 import { Auth } from '@angular/fire/auth';
-import { Observable, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import firebase from 'firebase/compat/app';
 import { collection, collectionData, doc, Firestore, orderBy, query, where, docData, addDoc, serverTimestamp } from '@angular/fire/firestore';
 
@@ -59,6 +59,16 @@ export class GroupService {
     const tasksCollection = collection(this.firestore, `groups/${groupId}/tasks`)
     const q = query(tasksCollection, where('active', "==", true), orderBy('priority'))
     return collectionData(q, { idField: 'id' }) as Observable<Task[]>
+  }
+  getOneActiveTask(id: string | undefined): Observable<Task | undefined> {
+    const groupId = '5rGeu1EDa4xsBlsz616a'
+    console.log('task id:', id)
+    if (id) {
+      const taskRef = doc(this.firestore, `groups/${groupId}/tasks`, id)
+      console.log('taskRef', taskRef)
+      return docData(taskRef) as Observable<Task>
+    }
+    return of(undefined)
   }
   getMessagesForWorkshop(): Observable<MessageGr[]> {
     const groupId = '5rGeu1EDa4xsBlsz616a'

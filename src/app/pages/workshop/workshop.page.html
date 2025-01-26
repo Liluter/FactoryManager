@@ -1,5 +1,5 @@
 <div class="card ">
-  @let tasks = (tasks$ | async) ?? [];
+  @let tasks = (tasksWithContractors$ | async) ?? [];
   @let group = (group$ | async) ;
   <div class="card-header">
     <ul class="nav nav-tabs card-header-tabs">
@@ -45,6 +45,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Info</th>
                 <th scope="col">Started</th>
+                <th scope="col">Contractors</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -56,6 +57,7 @@
                 <td>{{task.name}}</td>
                 <td>{{task.description}}</td>
                 <td>{{task.started | date : 'dd MMM yyyy, HH:mm'}}</td>
+                <td>{{task.contractorNames}}</td>
                 <td> <button type="button" class="btn btn-sm btn-primary rounded-pill "
                     (click)="open(task)">Open</button>
                 </td>

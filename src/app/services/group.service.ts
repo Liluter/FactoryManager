@@ -25,7 +25,16 @@ export interface Task {
   active: boolean
   timestamp: any
   started?: string
-  priority: 0 | 1 | 2 | 3
+  priority: 0 | 1 | 2 | 3,
+  contractors: string[]
+}
+
+interface Contractor {
+  id: string,
+  name: string
+}
+export interface TaskWithContractorNames extends Task {
+  contractorNames: string[]
 }
 
 @Injectable({

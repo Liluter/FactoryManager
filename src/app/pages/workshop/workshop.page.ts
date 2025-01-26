@@ -4,8 +4,8 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 import { MediumAvatarComponent } from "../../components/UI/medium-avatar/medium-avatar.component";
 import { BranchDataModel, Message } from '../../types/data.interface';
 import { MessageListPage } from '../message-list-page/message-list-page';
-import { MessageGr, GroupService, Task, Group } from '../../services/group.service';
-import { map, Observable, switchMap, tap } from 'rxjs';
+import { MessageGr, GroupService, Task, Group, TaskWithContractorNames } from '../../services/group.service';
+import { catchError, concatMap, filter, forkJoin, from, map, mergeMap, Observable, of, switchMap, tap, timeout, toArray } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { DocumentData } from '@angular/fire/firestore';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -45,11 +45,36 @@ export class WorkshopPage {
   workers: Signal<Worker[]> = toSignal(this.group$.pipe(switchMap(data => this.workerService.getMany(data.members))), { initialValue: [] })
 
   messages$: Observable<MessageGr[]> = this.groupService.getMessagesForWorkshop()
-  tasks$: Observable<Task[]> = this.groupService.getActiveTasksForWorkshop()
+  // tasks$: Observable<Task[]> = this.groupService.getActiveTasksForWorkshop()
+  //   .pipe(
+  //     map(tasks => tasks.map(task => ({ ...task, started: new Date(task.timestamp.seconds * 1000).toISOString() })))
+  //   )
+  tasksWithContractors$: Observable<TaskWithContractorNames[]> = this.groupService.getActiveTasksForWorkshop()
     .pipe(
-      tap(data => console.log('tasks', data)),
       map(tasks => tasks.map(task => ({ ...task, started: new Date(task.timestamp.seconds * 1000).toISOString() })))
-    )
+      ,
+      concatMap(tasks => from(tasks).pipe(
+        concatMap(task => {
+          if (task.contractors && task.contractors.length > 0) {
+            return this.workerService.getMany(task.contractors).pipe(
+              map(workers => {
+                return workers.map(worker => worker.name);
+              }),
+              map(workerNames => ({ ...task, contractorNames: workerNames })),
+              catchError(err => {
+                return of({ ...task, contractorNames: [] })
+              })
+            );
+          } else {
+            return of({ ...task, contractorNames: [] });
+          }
+        }),
+        toArray(),
+      )),
+      tap(data => console.log('tasks', data)),
+
+    );
+
   open(task: Task) {
     console.log(task)
   }

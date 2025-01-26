@@ -4,7 +4,7 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 import { MediumAvatarComponent } from "../../components/UI/medium-avatar/medium-avatar.component";
 import { BranchDataModel, Message } from '../../types/data.interface';
 import { MessageListPage } from '../message-list-page/message-list-page';
-import { MessageGr, GroupService, Task, Group, TaskWithContractorNames } from '../../services/group.service';
+import { MessageGr, DepartmentService, Task, Department, TaskWithContractorNames } from '../../services/department.service';
 import { catchError, concatMap, filter, forkJoin, from, map, mergeMap, Observable, of, switchMap, tap, timeout, toArray } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { DocumentData } from '@angular/fire/firestore';
@@ -34,8 +34,8 @@ export class WorkshopPage {
   }
   actualTab: string = this.tabs[0]
   // workers$!: Observable<{ name: string, uid: string, workingDay: number, hoursWorked: number, avatarID: string }[]>
-  groupService = inject(GroupService)
-  group$: Observable<Group> = this.groupService.getWorkshopGroup()
+  departmentService = inject(DepartmentService)
+  group$: Observable<Department> = this.departmentService.getWorkshopDepartment()
     .pipe(
       tap(data => {
         this.tabs = data.tabs
@@ -44,12 +44,12 @@ export class WorkshopPage {
     )
   workers: Signal<Worker[]> = toSignal(this.group$.pipe(switchMap(data => this.workerService.getMany(data.members))), { initialValue: [] })
 
-  messages$: Observable<MessageGr[]> = this.groupService.getMessagesForWorkshop()
-  // tasks$: Observable<Task[]> = this.groupService.getActiveTasksForWorkshop()
+  messages$: Observable<MessageGr[]> = this.departmentService.getMessagesForWorkshop()
+  // tasks$: Observable<Task[]> = this.departmentService.getActiveTasksForWorkshop()
   //   .pipe(
   //     map(tasks => tasks.map(task => ({ ...task, started: new Date(task.timestamp.seconds * 1000).toISOString() })))
   //   )
-  tasksWithContractors$: Observable<TaskWithContractorNames[]> = this.groupService.getActiveTasksForWorkshop()
+  tasksWithContractors$: Observable<TaskWithContractorNames[]> = this.departmentService.getActiveTasksForWorkshop()
     .pipe(
       map(tasks => tasks.map(task => ({ ...task, started: new Date(task.timestamp.seconds * 1000).toISOString() })))
       ,

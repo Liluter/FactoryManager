@@ -7,7 +7,7 @@ import { Observable, Subscribable, switchMap, tap } from 'rxjs';
 import { Worker } from '../../types/worker.interface';
 import { AsyncPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { GroupService, Task } from '../../services/group.service';
+import { DepartmentService, Task } from '../../services/department.service';
 
 @Component({
   selector: 'app-worker-page',
@@ -18,12 +18,12 @@ import { GroupService, Task } from '../../services/group.service';
 })
 export class WorkerPage {
   workerService: WorkerService = inject(WorkerService)
-  groupService: GroupService = inject(GroupService)
+  departmentService: DepartmentService = inject(DepartmentService)
   id = input<string>('')
   worker: Signal<Worker | undefined> = toSignal(toObservable(this.id).pipe(
     switchMap(id => this.workerService.getOne(id))),
   )
   workingDayModel = signal(this.worker()?.workingDay)
   actualTask: Signal<Task | undefined> = toSignal(toObservable(this.worker).pipe(
-    switchMap(worker => this.groupService.getOneActiveTask(worker?.actualTask))))
+    switchMap(worker => this.departmentService.getOneActiveTask(worker?.actualTask))))
 }

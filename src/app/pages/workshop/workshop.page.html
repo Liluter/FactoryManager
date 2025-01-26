@@ -3,7 +3,7 @@
   @let group = (group$ | async) ;
   <div class="card-header">
     <ul class="nav nav-tabs card-header-tabs">
-      @for(tab of tabs; track $index){
+      @for(tab of tabs(); track $index){
       <li class="nav-item" (click)="selectTab(tab)">
         <button class="nav-link text-reset" [class.active]="actualTab===tab">{{tab}}
           @if(tab === 'Active Tasks'){

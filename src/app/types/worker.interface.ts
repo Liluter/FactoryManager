@@ -6,5 +6,6 @@ export interface Worker {
   id: string,
   description: string,
   actualMonthHours: number,
-  actualTask: string
+  actualTask: string,
+  departmentId: string
 }

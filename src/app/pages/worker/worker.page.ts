@@ -21,9 +21,15 @@ export class WorkerPage {
   departmentService: DepartmentService = inject(DepartmentService)
   id = input<string>('')
   worker: Signal<Worker | undefined> = toSignal(toObservable(this.id).pipe(
-    switchMap(id => this.workerService.getOne(id))),
+    switchMap(id => this.workerService.getOne(id))), { initialValue: undefined }
   )
   workingDayModel = signal(this.worker()?.workingDay)
   actualTask: Signal<Task | undefined> = toSignal(toObservable(this.worker).pipe(
-    switchMap(worker => this.departmentService.getOneActiveTask(worker?.actualTask))))
+    switchMap(worker =>
+      this.departmentService.getOneActiveTaskForDepartment(worker?.actualTask, worker?.departmentId)
+    )))
+  // departmentName = toSignal(this.departmentService.getDepartment(this.worker()?.departmentId), { initialValue: undefined })
+  department = toSignal(toObservable(this.worker).pipe(
+    switchMap(worker => this.departmentService.getDepartment(worker?.departmentId))
+  ))
 }

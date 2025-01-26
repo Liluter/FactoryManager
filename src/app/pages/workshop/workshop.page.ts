@@ -25,24 +25,28 @@ export class WorkshopPage {
   service: BranchDataService = inject(BranchDataService)
   userService: UserService = inject(UserService)
   workerService: WorkerService = inject(WorkerService)
+  workshopId = '5rGeu1EDa4xsBlsz616a'
   data: BranchDataModel = this.service.branchDataMockup.filter(el => el.branchTitle === 'workshop')[0]
-  tabs: string[] = []
+  // tabs: string[] | undefined = []
   notifications = {
     activeTasks: this.data.tasks?.activeTasks?.length,
     messages: this.data.messages.unread.length,
     workers: this.data.workers?.length
   }
-  actualTab: string = this.tabs[0]
   // workers$!: Observable<{ name: string, uid: string, workingDay: number, hoursWorked: number, avatarID: string }[]>
-  departmentService = inject(DepartmentService)
-  group$: Observable<Department> = this.departmentService.getWorkshopDepartment()
+  departmentService: DepartmentService = inject(DepartmentService)
+  group$: Observable<Department | null> = this.departmentService.getDepartment(this.workshopId)
+  actualTab!: string | undefined
+  tabs: Signal<string[] | undefined> = toSignal(this.departmentService.getDepartment(this.workshopId)
     .pipe(
-      tap(data => {
-        this.tabs = data.tabs
-        this.actualTab = this.tabs[0]
-      })
-    )
-  workers: Signal<Worker[]> = toSignal(this.group$.pipe(switchMap(data => this.workerService.getMany(data.members))), { initialValue: [] })
+      tap(data => this.actualTab = data?.tabs[0]),
+      map(data => data?.tabs)), { initialValue: [] })
+  workers: Signal<Worker[]> = toSignal(this.group$.pipe(switchMap(data => {
+    if (data) {
+      return this.workerService.getMany(data.members)
+    }
+    return of([])
+  })), { initialValue: [] })
 
   messages$: Observable<MessageGr[]> = this.departmentService.getMessagesForWorkshop()
   // tasks$: Observable<Task[]> = this.departmentService.getActiveTasksForWorkshop()
@@ -71,8 +75,6 @@ export class WorkshopPage {
         }),
         toArray(),
       )),
-      tap(data => console.log('tasks', data)),
-
     );
 
   open(task: Task) {

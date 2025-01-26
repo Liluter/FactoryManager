@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Message } from '../types/data.interface';
 import { Auth } from '@angular/fire/auth';
-import { Observable, of, tap } from 'rxjs';
+import { catchError, filter, Observable, of, tap } from 'rxjs';
 import firebase from 'firebase/compat/app';
 import { collection, collectionData, doc, Firestore, orderBy, query, where, docData, addDoc, serverTimestamp } from '@angular/fire/firestore';
 
@@ -77,20 +77,17 @@ export class DepartmentService {
   }
   getOneActiveTask(id: string | undefined): Observable<Task | undefined> {
     const groupId = '5rGeu1EDa4xsBlsz616a'
-    console.log('task id:', id)
     if (id) {
       const taskRef = doc(this.firestore, `groups/${groupId}/tasks`, id)
-      console.log('taskRef', taskRef)
       return docData(taskRef) as Observable<Task>
     }
     return of(undefined)
   }
-  getOneActiveTaskForDepartment(id: string | undefined, departId: string): Observable<Task | undefined> {
+  getOneActiveTaskForDepartment(id: string | undefined, departId: string | undefined): Observable<Task | undefined> {
     const groupId = departId
     console.log('task id:', id)
     if (id) {
       const taskRef = doc(this.firestore, `groups/${groupId}/tasks`, id)
-      console.log('taskRef', taskRef)
       return docData(taskRef) as Observable<Task>
     }
     return of(undefined)
@@ -126,11 +123,15 @@ export class DepartmentService {
     return workshop$.pipe(tap((data) => console.log('group', data)))
   }
 
-  getDepartment(departmetId: string): Observable<Department> {
-    const groupeId = departmetId
+  getDepartment(departmentId: string | undefined): Observable<Department | null> {
+    const groupeId = departmentId
+    if (!!groupeId) {
+      of(null)
+    }
     const itemDoc = doc(this.firestore, 'groups/' + groupeId)
     const workshop$ = docData(itemDoc) as Observable<Department>
-    return workshop$.pipe(tap((data) => console.log('group', data)))
+    return workshop$.pipe(
+      catchError(() => of(null)))
   }
 
 

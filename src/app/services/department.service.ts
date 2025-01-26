@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Message } from '../types/data.interface';
 import { Auth } from '@angular/fire/auth';
-import { catchError, filter, Observable, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, filter, Observable, of, tap } from 'rxjs';
 import firebase from 'firebase/compat/app';
 import { collection, collectionData, doc, Firestore, orderBy, query, where, docData, addDoc, serverTimestamp } from '@angular/fire/firestore';
 
@@ -56,7 +56,7 @@ export class DepartmentService {
   }
   private firestore: Firestore = inject(Firestore)
 
-
+  actualTab: BehaviorSubject<string> = new BehaviorSubject('')
 
   // getMessageForGroup(groupeId: string): Observable<MessageGr[]> {
   //   const messagesCollection = collection(this.firestore, `groups/${groupeId}/messages`)

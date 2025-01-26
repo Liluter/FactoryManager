@@ -1,6 +1,7 @@
 <div class="card ">
   @let tasks = (tasksWithContractors$ | async) ?? [];
   @let group = (group$ | async) ;
+  @let actualTab = (actualTab$ | async);
   <div class="card-header">
     <ul class="nav nav-tabs card-header-tabs">
       @for(tab of tabs(); track $index){

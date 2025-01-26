@@ -36,10 +36,16 @@ export class WorkshopPage {
   // workers$!: Observable<{ name: string, uid: string, workingDay: number, hoursWorked: number, avatarID: string }[]>
   departmentService: DepartmentService = inject(DepartmentService)
   group$: Observable<Department | null> = this.departmentService.getDepartment(this.workshopId)
-  actualTab!: string | undefined
+  actualTab$ = this.departmentService.actualTab.asObservable()
   tabs: Signal<string[] | undefined> = toSignal(this.departmentService.getDepartment(this.workshopId)
     .pipe(
-      tap(data => this.actualTab = data?.tabs[0]),
+      tap(data => {
+        if (!this.departmentService.actualTab.getValue()) {
+          if (data) {
+            this.departmentService.actualTab.next(data?.tabs[0])
+          } else this.departmentService.actualTab.next('All')
+        }
+      }),
       map(data => data?.tabs)), { initialValue: [] })
   workers: Signal<Worker[]> = toSignal(this.group$.pipe(switchMap(data => {
     if (data) {
@@ -81,7 +87,7 @@ export class WorkshopPage {
     console.log(task)
   }
   selectTab(tab: string) {
-    this.actualTab = tab
+    this.departmentService.actualTab.next(tab)
   }
   setColor(priority: 0 | 1 | 2 | 3): string {
     switch (priority) {

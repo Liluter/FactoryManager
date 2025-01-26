@@ -3,7 +3,7 @@ import { UserPageComponent } from './pages/user/user.page.component';
 import { LoginPageComponent } from './pages/login/login.page.component';
 import { WelcomePageComponent } from './pages/welcome/welcome.page.component';
 import { CreateUserPageComponent } from './pages/create-user/create-user-page.component';
-import { DashboardPageComponent } from './pages/dashboard-page/dashboard-page.component';
+import { DashboardPage } from './pages/dashboard-page/dashboard.page';
 import { MessageDetailPage } from './pages/message-detail/message-detail.page';
 import { WorkshopPage } from './pages/workshop/workshop.page';
 import { WorkerPage } from './pages/worker/worker.page';
@@ -27,7 +27,7 @@ export const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: DashboardPageComponent,
+    component: DashboardPage,
     title: 'Dashboard'
   },
   {

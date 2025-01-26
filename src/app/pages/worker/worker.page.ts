@@ -3,7 +3,7 @@ import { AvatarImageComponent } from '../../components/UI/avatar-image/avatar-im
 import { HorizontalCardComponent } from "../../components/UI/horizontal-card/horizontal-card.component";
 import { WorkerService } from '../../services/worker.service';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { Observable, Subscribable, switchMap, tap } from 'rxjs';
+import { catchError, delay, filter, Observable, of, Subscribable, switchMap, tap } from 'rxjs';
 import { Worker } from '../../types/worker.interface';
 import { AsyncPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -25,10 +25,18 @@ export class WorkerPage {
   )
   workingDayModel = signal(this.worker()?.workingDay)
   actualTask: Signal<Task | undefined> = toSignal(toObservable(this.worker).pipe(
-    switchMap(worker =>
-      this.departmentService.getOneActiveTaskForDepartment(worker?.actualTask, worker?.departmentId)
-    )))
-  // departmentName = toSignal(this.departmentService.getDepartment(this.worker()?.departmentId), { initialValue: undefined })
+    switchMap(worker => {
+      if (!worker || !worker.actualTask || !worker.departmentId) {
+        return of(undefined)
+      }
+      return this.departmentService.getOneActiveTaskForDepartment(worker?.actualTask, worker?.departmentId).pipe(
+        catchError(error => {
+          console.error("Error fetching task:", error);
+          return of(undefined);
+        }))
+    }),
+    filter(task => task !== undefined)
+  ))
   department = toSignal(toObservable(this.worker).pipe(
     switchMap(worker => this.departmentService.getDepartment(worker?.departmentId))
   ))

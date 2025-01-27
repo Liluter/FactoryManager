@@ -70,17 +70,25 @@ export class DepartmentService {
     return workshop$.pipe(tap((data) => console.log('group', data)))
   }
 
+  // getDepartment(departmentId: string | undefined): Observable<Department | null> {
+  //   const groupeId = departmentId
+  //   if (!!groupeId) {
+  //     of(null)
+  //   }
+  //   const itemDoc = doc(this.firestore, 'groups/' + groupeId)
+  //   const workshop$ = docData(itemDoc) as Observable<Department>
+  //   return workshop$.pipe(
+  //     catchError(() => of(null)))
+  // }
   getDepartment(departmentId: string | undefined): Observable<Department | null> {
-    const groupeId = departmentId
-    if (!!groupeId) {
+    if (!!departmentId) {
       of(null)
     }
-    const itemDoc = doc(this.firestore, 'groups/' + groupeId)
-    const workshop$ = docData(itemDoc) as Observable<Department>
-    return workshop$.pipe(
+    const itemDoc = doc(this.firestore, 'departments/' + departmentId)
+    const department$ = docData(itemDoc) as Observable<Department>
+    return department$.pipe(
       catchError(() => of(null)))
   }
-
 
   // console.log('getloggoedInUser()', this.auth.currentUser)
   // const userCollection = collection(this.firestore, 'users');

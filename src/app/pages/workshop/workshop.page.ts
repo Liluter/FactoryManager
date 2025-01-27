@@ -27,8 +27,8 @@ export class WorkshopPage {
   service: BranchDataService = inject(BranchDataService)
   userService: UserService = inject(UserService)
   workerService: WorkerService = inject(WorkerService)
-  workshopId = '5rGeu1EDa4xsBlsz616a'
-  department = 'workshop'
+  // workshopId = '5rGeu1EDa4xsBlsz616a'
+  departmentName = 'workshop'
   data: BranchDataModel = this.service.branchDataMockup.filter(el => el.branchTitle === 'workshop')[0]
   // tabs: string[] | undefined = []
   notifications = {
@@ -39,9 +39,9 @@ export class WorkshopPage {
   // workers$!: Observable<{ name: string, uid: string, workingDay: number, hoursWorked: number, avatarID: string }[]>
   departmentService: DepartmentService = inject(DepartmentService)
   taskService: TaskService = inject(TaskService)
-  group$: Observable<Department | null> = this.departmentService.getDepartment(this.workshopId)
+  department$: Observable<Department | null> = this.departmentService.getDepartment(this.departmentName)
   actualTab$ = this.departmentService.actualTab.asObservable()
-  tabs: Signal<string[] | undefined> = toSignal(this.departmentService.getDepartment(this.workshopId)
+  tabs: Signal<string[] | undefined> = toSignal(this.departmentService.getDepartment(this.departmentName)
     .pipe(
       tap(data => {
         if (!this.departmentService.actualTab.getValue()) {
@@ -51,7 +51,7 @@ export class WorkshopPage {
         }
       }),
       map(data => data?.tabs)), { initialValue: [] })
-  workers: Signal<Worker[]> = toSignal(this.group$.pipe(switchMap(data => {
+  workers: Signal<Worker[]> = toSignal(this.department$.pipe(switchMap(data => {
     if (data) {
       return this.workerService.getMany(data.members)
     }
@@ -63,7 +63,7 @@ export class WorkshopPage {
   //   .pipe(
   //     map(tasks => tasks.map(task => ({ ...task, started: new Date(task.timestamp.seconds * 1000).toISOString() })))
   //   )
-  tasksWithContractors$: Observable<TaskWithContractorNames[]> = this.taskService.getActiveTasksForDepartment(this.department)
+  tasksWithContractors$: Observable<TaskWithContractorNames[]> = this.taskService.getActiveTasksForDepartment(this.departmentName)
     .pipe(
       map(tasks => tasks.map(task => ({ ...task, started: new Date(task.timestamp.seconds * 1000).toISOString() })))
       ,

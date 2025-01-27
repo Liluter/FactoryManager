@@ -6,11 +6,14 @@
       <div class="col-1  ps-2 pe-0">
         <i class="bi bi-envelope"></i>
       </div>
+      <div class="col-2 text-truncate ">
+        <small>{{message.sender}}</small>
+      </div>
       <div class="col text-truncate ">
         <small>{{message.message}}</small>
       </div>
       <div class="col-2 text-end text-truncate ps-0 pe-2">
-        <small>{{message.createdAt | date : 'HH:mm dd.MM.YY '}}</small>
+        <small>{{message.timestamp.toDate().toISOString()| date : 'HH:mm dd.MM.YY '}}</small>
       </div>
       <div class="badge text-bg-secondary sibling  bg-opacity-50 align-middle fs-5 lh-sm ">
         {{action.label}}

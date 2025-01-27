@@ -15,9 +15,9 @@
           }
           }
           @if(tab === 'Messages'){
-          @if(messages$ | async; as messages){
+          @if(messagesNumber$ | async; as messages){
           <span class="badge text-bg-danger">
-            {{messages.length}}
+            {{messages}}
           </span>
           }
           }
@@ -85,7 +85,7 @@
       }
       }
       @if(actualTab==="Messages" || actualTab==="All"){
-      <app-message-list-page></app-message-list-page>
+      <app-message-list-page [department]="departmentName"></app-message-list-page>
       }
     </ul>
   </div>

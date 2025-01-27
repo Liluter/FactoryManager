@@ -2,7 +2,7 @@ import { Component, inject, Signal, signal, WritableSignal } from '@angular/core
 import { BranchDataService } from '../../services/branch-data.service';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { MediumAvatarComponent } from "../../components/UI/medium-avatar/medium-avatar.component";
-import { BranchDataModel, Message } from '../../types/data.interface';
+import { BranchDataModel } from '../../types/data.interface';
 import { MessageListPage } from '../message-list-page/message-list-page';
 import { MessageGr, DepartmentService, Department } from '../../services/department.service';
 import { catchError, concatMap, filter, forkJoin, from, map, mergeMap, Observable, of, switchMap, tap, timeout, toArray } from 'rxjs';
@@ -14,6 +14,9 @@ import { Worker } from '../../types/worker.interface';
 import { RouterModule } from '@angular/router';
 import { Task, TaskWithContractorNames } from '../../types/task.interface';
 import { TaskService } from '../../services/task.service';
+import { MessageService } from '../../services/message.service';
+import { Message } from '../../types/message.interface';
+
 
 
 @Component({
@@ -39,6 +42,7 @@ export class WorkshopPage {
   // workers$!: Observable<{ name: string, uid: string, workingDay: number, hoursWorked: number, avatarID: string }[]>
   departmentService: DepartmentService = inject(DepartmentService)
   taskService: TaskService = inject(TaskService)
+  messageService: MessageService = inject(MessageService)
   department$: Observable<Department | null> = this.departmentService.getDepartment(this.departmentName)
   actualTab$ = this.departmentService.actualTab.asObservable()
   tabs: Signal<string[] | undefined> = toSignal(this.departmentService.getDepartment(this.departmentName)
@@ -58,7 +62,11 @@ export class WorkshopPage {
     return of([])
   })), { initialValue: [] })
 
-  messages$: Observable<MessageGr[]> = this.departmentService.getMessagesForWorkshop()
+  // messages$: Observable<MessageGr[]> = this.departmentService.getMessagesForWorkshop()
+  messagesNumber$: Observable<number> = this.messageService.getMessagesForDepartment(this.departmentName).pipe(
+    map(messages => messages.length),
+  )
+
   // tasks$: Observable<Task[]> = this.departmentService.getActiveTasksForWorkshop()
   //   .pipe(
   //     map(tasks => tasks.map(task => ({ ...task, started: new Date(task.timestamp.seconds * 1000).toISOString() })))

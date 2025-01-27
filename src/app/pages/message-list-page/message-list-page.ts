@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, input, InputSignal } from '@angular/core';
 import { MessageListComponent } from "../../components/UI/message-list/message-list.component";
+import { MessageType } from '../../services/message.service';
+
 
 @Component({
   selector: 'app-message-list-page',
@@ -9,13 +11,12 @@ import { MessageListComponent } from "../../components/UI/message-list/message-l
   styleUrl: './message-list-page.scss'
 })
 export class MessageListPage {
+  department = input('all')
   actions = [
     {
       label: 'Open message',
       redirectTo: '/message'
     }
   ]
-  types = [
-    'unread', 'read'
-  ]
+  types = MessageType
 }

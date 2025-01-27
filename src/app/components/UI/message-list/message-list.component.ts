@@ -1,13 +1,14 @@
-import { Component, computed, inject, input, Signal } from '@angular/core';
-import { BranchDataModel, Message } from '../../../types/data.interface';
+import { Component, inject, input, Signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { DepartmentService } from '../../../services/department.service';
 import { RouterModule } from '@angular/router';
+import { MessageService, MessageType } from '../../../services/message.service';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { Message } from '../../../types/message.interface';
 
 
 interface ConfigModel {
   readonly actions: { label: string, redirectTo: string }[];
-  readonly type: string
+  readonly type: MessageType
 }
 
 @Component({
@@ -19,17 +20,14 @@ interface ConfigModel {
 })
 export class MessageListComponent {
   config = input<ConfigModel>()
-  data!: Signal<BranchDataModel> //service
-  private departmentService = inject(DepartmentService)
 
-  messages = computed(() => {
-    if (this.config()?.type !== 'unread') {
-      return this.departmentService.messagesMocup['unread']
-    } else {
-      return this.departmentService.messagesMocup['read']
-    }
-  })
+  private messageService = inject(MessageService)
+
+  messages: Signal<Message[] | []> = toSignal(this.messageService.getAll(), { initialValue: [] })
+
   open(messageId: string) {
     console.log('message', messageId)
   }
 }
+
+// add feature read and unread

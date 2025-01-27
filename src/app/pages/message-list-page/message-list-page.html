@@ -1,7 +1,7 @@
 <div class="container-fluid my-3">
   <h4 class="fw-bold mt-3">Messages :</h4>
-  <h6 class="fw-bold mt-2">{{types[0]}}</h6>
-  <app-message-list [config]="{actions: actions, type: types[0]}"></app-message-list>
-  <h6 class="fw-bold mt-2">{{types[1]}}</h6>
-  <app-message-list [config]="{actions: actions, type: types[1]}"></app-message-list>
+  <h6 class="fw-bold mt-2">{{types.read}}</h6>
+  <app-message-list [config]="{actions: actions, type: types.read}"></app-message-list>
+  <h6 class="fw-bold mt-2">{{types.unread}}</h6>
+  <app-message-list [config]="{actions: actions, type: types.unread}"></app-message-list>
 </div>

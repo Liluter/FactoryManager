@@ -2,8 +2,9 @@ import { inject, Injectable } from '@angular/core';
 import { Message } from '../types/data.interface';
 import { Auth } from '@angular/fire/auth';
 import { BehaviorSubject, catchError, filter, Observable, of, tap } from 'rxjs';
-import firebase from 'firebase/compat/app';
 import { collection, collectionData, doc, Firestore, orderBy, query, where, docData, addDoc, serverTimestamp } from '@angular/fire/firestore';
+import { Task } from '../types/task.interface';
+
 
 export interface Department {
   description: string
@@ -16,25 +17,6 @@ export interface MessageGr {
   message: string
   timestamp: any
   sender: string
-}
-export interface Task {
-  id?: string
-  name: string
-  description: string
-  files: string[]
-  active: boolean
-  timestamp: any
-  started?: string
-  priority: 0 | 1 | 2 | 3,
-  contractors: string[]
-}
-
-interface Contractor {
-  id: string,
-  name: string
-}
-export interface TaskWithContractorNames extends Task {
-  contractorNames: string[]
 }
 
 @Injectable({
@@ -57,41 +39,6 @@ export class DepartmentService {
   private firestore: Firestore = inject(Firestore)
 
   actualTab: BehaviorSubject<string> = new BehaviorSubject('')
-
-  // getMessageForGroup(groupeId: string): Observable<MessageGr[]> {
-  //   const messagesCollection = collection(this.firestore, `groups/${groupeId}/messages`)
-  //   const q = query(messagesCollection, orderBy('timestamp'))
-  //   return collectionData(q, { idField: 'id' }) as Observable<MessageGr[]>
-  // }
-  getActiveTasksForWorkshop(): Observable<Task[]> {
-    const groupId = '5rGeu1EDa4xsBlsz616a'
-    const tasksCollection = collection(this.firestore, `groups/${groupId}/tasks`)
-    const q = query(tasksCollection, where('active', "==", true), orderBy('priority'))
-    return collectionData(q, { idField: 'id' }) as Observable<Task[]>
-  }
-  getActiveTasksForDepartment(departId: string): Observable<Task[]> {
-    const groupId = departId
-    const tasksCollection = collection(this.firestore, `groups/${groupId}/tasks`)
-    const q = query(tasksCollection, where('active', "==", true), orderBy('priority'))
-    return collectionData(q, { idField: 'id' }) as Observable<Task[]>
-  }
-  getOneActiveTask(id: string | undefined): Observable<Task | undefined> {
-    const groupId = '5rGeu1EDa4xsBlsz616a'
-    if (id) {
-      const taskRef = doc(this.firestore, `groups/${groupId}/tasks`, id)
-      return docData(taskRef) as Observable<Task>
-    }
-    return of(undefined)
-  }
-  getOneActiveTaskForDepartment(id: string | undefined, departId: string | undefined): Observable<Task | undefined> {
-    const groupId = departId
-    console.log('task id:', id)
-    if (id) {
-      const taskRef = doc(this.firestore, `groups/${groupId}/tasks`, id)
-      return docData(taskRef) as Observable<Task>
-    }
-    return of(undefined)
-  }
 
   getMessagesForWorkshop(): Observable<MessageGr[]> {
     const groupId = '5rGeu1EDa4xsBlsz616a'

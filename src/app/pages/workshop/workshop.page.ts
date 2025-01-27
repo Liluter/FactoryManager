@@ -4,7 +4,7 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 import { MediumAvatarComponent } from "../../components/UI/medium-avatar/medium-avatar.component";
 import { BranchDataModel, Message } from '../../types/data.interface';
 import { MessageListPage } from '../message-list-page/message-list-page';
-import { MessageGr, DepartmentService, Task, Department, TaskWithContractorNames } from '../../services/department.service';
+import { MessageGr, DepartmentService, Department } from '../../services/department.service';
 import { catchError, concatMap, filter, forkJoin, from, map, mergeMap, Observable, of, switchMap, tap, timeout, toArray } from 'rxjs';
 import { UserService } from '../../services/user.service';
 import { DocumentData } from '@angular/fire/firestore';
@@ -12,6 +12,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { WorkerService } from '../../services/worker.service';
 import { Worker } from '../../types/worker.interface';
 import { RouterModule } from '@angular/router';
+import { Task, TaskWithContractorNames } from '../../types/task.interface';
+import { TaskService } from '../../services/task.service';
 
 
 @Component({
@@ -26,6 +28,7 @@ export class WorkshopPage {
   userService: UserService = inject(UserService)
   workerService: WorkerService = inject(WorkerService)
   workshopId = '5rGeu1EDa4xsBlsz616a'
+  department = 'workshop'
   data: BranchDataModel = this.service.branchDataMockup.filter(el => el.branchTitle === 'workshop')[0]
   // tabs: string[] | undefined = []
   notifications = {
@@ -35,6 +38,7 @@ export class WorkshopPage {
   }
   // workers$!: Observable<{ name: string, uid: string, workingDay: number, hoursWorked: number, avatarID: string }[]>
   departmentService: DepartmentService = inject(DepartmentService)
+  taskService: TaskService = inject(TaskService)
   group$: Observable<Department | null> = this.departmentService.getDepartment(this.workshopId)
   actualTab$ = this.departmentService.actualTab.asObservable()
   tabs: Signal<string[] | undefined> = toSignal(this.departmentService.getDepartment(this.workshopId)
@@ -59,7 +63,7 @@ export class WorkshopPage {
   //   .pipe(
   //     map(tasks => tasks.map(task => ({ ...task, started: new Date(task.timestamp.seconds * 1000).toISOString() })))
   //   )
-  tasksWithContractors$: Observable<TaskWithContractorNames[]> = this.departmentService.getActiveTasksForWorkshop()
+  tasksWithContractors$: Observable<TaskWithContractorNames[]> = this.taskService.getActiveTasksForDepartment(this.department)
     .pipe(
       map(tasks => tasks.map(task => ({ ...task, started: new Date(task.timestamp.seconds * 1000).toISOString() })))
       ,
@@ -82,7 +86,6 @@ export class WorkshopPage {
         toArray(),
       )),
     );
-
   open(task: Task) {
     console.log(task)
   }

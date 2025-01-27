@@ -3,7 +3,7 @@
     <app-avatar-image class="image" size="m" [id]="worker()?.avatarID ?? ''"></app-avatar-image>
     <h5 class="card-title title text-capitalize fw-bold">{{worker()?.name ?? 'loading...'}}</h5>
     <p class="card-text text">description : {{worker()?.description}}.</p>
-    <p class="card-text text ">department : <span class="text-uppercase">{{department()?.name}}</span></p>
+    <p class="card-text text ">department : <span class="text-uppercase">{{worker()?.departmentId}}</span></p>
     <p>Actual task: {{actualTask()?.name}}</p>
     <label for="customRange2" class="form-label">Working Day : {{workingDayModel() ?? worker()?.workingDay}}</label>
     <input type="range" class="form-range" min="0" max="8" id="customRange2" [value]="worker()?.workingDay"

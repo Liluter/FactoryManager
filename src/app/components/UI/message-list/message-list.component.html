@@ -1,5 +1,5 @@
 <div class="list-group ">
-  @for(message of messages(); track message){
+  @for(message of config()?.messages; track message){
   @for(action of config()?.actions; track $index){
   <button type="button" class="list-group-item list-group-item-action " [routerLink]="[action.redirectTo, message.id]">
     <div class="row parent" [class.fw-bold]="config()?.type==='unread'">

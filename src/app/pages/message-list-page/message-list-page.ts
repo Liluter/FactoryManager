@@ -1,6 +1,10 @@
-import { Component, input, InputSignal } from '@angular/core';
+import { Component, computed, inject, input, InputSignal, signal, Signal, WritableSignal } from '@angular/core';
 import { MessageListComponent } from "../../components/UI/message-list/message-list.component";
-import { MessageType } from '../../services/message.service';
+import { ConfigModel, Message, MessageType } from '../../types/message.interface';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map, tap } from 'rxjs';
+import { MessageService } from '../../services/message.service';
+
 
 
 @Component({
@@ -11,12 +15,36 @@ import { MessageType } from '../../services/message.service';
   styleUrl: './message-list-page.scss'
 })
 export class MessageListPage {
-  department = input('all')
-  actions = [
-    {
-      label: 'Open message',
-      redirectTo: '/message'
+  private messageService = inject(MessageService)
+
+  readMessages: Signal<Message[] | []> = toSignal(this.messageService.getAll().pipe(
+    map(messages => messages.filter(message => message.read)),
+  ), { initialValue: [] })
+  unreadMessages: Signal<Message[] | []> = toSignal(this.messageService.getAll().pipe(
+    map(messages => messages.filter(message => !message.read))
+  ), { initialValue: [] })
+
+  configRead: Signal<ConfigModel> = computed((): ConfigModel => {
+    return {
+      actions: [
+        {
+          label: 'Open message',
+          redirectTo: '/message'
+        }
+      ], type: MessageType.read,
+      messages: this.readMessages()
     }
-  ]
-  types = MessageType
+  },)
+  configUnread: Signal<ConfigModel> = computed((): ConfigModel => {
+    return {
+      actions: [{
+        label: 'Open message',
+        redirectTo: '/message'
+      }],
+      type: MessageType.unread,
+      messages: this.unreadMessages()
+    }
+  })
+
+
 }

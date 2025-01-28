@@ -12,7 +12,8 @@ export interface Message {
   timestamp: Timestamp
   sender: string
   departments: string[],
-  read: boolean
+  read: boolean,
+  title: string
 }
 export enum MessageType {
   read = 'read',

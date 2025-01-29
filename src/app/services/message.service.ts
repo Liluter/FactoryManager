@@ -1,12 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { addDoc, collection, collectionData, Firestore, orderBy, query, serverTimestamp, where } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, doc, docData, Firestore, getDoc, orderBy, query, serverTimestamp, where } from '@angular/fire/firestore';
 import { Message } from '../types/message.interface';
 
-export enum MessageType {
-  read = 'read',
-  unread = 'unread'
-}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,6 +15,11 @@ export class MessageService {
     const messagesCollection = collection(this.firestore, 'messages')
     const q = query(messagesCollection, where('departments', 'array-contains', department), orderBy('timestamp'))
     return collectionData(q, { idField: 'id' }) as Observable<Message[]>
+  }
+  getOne(id: string): Observable<Message | undefined> {
+    const messageRef = doc(this.firestore, 'messages', id)
+
+    return docData(messageRef, { idField: 'id' }) as Observable<Message | undefined>
   }
   getAll(): Observable<Message[]> {
     const messagesCollection = collection(this.firestore, 'messages')

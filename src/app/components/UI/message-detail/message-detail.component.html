@@ -15,46 +15,21 @@
           class="bi bi-trash"></i></button>
     </div>
   </div>
+  @for( klucz of dataKeys(); track $index){
   <div class="row g-0 mb-1 align-items-stretch ">
-    <div class="col-sm-3 col-md-2 border-end d-flex align-items-center border rounded ">
+    <div class="col-sm-3 col-md-3 border-end d-flex align-items-center border rounded ">
       <div class="input-group input-group-sm h-100">
-        <span class="input-group-text w-100 border-0 bg-light">Author</span>
+        <span class="input-group-text w-100 border-0 bg-light">{{klucz[1]}}</span>
       </div>
     </div>
-    <div class="col-sm-9 col-md-10 border  rounded">
-      <div class="form-control border-0 ">Karol</div>
+    <div class="col-sm-9 col-md-9 border  rounded">
+      @if($index === 4){
+      <div class="form-control border-0 ">{{klucz[0]?.toString() | date : 'HH:mm dd-MM-YY' }}</div>
+      }
+      @else {
+      <div class="form-control border-0 ">{{klucz[0]}}</div>
+      }
     </div>
   </div>
-  <div class="row g-0 mb-1 align-items-stretch ">
-    <div class="col-sm-3 col-md-2 border-end d-flex align-items-center border rounded ">
-      <div class="input-group input-group-sm h-100">
-        <span class="input-group-text w-100 border-0 bg-light">Created</span>
-      </div>
-    </div>
-    <div class="col-sm-9 col-md-10 border  rounded">
-      <div class="form-control border-0 ">12.12.2024</div>
-    </div>
-  </div>
-  <div class="row g-0 mb-1 align-items-stretch ">
-    <div class="col-sm-3 col-md-2 border-end d-flex align-items-center border rounded ">
-      <div class="input-group input-group-sm h-100">
-        <span class="input-group-text w-100 border-0 bg-light">Message</span>
-      </div>
-    </div>
-    <div class="col-sm-9 col-md-10 border  rounded">
-      <div class="form-control border-0 ">Długa wiadomość, która zajmuje więcej niż jeden wiersz tekstu.
-        To jest przykład, aby pokazać, jak działa rozciąganie. To jest jeszcze dłuższa wiadomość, żeby lepiej
-        zademonstrować działanie.</div>
-    </div>
-  </div>
-  <div class="row g-0 mb-1 align-items-stretch ">
-    <div class="col-sm-3 col-md-2 border-end d-flex align-items-center border rounded ">
-      <div class="input-group input-group-sm h-100">
-        <span class="input-group-text w-100 border-0 bg-light">id:</span>
-      </div>
-    </div>
-    <div class="col-sm-9 col-md-10 border  rounded">
-      <div class="form-control border-0 ">241252352342</div>
-    </div>
-  </div>
+  }
 </div>

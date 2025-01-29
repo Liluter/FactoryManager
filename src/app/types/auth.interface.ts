@@ -21,4 +21,5 @@ export interface FSUser extends LocalUser, Auth {
   lastSignIn: string | undefined;
   photoURL: string | null;
   id?: string,
+  workerId?: string
 }

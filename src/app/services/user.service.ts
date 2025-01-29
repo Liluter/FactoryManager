@@ -14,11 +14,11 @@ export class UserService {
   defaultUser = [{ name: 'none', links: ['login'] }] as Users[]
   private firestore: Firestore = inject(Firestore)
   private auth: Auth = inject(Auth)
-  private userSubject = new BehaviorSubject<FSUser | null>(null)
-  public userSubject$: Observable<FSUser | null> = this.userSubject.asObservable()
+  loggedFSUser = new BehaviorSubject<FSUser | null>(null)
+  public userSubject$: Observable<FSUser | null> = this.loggedFSUser.asObservable()
   private userSubscription!: Subscription
-  userFS$!: Observable<FSUser | null>
-  loggedFSUser: FSUser | null = null
+  // userFS$!: Observable<FSUser | null>
+  // loggedFSUser: FSUser | null = null
 
   constructor() {
     this.init()
@@ -92,7 +92,7 @@ export class UserService {
         if (firebaseUser) {
           return (docData(doc(this.firestore, 'users/' + firebaseUser.uid), { idField: 'id' }) as Observable<FSUser | null>).pipe(
             tap(user => {
-              this.userSubject.next(user)
+              this.loggedFSUser.next(user)
             }),
             catchError(error => {
               console.log('Error fetching firastore user', error)
@@ -100,7 +100,7 @@ export class UserService {
             })
           )
         } else {
-          this.userSubject.next(null)
+          this.loggedFSUser.next(null)
           return of(null)
         }
       }

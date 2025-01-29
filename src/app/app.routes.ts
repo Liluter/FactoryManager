@@ -7,6 +7,7 @@ import { DashboardPage } from './pages/dashboard-page/dashboard.page';
 import { MessageDetailPage } from './pages/message-detail/message-detail.page';
 import { WorkshopPage } from './pages/workshop/workshop.page';
 import { WorkerPage } from './pages/worker/worker.page';
+import { MailboxPage } from './pages/mailbox/mailbox.page';
 
 
 export const routes: Routes = [
@@ -54,6 +55,10 @@ export const routes: Routes = [
   {
     path: 'worker/:id',
     component: WorkerPage
+  },
+  {
+    path: 'mailbox/:workerId',
+    component: MailboxPage
   }
 
   // {

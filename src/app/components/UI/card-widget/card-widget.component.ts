@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input, Input } from '@angular/core';
 import { BranchDataModel } from '../../../types/data.interface';
 import { DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -21,6 +21,7 @@ export class CardWidgetComponent {
     notifications: 0,
     lastnotification: 0
   }
+  data2 = input()
 
 
 }

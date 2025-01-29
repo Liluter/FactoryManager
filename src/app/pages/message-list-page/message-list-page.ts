@@ -16,13 +16,13 @@ import { MessageService } from '../../services/message.service';
 })
 export class MessageListPage {
   private messageService = inject(MessageService)
-  department: InputSignal<string> = input('')
+  department: InputSignal<string | undefined> = input()
   readMessages: Signal<Message[] | []> = toSignal(toObservable(this.department).pipe(
-    switchMap(depart => this.messageService.getMessagesForDepartment(depart)),
+    switchMap(department => this.messageService.getMessagesForDepartment(department)),
     map(messages => messages.filter(message => message.read)),
   ), { initialValue: [] })
   unreadMessages: Signal<Message[] | []> = toSignal(toObservable(this.department).pipe(
-    switchMap(depart => this.messageService.getMessagesForDepartment(depart)),
+    switchMap(department => this.messageService.getMessagesForDepartment(department)),
     map(messages => messages.filter(message => !message.read))
   ), { initialValue: [] })
 

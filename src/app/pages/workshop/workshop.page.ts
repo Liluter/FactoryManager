@@ -1,21 +1,22 @@
 import { Component, inject, Signal, signal, WritableSignal } from '@angular/core';
-import { BranchDataService } from '../../services/branch-data.service';
 import { AsyncPipe, DatePipe } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { BranchDataService } from '../../services/branch-data.service';
 import { MediumAvatarComponent } from "../../components/UI/medium-avatar/medium-avatar.component";
-import { BranchDataModel } from '../../types/data.interface';
 import { MessageListPage } from '../message-list-page/message-list-page';
 import { MessageGr, DepartmentService, Department } from '../../services/department.service';
 import { catchError, concatMap, filter, forkJoin, from, map, mergeMap, Observable, of, switchMap, tap, timeout, toArray } from 'rxjs';
 import { UserService } from '../../services/user.service';
-import { DocumentData } from '@angular/fire/firestore';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { WorkerService } from '../../services/worker.service';
 import { Worker } from '../../types/worker.interface';
-import { RouterModule } from '@angular/router';
-import { Task, TaskWithContractorNames } from '../../types/task.interface';
 import { TaskService } from '../../services/task.service';
+import { Task, TaskWithContractorNames } from '../../types/task.interface';
 import { MessageService } from '../../services/message.service';
 import { Message } from '../../types/message.interface';
+import { BranchDataModel } from '../../types/data.interface';
+import { DocumentData } from '@angular/fire/firestore';
+import { Auth } from '@angular/fire/auth';
 
 
 
@@ -31,7 +32,7 @@ export class WorkshopPage {
   userService: UserService = inject(UserService)
   workerService: WorkerService = inject(WorkerService)
   // workshopId = '5rGeu1EDa4xsBlsz616a'
-  departmentName = 'workshop'
+  departmentName: string = 'workshop'
   data: BranchDataModel = this.service.branchDataMockup.filter(el => el.branchTitle === 'workshop')[0]
   // tabs: string[] | undefined = []
   notifications = {

@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { addDoc, collection, collectionCount, collectionData, doc, docData, Firestore, getDoc, orderBy, query, serverTimestamp, where } from '@angular/fire/firestore';
 import { Message } from '../types/message.interface';
 
@@ -11,12 +11,19 @@ export class MessageService {
 
   private firestore: Firestore = inject(Firestore)
 
-  getMessagesForDepartment(department: string): Observable<Message[]> {
+  getMessagesForDepartment(department: string | undefined): Observable<Message[]> {
+    if (!department) {
+      return of([])
+    }
     const messagesCollection = collection(this.firestore, 'messages')
     const q = query(messagesCollection, where('departments', 'array-contains', department), orderBy('timestamp'))
     return collectionData(q, { idField: 'id' }) as Observable<Message[]>
   }
-  getMessageCountForDepartment(department: string): Observable<number> {
+
+  getMessageCountForDepartment(department: string | undefined): Observable<number> {
+    if (!department) {
+      return of(0)
+    }
     const messagesCollection = collection(this.firestore, 'messages')
     const q = query(messagesCollection, where('departments', 'array-contains', department))
     // return collectionData(q, { idField: 'id' }) as Observable<Message[]>

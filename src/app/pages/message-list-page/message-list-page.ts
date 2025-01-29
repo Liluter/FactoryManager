@@ -1,8 +1,8 @@
 import { Component, computed, inject, input, InputSignal, signal, Signal, WritableSignal } from '@angular/core';
 import { MessageListComponent } from "../../components/UI/message-list/message-list.component";
 import { ConfigModel, Message, MessageType } from '../../types/message.interface';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { map, tap } from 'rxjs';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { map, switchMap, tap } from 'rxjs';
 import { MessageService } from '../../services/message.service';
 
 
@@ -16,11 +16,13 @@ import { MessageService } from '../../services/message.service';
 })
 export class MessageListPage {
   private messageService = inject(MessageService)
-
-  readMessages: Signal<Message[] | []> = toSignal(this.messageService.getAll().pipe(
+  department: InputSignal<string> = input('')
+  readMessages: Signal<Message[] | []> = toSignal(toObservable(this.department).pipe(
+    switchMap(depart => this.messageService.getMessagesForDepartment(depart)),
     map(messages => messages.filter(message => message.read)),
   ), { initialValue: [] })
-  unreadMessages: Signal<Message[] | []> = toSignal(this.messageService.getAll().pipe(
+  unreadMessages: Signal<Message[] | []> = toSignal(toObservable(this.department).pipe(
+    switchMap(depart => this.messageService.getMessagesForDepartment(depart)),
     map(messages => messages.filter(message => !message.read))
   ), { initialValue: [] })
 

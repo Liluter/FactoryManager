@@ -62,10 +62,8 @@ export class WorkshopPage {
     return of([])
   })), { initialValue: [] })
 
-  // messages$: Observable<MessageGr[]> = this.departmentService.getMessagesForWorkshop()
-  messagesNumber$: Observable<number> = this.messageService.getMessagesForDepartment(this.departmentName).pipe(
-    map(messages => messages.length),
-  )
+
+  messagesNumber$: Observable<number> = this.messageService.getMessageCountForDepartment(this.departmentName)
 
   // tasks$: Observable<Task[]> = this.departmentService.getActiveTasksForWorkshop()
   //   .pipe(

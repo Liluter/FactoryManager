@@ -9,3 +9,12 @@
 	display: inline-block;
 	height: 40px;
 }
+.showIcon {
+	display: none;
+}
+.parent:hover .hideIcon {
+	display: none;
+}
+.parent:hover .showIcon {
+	display: inline-block;
+}

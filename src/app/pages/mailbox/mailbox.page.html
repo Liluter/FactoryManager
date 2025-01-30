@@ -41,6 +41,10 @@
   } @else {
   <h4 class="fw-bold">Mailbox</h4>
   <button class="btn btn-outline-warning" (click)="openModal()">New <i class="bi bi-envelope-plus"></i></button>
+  <h4>Departaments messages: {{department()}}</h4>
   <app-message-list-page [department]="department()"></app-message-list-page>
+  <h4>Personal messages addressed to : {{userService.loggedFSUser.getValue()?.username }}</h4>
+  <app-message-list-page [user]="user()?.workerId"></app-message-list-page>
+
   }
 </div>

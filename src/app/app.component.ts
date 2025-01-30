@@ -19,7 +19,7 @@ export class AppComponent {
   userService: UserService = inject(UserService)
   private routesServise: RoutesService = inject(RoutesService)
   currentUrl$ = this.routesServise.currenttUrl$
-  loggedUser$: Observable<FSUser | null> = this.userService.userSubject$.pipe(
+  loggedUser$: Observable<FSUser | undefined> = this.userService.userSubject$.pipe(
     tap(user => {
       if (user?.role === 'standard') {
         this.links = ['user', 'mailbox', 'dashboard', 'logout']

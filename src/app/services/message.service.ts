@@ -31,6 +31,14 @@ export class MessageService {
     const q = query(messagesCollection, where('departments', 'array-contains', department), orderBy('timestamp'))
     return collectionData(q, { idField: 'id' }) as Observable<Message[]>
   }
+  getMessagesForUser(user: string | undefined): Observable<Message[]> {
+    if (!user) {
+      return of([])
+    }
+    const messagesCollection = collection(this.firestore, 'messages')
+    const q = query(messagesCollection, where('recievers', 'array-contains', user), orderBy('timestamp'))
+    return collectionData(q, { idField: 'id' }) as Observable<Message[]>
+  }
 
   getMessageCountForDepartment(department: string | undefined): Observable<number> {
     if (!department) {

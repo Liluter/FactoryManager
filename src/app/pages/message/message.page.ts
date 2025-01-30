@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, Signal } from '@angular/core';
+import { Component, inject, input, Signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { MessageDetailComponent } from '../../components/UI/message-detail/message-detail.component';
 import { MessageService } from '../../services/message.service';
@@ -10,10 +10,10 @@ import { of, switchMap } from 'rxjs';
 @Component({
   standalone: true,
   imports: [RouterModule, MessageDetailComponent],
-  templateUrl: './message-detail.page.html',
-  styleUrl: './message-detail.page.scss'
+  templateUrl: './message.page.html',
+  styleUrl: './message.page.scss'
 })
-export class MessageDetailPage {
+export class MessagePage {
   router: Router = inject(Router)
   id = input<string | undefined>()
   messageService = inject(MessageService)

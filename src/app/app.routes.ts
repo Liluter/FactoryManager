@@ -4,7 +4,7 @@ import { LoginPageComponent } from './pages/login/login.page.component';
 import { WelcomePageComponent } from './pages/welcome/welcome.page.component';
 import { CreateUserPageComponent } from './pages/create-user/create-user-page.component';
 import { DashboardPage } from './pages/dashboard-page/dashboard.page';
-import { MessageDetailPage } from './pages/message-detail/message-detail.page';
+import { MessagePage } from './pages/message/message.page';
 import { WorkshopPage } from './pages/workshop/workshop.page';
 import { WorkerPage } from './pages/worker/worker.page';
 import { MailboxPage } from './pages/mailbox/mailbox.page';
@@ -49,7 +49,7 @@ export const routes: Routes = [
   },
   {
     path: 'message/:id',
-    component: MessageDetailPage,
+    component: MessagePage,
     title: 'Message'
   },
   {

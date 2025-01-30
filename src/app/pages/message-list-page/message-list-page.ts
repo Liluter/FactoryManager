@@ -2,7 +2,7 @@ import { Component, computed, inject, input, InputSignal, signal, Signal, Writab
 import { MessageListComponent } from "../../components/UI/message-list/message-list.component";
 import { ConfigModel, Message, MessageType } from '../../types/message.interface';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { map, switchMap, tap } from 'rxjs';
+import { combineLatest, map, Observable, of, switchMap, tap } from 'rxjs';
 import { MessageService } from '../../services/message.service';
 
 
@@ -17,14 +17,41 @@ import { MessageService } from '../../services/message.service';
 export class MessageListPage {
   private messageService = inject(MessageService)
   department: InputSignal<string | undefined> = input()
-  readMessages: Signal<Message[] | []> = toSignal(toObservable(this.department).pipe(
-    switchMap(department => this.messageService.getMessagesForDepartment(department)),
+  user: InputSignal<string | undefined> = input()
+  private department$ = toObservable(this.department)
+  private user$ = toObservable(this.user)
+  private combined$: Observable<Message[] | []> = combineLatest([this.department$, this.user$]).pipe(
+    switchMap(([department, user]) => {
+      if (department) {
+        return this.messageService.getMessagesForDepartment(department)
+      } else if (user) {
+        return this.messageService.getMessagesForUser(user);
+      } else {
+        return of([])
+      }
+    }
+    ),
+  )
+
+  readMessages: Signal<Message[] | []> = toSignal(this.combined$.pipe(
     map(messages => messages.filter(message => message.read)),
   ), { initialValue: [] })
-  unreadMessages: Signal<Message[] | []> = toSignal(toObservable(this.department).pipe(
-    switchMap(department => this.messageService.getMessagesForDepartment(department)),
+  unreadMessages: Signal<Message[] | []> = toSignal(this.combined$.pipe(
     map(messages => messages.filter(message => !message.read))
   ), { initialValue: [] })
+
+
+  // private messageService = inject(MessageService)
+  // department: InputSignal<string | undefined> = input()
+  // user: InputSignal<string | undefined> = input()
+  // readMessages: Signal<Message[] | []> = toSignal(toObservable(this.department).pipe(
+  //   switchMap(department => this.messageService.getMessagesForDepartment(department)),
+  //   map(messages => messages.filter(message => message.read)),
+  // ), { initialValue: [] })
+  // unreadMessages: Signal<Message[] | []> = toSignal(toObservable(this.department).pipe(
+  //   switchMap(department => this.messageService.getMessagesForDepartment(department)),
+  //   map(messages => messages.filter(message => !message.read))
+  // ), { initialValue: [] })
 
   configRead: Signal<ConfigModel> = computed((): ConfigModel => {
     return {

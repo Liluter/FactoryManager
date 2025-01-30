@@ -59,6 +59,10 @@ export const routes: Routes = [
   {
     path: 'mailbox/:workerId',
     component: MailboxPage
+  },
+  {
+    path: 'mailbox',
+    component: MailboxPage
   }
 
   // {

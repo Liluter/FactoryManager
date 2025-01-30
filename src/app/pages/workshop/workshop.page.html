@@ -87,8 +87,7 @@
       @if(actualTab==="Messages" || actualTab==="All"){
       <app-message-list-page [department]="departmentName"></app-message-list-page>
       <div class="d-flex justify-content-center mb-3">
-        <button class="btn  btn-outline-warning fw-bold"
-          [routerLink]="['/mailbox', userService.loggedFSUser.getValue()?.workerId]"><i class="bi bi-mailbox"></i> Mail
+        <button class="btn  btn-outline-warning fw-bold" [routerLink]="['/mailbox']"><i class="bi bi-mailbox"></i> Mail
           Box</button>
       </div>
       }

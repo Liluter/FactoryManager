@@ -22,9 +22,9 @@ export class AppComponent {
   loggedUser$: Observable<FSUser | null> = this.userService.userSubject$.pipe(
     tap(user => {
       if (user?.role === 'standard') {
-        this.links = ['user', 'dashboard', 'logout']
+        this.links = ['user', 'mailbox', 'dashboard', 'logout']
       } else if (user?.role === 'admin') {
-        this.links = ['user', 'dashboard', 'settings', 'logout']
+        this.links = ['user', 'mailbox', 'dashboard', 'settings', 'logout']
       } else if (user?.links) {
         this.links = user?.links
       } else {

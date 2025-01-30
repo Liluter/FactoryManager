@@ -1,4 +1,5 @@
 <div class="container-fluid mt-3">
   <h4 class="text-center ">Message detail</h4>
-  <app-message-detail [data]="data()" (favouritesHandler)="toggleFavourites()"></app-message-detail>
+  <app-message-detail [data]="data()" (favouritesHandler)="toggleFavourites()" (deleteHandler)="
+    deleteMessage()"></app-message-detail>
 </div>

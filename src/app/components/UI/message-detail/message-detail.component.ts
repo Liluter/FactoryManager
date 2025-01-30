@@ -12,6 +12,7 @@ import { DatePipe } from '@angular/common';
 export class MessageDetailComponent {
   data = input<Message | undefined>()
   favouritesHandler = output()
+  deleteHandler = output()
   dataKeys: Signal<(string | string[] | undefined)[][]> = computed(() => [
     [this.data()?.sender, 'Author'],
     [this.data()?.departments, 'Departments'],
@@ -24,5 +25,8 @@ export class MessageDetailComponent {
   // - odpowiedz , przekaz ,  
   toggleFavourites() {
     this.favouritesHandler.emit()
+  }
+  deleteMessage() {
+    this.deleteHandler.emit()
   }
 }

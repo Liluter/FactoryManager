@@ -11,8 +11,8 @@
           class="bi bi-reply"></i></button>
       <button class="btn btn-outline-primary flex-grow-1 fs-4" type="button" title="forward"><i
           class="bi bi-fast-forward"></i></button>
-      <button class="btn btn-outline-danger flex-grow-1 fs-4" type="button" title="to trash"><i
-          class="bi bi-trash"></i></button>
+      <button class="btn btn-outline-danger flex-grow-1 fs-4" type="button" title="to trash"
+        (click)="deleteMessage()"><i class="bi bi-trash"></i></button>
     </div>
   </div>
   @for( klucz of dataKeys(); track $index){

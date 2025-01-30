@@ -1,10 +1,10 @@
 import { Component, computed, inject, input, Signal } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MessageDetailComponent } from '../../components/UI/message-detail/message-detail.component';
 import { MessageService } from '../../services/message.service';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { Message } from '../../types/message.interface';
-import { switchMap } from 'rxjs';
+import { of, switchMap } from 'rxjs';
 
 
 @Component({
@@ -14,20 +14,34 @@ import { switchMap } from 'rxjs';
   styleUrl: './message-detail.page.scss'
 })
 export class MessageDetailPage {
-  id = input<string>('')
+  router: Router = inject(Router)
+  id = input<string | undefined>()
   messageService = inject(MessageService)
   data: Signal<Message | undefined> = toSignal(toObservable(this.id).pipe(
-    switchMap(id => this.messageService.getOne(id))
+    switchMap(id => {
+      if (id) {
+        return this.messageService.getOne(id)
+      } else {
+        return of(undefined)
+      }
+    })
   ), { initialValue: undefined })
 
   toggleFavourites() {
-    const messageID = this.data()?.id
+    const messageID = this.id()
     if (messageID) {
       if (this.data()?.favourite) {
         this.messageService.toggleFavourite(messageID, false)
       } else {
         this.messageService.toggleFavourite(messageID, true)
       }
+    }
+  }
+  deleteMessage() {
+    const messageID = this.id()
+    if (messageID) {
+      this.messageService.delete(messageID)
+      this.router.navigate(['/mailbox'])
     }
   }
 }

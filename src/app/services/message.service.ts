@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { addDoc, collection, collectionCount, collectionData, doc, docData, DocumentReference, FieldValue, Firestore, getDoc, orderBy, query, serverTimestamp, updateDoc, where } from '@angular/fire/firestore';
+import { addDoc, collection, collectionCount, collectionData, deleteDoc, doc, docData, DocumentReference, FieldValue, Firestore, getDoc, orderBy, query, serverTimestamp, updateDoc, where } from '@angular/fire/firestore';
 import { Message } from '../types/message.interface';
 
 export interface MessageModel {
@@ -65,12 +65,18 @@ export class MessageService {
     }
   }
 
-  toggleFavourite(messagId: string, value: boolean) {
-    const messageRef = doc(this.firestore, 'messages', messagId)
+  toggleFavourite(messageId: string, value: boolean) {
+    const messageRef = doc(this.firestore, 'messages', messageId)
     const updatedData = { favourite: value }
     updateDoc(messageRef, updatedData)
       .then(() => console.log('Message updated'))
       .catch(error => console.log('Error has occurre :', error))
+  }
+  delete(messageId: string) {
+    const messageRef = doc(this.firestore, 'messages', messageId)
+    deleteDoc(messageRef)
+      .then(() => console.log('Message deleted'))
+      .catch(error => console.log('Error has occurre durig deletion process :', error))
   }
 }
 

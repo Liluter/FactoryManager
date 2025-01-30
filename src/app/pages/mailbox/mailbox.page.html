@@ -28,9 +28,15 @@
       </div>
       @if(model.departments.includes('personal') ){
       <div class="mb-3">
-        <label for="reciver" class="form-label">Reciver name</label>
-        <input type="text" class="form-control" id="reciver" required name="reciver" [(ngModel)]="model.reciver"
-          placeholder="worker id">
+        <label for="user" class="form-label">Recipients names</label>
+        <select class="form-select" id="user" name="user" multiple [(ngModel)]="model.recipients">
+          <option value="ibo0ET21ZgQ8p9Alb7osL6sGqrJ2">Karol</option>
+          <option value="OzeUlBIbH9gfM1ZII8aTg9Gv21I2">Ania</option>
+          <option value="JbpKCW4mmKbQwt3aKUcFqPvQYu82">James</option>
+          <option value="GU1O8CKxLscSSsaWdw7pganUZ943">Sara</option>
+          <option value="worker-001">Kris</option>
+          <option value="all">All</option>
+        </select>
       </div>
       }
       <div class="text-center">

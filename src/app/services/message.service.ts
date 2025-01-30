@@ -7,7 +7,7 @@ export interface MessageModel {
   title: string,
   message: string,
   departments: string[],
-  reciver?: string,
+  recipients?: string[],
   sender: string,
   senderId: string,
   read: boolean,
@@ -36,7 +36,7 @@ export class MessageService {
       return of([])
     }
     const messagesCollection = collection(this.firestore, 'messages')
-    const q = query(messagesCollection, where('recievers', 'array-contains', user), orderBy('timestamp'))
+    const q = query(messagesCollection, where('recipients', 'array-contains', user))
     return collectionData(q, { idField: 'id' }) as Observable<Message[]>
   }
 

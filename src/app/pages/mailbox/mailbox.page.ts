@@ -10,6 +10,7 @@ import { NgClass } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { serverTimestamp } from '@angular/fire/firestore';
+import { FSUser } from '../../types/auth.interface';
 
 @Component({
   selector: 'app-mailbox-page',
@@ -22,6 +23,7 @@ export class MailboxPage {
   model: MessageModel = {
     message: '',
     departments: ['all'],
+    recipients: [],
     title: '',
     sender: '',
     senderId: '',
@@ -29,7 +31,7 @@ export class MailboxPage {
   }
   userService = inject(UserService)
   activeUser$ = this.userService.loggedFSUser.asObservable()
-  user = toSignal(this.activeUser$, { initialValue: undefined })
+  user: Signal<FSUser | undefined> = toSignal(this.activeUser$, { initialValue: undefined })
   newMailModal = signal(false)
   workerService = inject(WorkerService)
   messageSerevice = inject(MessageService)
@@ -55,7 +57,7 @@ export class MailboxPage {
     if (this.model.departments?.includes('personal')) {
       mail = {
         message: this.model.message,
-        reciver: this.model.reciver,
+        recipients: this.model.recipients,
         title: this.model.title,
         departments: [],
         sender: this.user()?.username ?? '',

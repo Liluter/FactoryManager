@@ -12,6 +12,7 @@ export interface Message {
   timestamp: Timestamp
   sender: string
   departments: string[],
+  recipients?: string[],
   read: boolean,
   title: string,
   favourite?: boolean

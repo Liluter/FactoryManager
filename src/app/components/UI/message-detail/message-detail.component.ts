@@ -5,7 +5,7 @@ import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-message-detail',
   standalone: true,
-  imports: [DatePipe],
+  imports: [],
   templateUrl: './message-detail.component.html',
   styleUrl: './message-detail.component.scss'
 })
@@ -13,12 +13,13 @@ export class MessageDetailComponent {
   data = input<Message | undefined>()
   favouritesHandler = output()
   deleteHandler = output()
-  dataKeys: Signal<(string | string[] | undefined)[][]> = computed(() => [
+  dataKeys = computed(() => [
     [this.data()?.sender, 'Author'],
     [this.data()?.departments, 'Departments'],
+    [this.data()?.recipients, 'Recipients'],
     [this.data()?.title, 'Title'],
     [this.data()?.message, 'Message'],
-    [this.data()?.timestamp.toDate().toISOString().toString(), 'Created'],
+    [this.data()?.timestamp.toDate().toISOString(), 'Created'],
     [this.data()?.id, 'Id'],
   ])
 

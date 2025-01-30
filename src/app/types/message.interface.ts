@@ -13,7 +13,8 @@ export interface Message {
   sender: string
   departments: string[],
   read: boolean,
-  title: string
+  title: string,
+  favourite?: boolean
 }
 export enum MessageType {
   read = 'read',

@@ -19,4 +19,15 @@ export class MessageDetailPage {
   data: Signal<Message | undefined> = toSignal(toObservable(this.id).pipe(
     switchMap(id => this.messageService.getOne(id))
   ), { initialValue: undefined })
+
+  toggleFavourites() {
+    const messageID = this.data()?.id
+    if (messageID) {
+      if (this.data()?.favourite) {
+        this.messageService.toggleFavourite(messageID, false)
+      } else {
+        this.messageService.toggleFavourite(messageID, true)
+      }
+    }
+  }
 }

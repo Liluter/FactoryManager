@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { addDoc, collection, collectionCount, collectionData, doc, docData, DocumentReference, FieldValue, Firestore, getDoc, orderBy, query, serverTimestamp, where } from '@angular/fire/firestore';
+import { addDoc, collection, collectionCount, collectionData, doc, docData, DocumentReference, FieldValue, Firestore, getDoc, orderBy, query, serverTimestamp, updateDoc, where } from '@angular/fire/firestore';
 import { Message } from '../types/message.interface';
 
 export interface MessageModel {
@@ -63,6 +63,14 @@ export class MessageService {
       console.log("Something went wrong", err.message)
       throw err
     }
+  }
+
+  toggleFavourite(messagId: string, value: boolean) {
+    const messageRef = doc(this.firestore, 'messages', messagId)
+    const updatedData = { favourite: value }
+    updateDoc(messageRef, updatedData)
+      .then(() => console.log('Message updated'))
+      .catch(error => console.log('Error has occurre :', error))
   }
 }
 

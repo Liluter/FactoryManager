@@ -5,8 +5,8 @@
         <input class="form-check-input mt-0 fs-4" title="read" type="checkbox" value=""
           aria-label="Checkbox for following text input">
       </div>
-      <button class="btn btn-outline-warning flex-grow-1 fs-4" type="button" title="add to favourite"><i
-          class="bi bi-star"></i></button>
+      <button class="btn flex-grow-1 fs-4" type="button" title="add to favourite" (click)="toggleFavourites()"
+        [class]="data()?.favourite ? 'btn-warning' : 'btn-outline-warning'"><i class="bi bi-star"></i></button>
       <button class="btn btn-outline-success flex-grow-1 fs-4" type="button" title="reply"><i
           class="bi bi-reply"></i></button>
       <button class="btn btn-outline-primary flex-grow-1 fs-4" type="button" title="forward"><i

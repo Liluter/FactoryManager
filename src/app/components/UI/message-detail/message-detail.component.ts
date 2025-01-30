@@ -1,4 +1,4 @@
-import { Component, computed, input, Signal } from '@angular/core';
+import { Component, computed, input, output, Signal } from '@angular/core';
 import { Message } from '../../../types/message.interface';
 import { DatePipe } from '@angular/common';
 
@@ -11,6 +11,7 @@ import { DatePipe } from '@angular/common';
 })
 export class MessageDetailComponent {
   data = input<Message | undefined>()
+  favouritesHandler = output()
   dataKeys: Signal<(string | string[] | undefined)[][]> = computed(() => [
     [this.data()?.sender, 'Author'],
     [this.data()?.departments, 'Departments'],
@@ -21,4 +22,7 @@ export class MessageDetailComponent {
   ])
 
   // - odpowiedz , przekaz ,  
+  toggleFavourites() {
+    this.favouritesHandler.emit()
+  }
 }

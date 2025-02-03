@@ -45,11 +45,17 @@
     </form>
   </div>
   } @else {
-  <h4 class="fw-bold">Mailbox</h4>
-  <button class="btn btn-outline-warning" (click)="openModal()">New <i class="bi bi-envelope-plus"></i></button>
-  <h4>Departaments messages: {{department()}}</h4>
+  <h4 class="fw-bold">Mailbox
+    <span>
+      <button class="btn btn-outline-warning btn-sm mx-2 p-1" (click)="openModal()">New <i
+          class="bi bi-envelope-plus"></i></button>
+    </span>
+  </h4>
+  <h5>To <span class="text-success">{{department()}}</span> department.</h5>
   <app-message-list-page [department]="department()"></app-message-list-page>
-  <h4>Personal messages addressed to : {{userService.loggedFSUser.getValue()?.username }}</h4>
+  <h5>To <span class="text-success">all</span> departments :</h5>
+  <app-message-list-page [department]="'all'"></app-message-list-page>
+  <h5>Direct messages :</h5>
   <app-message-list-page [user]="user()?.workerId"></app-message-list-page>
 
   }

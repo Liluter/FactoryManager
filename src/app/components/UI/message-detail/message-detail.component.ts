@@ -1,16 +1,19 @@
-import { Component, computed, input, output, Signal } from '@angular/core';
+import { Component, computed, input, output, OutputEmitterRef, Signal } from '@angular/core';
 import { Message } from '../../../types/message.interface';
 import { DatePipe } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-message-detail',
   standalone: true,
-  imports: [],
+  imports: [FormsModule],
   templateUrl: './message-detail.component.html',
   styleUrl: './message-detail.component.scss'
 })
 export class MessageDetailComponent {
+  readModel: Boolean = false
   data = input<Message | undefined>()
+  checkHandler: OutputEmitterRef<boolean> = output()
   favouritesHandler = output()
   deleteHandler = output()
   dataKeys = computed(() => [
@@ -26,6 +29,10 @@ export class MessageDetailComponent {
   // - odpowiedz , przekaz ,  
   toggleFavourites() {
     this.favouritesHandler.emit()
+  }
+  toggleRead(ref: HTMLInputElement) {
+    this.checkHandler.emit(ref.checked)
+
   }
   deleteMessage() {
     this.deleteHandler.emit()

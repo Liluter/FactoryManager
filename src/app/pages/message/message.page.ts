@@ -37,6 +37,13 @@ export class MessagePage {
       }
     }
   }
+  toggleRead(value: boolean) {
+    console.log('toggle', value)
+    const messageID = this.id()
+    if (messageID) {
+      this.messageService.toggleRead(messageID, value)
+    }
+  }
   deleteMessage() {
     const messageID = this.id()
     if (messageID) {

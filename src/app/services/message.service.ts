@@ -2,6 +2,8 @@ import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { addDoc, collection, collectionCount, collectionData, deleteDoc, doc, docData, DocumentReference, FieldValue, Firestore, getDoc, orderBy, query, serverTimestamp, updateDoc, where } from '@angular/fire/firestore';
 import { Message, MessageModel } from '../types/message.interface';
+import { FormResetEvent } from '@angular/forms';
+import { UserService } from './user.service';
 
 
 
@@ -12,6 +14,7 @@ import { Message, MessageModel } from '../types/message.interface';
 export class MessageService {
 
   private firestore: Firestore = inject(Firestore)
+  private userService = inject(UserService)
 
   getMessagesForDepartment(department: string | undefined): Observable<Message[]> {
     if (!department) {
@@ -69,6 +72,28 @@ export class MessageService {
     updateDoc(messageRef, updatedData)
       .then(() => console.log('Message updated'))
       .catch(error => console.log('Error has occurre :', error))
+  }
+  toggleRead(messageId: string, value: boolean) {
+    const userId = this.userService.loggedFSUser.getValue()?.workerId
+    const messageRef = doc(this.firestore, 'messages', messageId)
+    getDoc(messageRef).then((docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const data = docSnapshot.data()
+        const readBy = data['readBy']
+        if (value) {
+          readBy.push(userId)
+          updateDoc(messageRef, { readBy }).then(() => console.log('Doc updated'))
+        } else {
+          const index = readBy.indexOf(userId)
+          if (index > -1) {
+            readBy.splice(index, 1)
+            updateDoc(messageRef, { readBy }).then(() => console.log('Doc updated'))
+          }
+        }
+      } else {
+        console.log('Brak dokumentu')
+      }
+    })
   }
   delete(messageId: string) {
     const messageRef = doc(this.firestore, 'messages', messageId)

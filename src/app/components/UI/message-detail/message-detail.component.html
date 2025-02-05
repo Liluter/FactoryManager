@@ -2,8 +2,8 @@
   <div class="d-flex mb-1">
     <div class=" input-group input-group-sm">
       <div class="input-group-text">
-        <input class="form-check-input mt-0 fs-4" title="read" type="checkbox" value=""
-          aria-label="Checkbox for following text input">
+        <input class="form-check-input mt-0 fs-4" title="read" type="checkbox" #check name="check"
+          aria-label="Checkbox for following text input" (change)="toggleRead(check)" [(ngModel)]="readModel">
       </div>
       <button class="btn flex-grow-1 fs-4" type="button" title="add to favourite" (click)="toggleFavourites()"
         [class]="data()?.favourite ? 'btn-warning' : 'btn-outline-warning'"><i class="bi bi-star"></i></button>
@@ -32,4 +32,5 @@
     </div>
   </div>
   }
+  {{readModel}}
 </div>

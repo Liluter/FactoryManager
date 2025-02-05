@@ -1,18 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { addDoc, collection, collectionCount, collectionData, deleteDoc, doc, docData, DocumentReference, FieldValue, Firestore, getDoc, orderBy, query, serverTimestamp, updateDoc, where } from '@angular/fire/firestore';
-import { Message } from '../types/message.interface';
+import { Message, MessageModel } from '../types/message.interface';
 
-export interface MessageModel {
-  title: string,
-  message: string,
-  departments: string[],
-  recipients?: string[],
-  sender: string,
-  senderId: string,
-  read: boolean,
-  timestamp?: FieldValue
-}
 
 
 

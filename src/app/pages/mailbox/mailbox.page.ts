@@ -3,8 +3,8 @@ import { MessageListPage } from "../message-list-page/message-list-page";
 import { WorkerService } from '../../services/worker.service';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { map, startWith, switchMap, tap } from 'rxjs/operators';
-import { MessageModel, MessageService } from '../../services/message.service';
-import { Message } from '../../types/message.interface';
+import { MessageService } from '../../services/message.service';
+import { Message, MessageModel } from '../../types/message.interface';
 import { of } from 'rxjs';
 import { NgClass } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -27,11 +27,11 @@ export class MailboxPage {
     title: '',
     sender: '',
     senderId: '',
-    read: false,
+    readBy: [],
   }
   userService = inject(UserService)
   activeUser$ = this.userService.loggedFSUser.asObservable()
-  user: Signal<FSUser | undefined> = toSignal(this.activeUser$, { initialValue: undefined })
+  user: Signal<FSUser | null> = toSignal<FSUser | null>(this.activeUser$, { initialValue: null })
   newMailModal = signal(false)
   workerService = inject(WorkerService)
   messageSerevice = inject(MessageService)
@@ -62,7 +62,7 @@ export class MailboxPage {
         departments: [],
         sender: this.user()?.username ?? '',
         senderId: this.user()?.workerId ?? '',
-        read: false,
+        readBy: [],
         timestamp: serverTimestamp()
       }
     } else {
@@ -72,7 +72,7 @@ export class MailboxPage {
         departments: this.model.departments,
         sender: this.user()?.username ?? '',
         senderId: this.user()?.workerId ?? '',
-        read: false,
+        readBy: [],
         timestamp: serverTimestamp()
       }
     }

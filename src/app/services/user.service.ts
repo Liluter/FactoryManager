@@ -14,8 +14,8 @@ export class UserService {
   defaultUser = [{ name: 'none', links: ['login'] }] as Users[]
   private firestore: Firestore = inject(Firestore)
   private auth: Auth = inject(Auth)
-  loggedFSUser = new BehaviorSubject<FSUser | undefined>(undefined)
-  public userSubject$: Observable<FSUser | undefined> = this.loggedFSUser.asObservable()
+  loggedFSUser = new BehaviorSubject<FSUser | null>(null)
+  public userSubject$: Observable<FSUser | null> = this.loggedFSUser.asObservable()
   private userSubscription!: Subscription
   // userFS$!: Observable<FSUser | null>
   // loggedFSUser: FSUser | null = null
@@ -90,7 +90,7 @@ export class UserService {
       switchMap((firebaseUser
       ) => {
         if (firebaseUser) {
-          return (docData(doc(this.firestore, 'users/' + firebaseUser.uid), { idField: 'id' }) as Observable<FSUser | undefined>).pipe(
+          return (docData(doc(this.firestore, 'users/' + firebaseUser.uid), { idField: 'id' }) as Observable<FSUser | null>).pipe(
             tap(user => {
               this.loggedFSUser.next(user)
             }),
@@ -100,8 +100,8 @@ export class UserService {
             })
           )
         } else {
-          this.loggedFSUser.next(undefined)
-          return of(undefined)
+          this.loggedFSUser.next(null)
+          return of(null)
         }
       }
       ),

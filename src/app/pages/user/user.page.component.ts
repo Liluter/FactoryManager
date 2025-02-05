@@ -16,7 +16,7 @@ import { AvatarImageComponent } from "../../components/UI/avatar-image/avatar-im
 export class UserPageComponent {
   private userService = inject(UserService)
   // user$: Observable<FSUser | null> = this.userService.getloggedInUser().pipe(tap(user => console.log('W user.page')))
-  user$: Observable<FSUser | undefined> = this.userService.userSubject$
+  user$: Observable<FSUser | null> = this.userService.userSubject$
 
   async logOut() {
     await this.userService.logAuthOut()

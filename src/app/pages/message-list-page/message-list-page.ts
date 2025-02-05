@@ -1,9 +1,10 @@
-import { Component, computed, inject, input, InputSignal, signal, Signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, input, InputSignal, Signal } from '@angular/core';
 import { MessageListComponent } from "../../components/UI/message-list/message-list.component";
 import { ConfigModel, Message, MessageType } from '../../types/message.interface';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { combineLatest, map, Observable, of, switchMap, tap } from 'rxjs';
+import { combineLatest, map, Observable, of, switchMap } from 'rxjs';
 import { MessageService } from '../../services/message.service';
+import { UserService } from '../../services/user.service';
 
 
 
@@ -15,17 +16,20 @@ import { MessageService } from '../../services/message.service';
   styleUrl: './message-list-page.scss'
 })
 export class MessageListPage {
-  private messageService = inject(MessageService)
-  department: InputSignal<string | undefined> = input()
-  user: InputSignal<string | undefined> = input()
-  private department$ = toObservable(this.department)
-  private user$ = toObservable(this.user)
-  private combined$: Observable<Message[] | []> = combineLatest([this.department$, this.user$]).pipe(
-    switchMap(([department, user]) => {
+  private readonly messageService = inject(MessageService)
+  private readonly userService: UserService = inject(UserService)
+  readonly department: InputSignal<string | undefined> = input()
+  readonly directUserId: InputSignal<string | undefined> = input()
+  private readonly department$ = toObservable(this.department)
+  private readonly user$ = toObservable(this.directUserId)
+  private readonly currentUser = this.userService.loggedFSUser.getValue()
+
+  private readonly combined$: Observable<Message[] | []> = combineLatest([this.department$, this.user$]).pipe(
+    switchMap(([department, directUserId]) => {
       if (department) {
         return this.messageService.getMessagesForDepartment(department)
-      } else if (user) {
-        return this.messageService.getMessagesForUser(user);
+      } else if (directUserId) {
+        return this.messageService.getMessagesForUser(directUserId);
       } else {
         return of([])
       }
@@ -33,38 +37,42 @@ export class MessageListPage {
     ),
   )
 
-  readMessages: Signal<Message[] | []> = toSignal(this.combined$.pipe(
-    map(messages => messages.filter(message => message.read)),
-  ), { initialValue: [] })
-  unreadMessages: Signal<Message[] | []> = toSignal(this.combined$.pipe(
-    map(messages => messages.filter(message => !message.read))
-  ), { initialValue: [] })
+  private readonly readMessages: Signal<Message[] | []> = toSignal(this.combined$.pipe(
+    map(messages => {
+      const user = this.currentUser?.workerId
+      if (user) {
+        return messages.filter(message => message.readBy.length > 0 ? message.readBy.includes(user) : false)
+      } else {
+        return []
+      }
+    }),
+  )
+    , { initialValue: [] })
 
+  private readonly unreadMessages: Signal<Message[] | []> = toSignal(this.combined$.pipe(
+    map(messages => {
+      const user = this.currentUser?.workerId
+      if (user) {
+        return messages.filter(message => message.readBy.length > 0 ? !message.readBy.includes(user) : true)
+      } else {
+        return []
+      }
+    }),
+  )
+    , { initialValue: [] })
 
-  // private messageService = inject(MessageService)
-  // department: InputSignal<string | undefined> = input()
-  // user: InputSignal<string | undefined> = input()
-  // readMessages: Signal<Message[] | []> = toSignal(toObservable(this.department).pipe(
-  //   switchMap(department => this.messageService.getMessagesForDepartment(department)),
-  //   map(messages => messages.filter(message => message.read)),
-  // ), { initialValue: [] })
-  // unreadMessages: Signal<Message[] | []> = toSignal(toObservable(this.department).pipe(
-  //   switchMap(department => this.messageService.getMessagesForDepartment(department)),
-  //   map(messages => messages.filter(message => !message.read))
-  // ), { initialValue: [] })
-
-  configRead: Signal<ConfigModel> = computed((): ConfigModel => {
+  readonly configRead: Signal<ConfigModel> = computed((): ConfigModel => {
     return {
-      actions: [
-        {
-          label: 'Open message',
-          redirectTo: '/message'
-        }
-      ], type: MessageType.read,
+      actions: [{
+        label: 'Open message',
+        redirectTo: '/message'
+      }],
+      type: MessageType.read,
       messages: this.readMessages()
     }
   },)
-  configUnread: Signal<ConfigModel> = computed((): ConfigModel => {
+
+  readonly configUnread: Signal<ConfigModel> = computed((): ConfigModel => {
     return {
       actions: [{
         label: 'Open message',

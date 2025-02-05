@@ -56,7 +56,7 @@
   <h5>To <span class="text-success">all</span> departments :</h5>
   <app-message-list-page [department]="'all'"></app-message-list-page>
   <h5>Direct messages :</h5>
-  <app-message-list-page [user]="user()?.workerId"></app-message-list-page>
+  <app-message-list-page [directUserId]="user()?.workerId"></app-message-list-page>
 
   }
 </div>

@@ -15,8 +15,18 @@ import { of, switchMap } from 'rxjs';
 })
 export class MessagePage {
   router: Router = inject(Router)
-  id = input<string | undefined>()
+  id = input<string>()
+
   messageService = inject(MessageService)
+  read: Signal<boolean | undefined> = toSignal(toObservable(this.id).pipe(
+    switchMap(id => {
+      if (id) {
+        return this.messageService.isRead(id)
+      } else {
+        return of(undefined)
+      }
+    })
+  ), { initialValue: undefined })
   data: Signal<Message | undefined> = toSignal(toObservable(this.id).pipe(
     switchMap(id => {
       if (id) {
@@ -38,7 +48,6 @@ export class MessagePage {
     }
   }
   toggleRead(value: boolean) {
-    console.log('toggle', value)
     const messageID = this.id()
     if (messageID) {
       this.messageService.toggleRead(messageID, value)

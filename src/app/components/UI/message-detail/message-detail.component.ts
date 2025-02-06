@@ -11,8 +11,8 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './message-detail.component.scss'
 })
 export class MessageDetailComponent {
-  readModel: Boolean = false
   data = input<Message | undefined>()
+  readModel = input<boolean | undefined>(false)
   checkHandler: OutputEmitterRef<boolean> = output()
   favouritesHandler = output()
   deleteHandler = output()

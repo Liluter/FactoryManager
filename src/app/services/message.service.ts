@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { addDoc, collection, collectionCount, collectionData, deleteDoc, doc, docData, DocumentReference, FieldValue, Firestore, getDoc, orderBy, query, serverTimestamp, updateDoc, where } from '@angular/fire/firestore';
+import { map, Observable, of, tap } from 'rxjs';
+import { addDoc, arrayRemove, arrayUnion, collection, collectionCount, collectionData, deleteDoc, doc, docData, DocumentData, DocumentReference, FieldValue, Firestore, getDoc, orderBy, query, serverTimestamp, updateDoc, where } from '@angular/fire/firestore';
 import { Message, MessageModel } from '../types/message.interface';
 import { FormResetEvent } from '@angular/forms';
 import { UserService } from './user.service';
@@ -75,25 +75,33 @@ export class MessageService {
   }
   toggleRead(messageId: string, value: boolean) {
     const userId = this.userService.loggedFSUser.getValue()?.workerId
+    if (!userId) {
+      console.log("No user ID")
+      return;
+    }
     const messageRef = doc(this.firestore, 'messages', messageId)
-    getDoc(messageRef).then((docSnapshot) => {
-      if (docSnapshot.exists()) {
-        const data = docSnapshot.data()
-        const readBy = data['readBy']
-        if (value) {
-          readBy.push(userId)
-          updateDoc(messageRef, { readBy }).then(() => console.log('Doc updated'))
-        } else {
-          const index = readBy.indexOf(userId)
-          if (index > -1) {
-            readBy.splice(index, 1)
-            updateDoc(messageRef, { readBy }).then(() => console.log('Doc updated'))
-          }
-        }
-      } else {
-        console.log('Brak dokumentu')
-      }
-    })
+    if (value) {
+      updateDoc(messageRef, { readBy: arrayUnion(userId) })
+        .then(() => console.log('Message marked as read'))
+        .catch((error) => console.log('Error updating messages', error))
+    } else {
+      updateDoc(messageRef, { readBy: arrayRemove(userId) })
+        .then(() => console.log('Message marked as unread'))
+        .catch((error) => console.log('Error updating document', error))
+    }
+  }
+  isRead(messageId: string) {
+    const userId = this.userService.loggedFSUser.getValue()?.workerId
+    const messageRef = doc(this.firestore, 'messages', messageId)
+
+    const isRead = docData(messageRef, { idField: 'id' }) as Observable<Message | undefined>
+    if (userId) {
+      return isRead.pipe(
+        map(message => message?.readBy.includes(userId)),
+        tap(data => console.log('odczyt read: ', data))
+      )
+    }
+    return of(undefined)
   }
   delete(messageId: string) {
     const messageRef = doc(this.firestore, 'messages', messageId)

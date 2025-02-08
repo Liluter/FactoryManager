@@ -44,9 +44,10 @@
               <tr>
                 <th scope="col">Priority</th>
                 <th scope="col">Name</th>
-                <th scope="col">Info</th>
-                <th scope="col">Started</th>
-                <th scope="col">Contractors</th>
+                <th scope="col" class="d-none d-sm-table-cell">Info</th>
+                <th scope="col" class="d-none d-md-table-cell">Started</th>
+                <th scope="col" class="d-none d-sm-table-cell">Contractors</th>
+                <th scope="col">Progress</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -56,9 +57,10 @@
                 <th scope="row"><span class="badge rounded-pill"
                     [class]="setColor(task.priority)">{{task.priority}}</span></th>
                 <td>{{task.name}}</td>
-                <td>{{task.description}}</td>
-                <td>{{task.started | date : 'dd MMM yyyy, HH:mm'}}</td>
-                <td>{{task.contractorNames}}</td>
+                <td class="d-none d-sm-table-cell">{{task.description}}</td>
+                <td class="d-none d-md-table-cell">{{task.started | date : 'dd MMM yyyy, HH:mm'}}</td>
+                <td class="d-none d-sm-table-cell">{{task.contractorNames}}</td>
+                <td><app-progress-bar [percent]="taskPercentOfCompletion(task)"></app-progress-bar></td>
                 <td> <button type="button" class="btn btn-sm btn-primary rounded-pill "
                     (click)="open(task)">Open</button>
                 </td>

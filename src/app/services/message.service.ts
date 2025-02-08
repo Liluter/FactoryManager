@@ -98,7 +98,6 @@ export class MessageService {
     if (userId) {
       return isRead.pipe(
         map(message => message?.readBy.includes(userId)),
-        tap(data => console.log('odczyt read: ', data))
       )
     }
     return of(undefined)

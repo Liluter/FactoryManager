@@ -17,13 +17,14 @@ import { Message } from '../../types/message.interface';
 import { BranchDataModel } from '../../types/data.interface';
 import { DocumentData } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
+import { ProgressBarComponent } from "../../components/UI/progress-bar/progress-bar.component";
 
 
 
 @Component({
   selector: 'app-workshop-page',
   standalone: true,
-  imports: [MediumAvatarComponent, MessageListPage, AsyncPipe, DatePipe, RouterModule],
+  imports: [MediumAvatarComponent, MessageListPage, AsyncPipe, DatePipe, RouterModule, ProgressBarComponent],
   templateUrl: './workshop.page.html',
   styleUrl: './workshop.page.scss'
 })
@@ -94,7 +95,15 @@ export class WorkshopPage {
       )),
     );
   open(task: Task) {
-    console.log(task)
+    console.log(task.steps['pakowanie'])
+    console.log(Object.keys(task.steps).length)
+    this.taskPercentOfCompletion(task)
+  }
+  taskPercentOfCompletion(task: Task) {
+    const taskLength = Object.keys(task.steps).length
+    const stepsCompleted = Object.values(task.steps).filter(step => step === true).length
+    const percent = (stepsCompleted * 100 / taskLength)
+    return percent
   }
   selectTab(tab: string) {
     this.departmentService.actualTab.next(tab)

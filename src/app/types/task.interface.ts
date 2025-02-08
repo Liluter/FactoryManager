@@ -6,9 +6,10 @@ export interface Task {
   active: boolean
   timestamp: any
   started?: string
-  priority: 0 | 1 | 2 | 3,
+  priority: 0 | 1 | 2 | 3
   contractors: string[]
   department: string
+  steps: { [key: string]: boolean }
 }
 export interface Contractor {
   id: string,

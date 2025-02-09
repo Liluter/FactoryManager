@@ -1,38 +1,36 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { collection, collectionData, Firestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
-
-interface Item {
-  name: string,
-};
+import { Observable, tap } from 'rxjs';
+import { NavbarComponent } from "./components/UI/navbar/navbar.component";
+import { RouterModule, RouterOutlet } from '@angular/router';
+import { UserService } from './services/user.service';
+import { FSUser } from './types/auth.interface';
+import { RoutesService } from './services/routes.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [AsyncPipe],
-  template: `
-  <p>Testing...</p>
-  <ul>
-    @for (item of item$ | async; track item) {
-      <li>
-        {{ item.name }}
-      </li>
-    }
-
-
-  </ul>
-  `,
-  styleUrl: './app.component.scss'
+  imports: [NavbarComponent, RouterModule, RouterOutlet, AsyncPipe],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  item$: Observable<Item[]>;
-  firestore: Firestore = inject(Firestore);
-
-  constructor() {
-    const itemCollection = collection(this.firestore, 'items');
-    this.item$ = collectionData<Item>(itemCollection);
-
-  }
-
+  links: string[] = ['login']
+  userService: UserService = inject(UserService)
+  private routesServise: RoutesService = inject(RoutesService)
+  currentUrl$ = this.routesServise.currenttUrl$
+  loggedUser$: Observable<FSUser | null> = this.userService.userSubject$.pipe(
+    tap(user => {
+      if (user?.role === 'standard') {
+        this.links = ['user', 'mailbox', 'dashboard', 'logout']
+      } else if (user?.role === 'admin') {
+        this.links = ['user', 'mailbox', 'dashboard', 'settings', 'logout']
+      } else if (user?.links) {
+        this.links = user?.links
+      } else {
+        this.links = ['login']
+      }
+      return
+    })
+  )
 }

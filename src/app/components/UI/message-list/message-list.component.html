@@ -1,0 +1,28 @@
+<div class="list-group ">
+  @for(message of config()?.messages; track message){
+  @for(action of config()?.actions; track $index){
+  <button type="button" class="list-group-item list-group-item-action mb-1"
+    [routerLink]="[action.redirectTo, message.id]">
+    <div class="row parent" [class.fw-bold]="config()?.type==='unread'">
+      <div class="col-1  ps-2 pe-0">
+        @if(config()?.type==='unread'){<i class="bi bi-envelope hideIcon"></i><i
+          class="bi bi-envelope-open showIcon"></i>}
+        @else{<i class="bi bi-envelope-open"></i>}
+      </div>
+      <div class="col-2 text-truncate ">
+        <small>{{message.sender}}</small>
+      </div>
+      <div class="col text-truncate ">
+        <small>{{message.title}}</small>
+      </div>
+      <div class="col text-end ps-0 pe-2">
+        <small>{{message.timestamp.toDate().toISOString()| date : 'HH:mm dd.MM.YY '}}</small>
+      </div>
+      <div class="badge text-bg-secondary sibling  bg-opacity-50 align-middle fs-5 lh-sm ">
+        {{action.label}}
+      </div>
+    </div>
+  </button>
+  }
+  }
+</div>

@@ -1,0 +1,35 @@
+<div class="container col-lg-6 col-md-8 col-sm-11 col-12 mx-auto">
+  <div class="d-flex mb-1">
+    <div class=" input-group input-group-sm">
+      <div class="input-group-text">
+        <input class="form-check-input mt-0 fs-4" title="read" type="checkbox" #check name="check"
+          aria-label="Checkbox for following text input" (change)="toggleRead(check)" [checked]="readModel()">
+      </div>
+      <button class="btn flex-grow-1 fs-4" type="button" title="add to favourite" (click)="toggleFavourites()"
+        [class]="data()?.favourite ? 'btn-warning' : 'btn-outline-warning'"><i class="bi bi-star"></i></button>
+      <button class="btn btn-outline-success flex-grow-1 fs-4" type="button" title="reply"><i
+          class="bi bi-reply"></i></button>
+      <button class="btn btn-outline-primary flex-grow-1 fs-4" type="button" title="forward"><i
+          class="bi bi-fast-forward"></i></button>
+      <button class="btn btn-outline-danger flex-grow-1 fs-4" type="button" title="to trash"
+        (click)="deleteMessage()"><i class="bi bi-trash"></i></button>
+    </div>
+  </div>
+  @for( klucz of dataKeys(); track $index){
+  <div class="row g-0 mb-1 align-items-stretch ">
+    <div class="col-sm-3 col-md-3 border-end d-flex align-items-center border rounded ">
+      <div class="input-group input-group-sm h-100">
+        <span class="input-group-text w-100 border-0 bg-light">{{klucz[1]}}</span>
+      </div>
+    </div>
+    <div class="col-sm-9 col-md-9 border  rounded">
+      @if($index === 4){
+      <div class="form-control border-0 ">{{klucz[0]}}</div>
+      }
+      @else {
+      <div class="form-control border-0 ">{{klucz[0]}}</div>
+      }
+    </div>
+  </div>
+  }
+</div>

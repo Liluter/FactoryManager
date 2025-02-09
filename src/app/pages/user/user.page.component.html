@@ -1,0 +1,34 @@
+<div class="container text-center d-flex justify-content-center">
+  @if(user$ | async; as user){
+  <div class="card text-center m-5 maxw-320">
+    <div class="card-header d-flex justify-content-center">
+      <app-avatar-image [id]="user.selectedAvatar ?? '0'" [hoverable]="false" size="m"></app-avatar-image>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title text-capitalize">{{user.username}}</h5>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          Email : {{user.email}}
+        </li>
+        <li class="list-group-item">Created at : {{user.cratedAt | date }}</li>
+        <li class="list-group-item">Email verified : {{user.emailverified}}</li>
+        <li class="list-group-item">Role : {{user.role}}</li>
+      </ul>
+      <div class="d-flex justify-content-center my-2">
+        <button class="btn btn-primary me-3" (click)="logOut()">Log out</button>
+        <button class="btn btn-primary me-3">Edit</button>
+        @if(user.role!=='admin'){
+        <button class="btn btn-primary" [routerLink]="['create']">Create
+          New</button>
+        }
+
+      </div>
+    </div>
+    <div class="card-footer text-body-secondary">
+      Last sign in : {{user.lastSignIn | date : 'M/d/yy, HH:mm a'}}
+    </div>
+  </div>
+  } @else {
+  <h1 class="m-5">Nobody logged</h1>
+  }
+</div>

@@ -1,0 +1,29 @@
+<nav class="navbar navbar-expand-md bg-body-tertiary ">
+  <div class="container-fluid ">
+    <span class="navbar-brand mb-0 h1">
+      <a class="text-decoration-none text-reset fs-4 me-2" routerLink="welcome">
+        <ng-content select=".brand-name"></ng-content>
+      </a>
+    </span>
+    <span class="navbar-text text-success text-capitalize fs-5 me-2">
+      <ng-content select=".user-name"></ng-content>
+    </span>
+    <span class="navbar-text  fs-5 me-2">
+      <ng-content select=".currentRoute"></ng-content>
+    </span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav d-flex flex-row flex-wrap justify-content-between">
+        @for(link of links; track link){
+        <li class="nav-item  m-1 ">
+          <a class="nav-link link text-center text-decoration-underline link-underline-dark link-offset-1 link-offset-3-hover  link-underline-opacity-0 link-underline-opacity-100-hover"
+            [routerLink]="link" (click)="routeTo(link)">{{link}}</a>
+        </li>
+        }
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,20 @@
+.sibling {
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 40px;
+}
+.parent:hover .sibling {
+	display: inline-block;
+	height: 40px;
+}
+.showIcon {
+	display: none;
+}
+.parent:hover .hideIcon {
+	display: none;
+}
+.parent:hover .showIcon {
+	display: inline-block;
+}

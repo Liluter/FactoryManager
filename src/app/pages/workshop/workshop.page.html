@@ -1,0 +1,109 @@
+<div class="card ">
+  @let tasks = (tasksWithContractors$ | async) ?? [];
+  @let department = (department$ | async) ;
+  @let actualTab = (actualTab$ | async);
+  <div class="card-header">
+    <ul class="nav nav-tabs card-header-tabs">
+      @for(tab of tabs(); track $index){
+      <li class="nav-item" (click)="selectTab(tab)">
+        <button class="nav-link text-reset" [class.active]="actualTab===tab">{{tab}}
+          @if(tab === 'Active Tasks'){
+          @if(tasks){
+          <span class="badge text-bg-danger">
+            {{tasks.length}}
+          </span>
+          }
+          }
+          @if(tab === 'Messages'){
+          @if(messagesNumber$ | async; as messages){
+          <span class="badge text-bg-danger">
+            {{messages}}
+          </span>
+          }
+          }
+          @if(tab === 'Workers' ){
+          @if(workers().length > 0 ){
+          <span class="badge text-bg-danger">
+            {{workers().length}}
+          </span>
+          }
+          }
+        </button>
+      </li>
+      }
+    </ul>
+  </div>
+  <div class="card-body p-0">
+    <ul class="list-group list-group-flush">
+      @if(actualTab==="Active Tasks" || actualTab==="All"){
+      @if(tasks.length > 0){
+      <li class="list-group-item py-3">
+        <div class="table-responsive-md mx-3">
+          <table class="table table-hover table-borderless ">
+            <thead>
+              <tr>
+                <th scope="col">Priority</th>
+                <th scope="col">Name</th>
+                <th scope="col" class="d-none d-sm-table-cell">Info</th>
+                <th scope="col" class="d-none d-md-table-cell">Started</th>
+                <th scope="col" class="d-none d-sm-table-cell">Contractors</th>
+                <th scope="col">Progress</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for(task of tasks; track $index){
+              <tr>
+                <td scope="row"><span class="badge rounded-pill"
+                    [class]="setColor(task.priority)">{{task.priority}}</span></td>
+                <td>{{task.name}}</td>
+                <td class="d-none d-sm-table-cell">{{task.description}}</td>
+                <td class="d-none d-md-table-cell">
+                  {{task.timestamp.toDate().toISOString() | date : 'dd MMM yyyy, HH:mm'}}
+                </td>
+                <td class="d-none d-sm-table-cell">{{task.contractorNames}}</td>
+                <td><app-progress-bar [percent]="taskPercentOfCompletion(task)"></app-progress-bar></td>
+                <td> <button type="button" class="btn btn-sm btn-primary rounded-pill"
+                    [routerLink]="['/task',task.id]">Open</button>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="d-flex justify-content-center">
+          <button class="btn  btn-outline-warning fw-bold"><i class="bi bi-clock-history"></i> History</button>
+        </div>
+      </li>
+      }
+      }
+      @if(actualTab==="Workers" || actualTab==="All"){
+      @if(data.tasks && data.tasks.activeTasks){
+      <li class="list-group-item py-3 ">
+        <div class="d-flex justify-content-start flex-wrap">
+          @for(worker of workers(); track $index){
+          <app-medium-avatar class="btn p-0" [user]="worker" [routerLink]="['/worker',worker.id]"></app-medium-avatar>
+          }
+        </div>
+      </li>
+      }
+      }
+      @if(actualTab==="Messages" || actualTab==="All"){
+      <app-message-list-page [department]="departmentName"></app-message-list-page>
+      <div class="d-flex justify-content-center mb-3">
+        <button class="btn  btn-outline-warning fw-bold" [routerLink]="['/mailbox']"><i class="bi bi-mailbox"></i> Mail
+          Box</button>
+      </div>
+      }
+    </ul>
+  </div>
+</div>
+<!-- <div class="display display-1 z-1 text-end pe-3">{{group?.name}}</div> -->
+
+<div class="container-fill overflow-hidden text-end">
+  <div class="workshop d-flex justify-content-end">
+    @for(char of department?.name;track $index ){
+    <span class="display display-1 z-1 text-end" [class]="$last ?'pe-3' : ''">{{char}}</span>
+    }
+  </div>
+</div>

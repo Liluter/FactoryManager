@@ -1,0 +1,62 @@
+<div class="container p-3">
+  @if(newMailModal()){
+  <div class="card p-3 m-5 w320 mx-auto bg-body-tertiary"
+    [ngClass]="myForm.invalid && myForm.touched ? 'border-danger' : ''">
+    <h4 class="text-center m-3">New message</h4>
+    <form #myForm="ngForm" (ngSubmit)="onSubmit()" class="pb-3">
+      <div class="mb-3">
+        <label for="message" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" required name="title" [(ngModel)]="model.title"
+          placeholder="Set title">
+      </div>
+      <div class="mb-3">
+        <label for="message" class="form-label">Message</label>
+        <textarea class="form-control" required placeholder="Leave a message here" id="message" name="message"
+          [(ngModel)]="model.message"></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="departments">Select departments or personal</label>
+        <select class="form-select" id="departments" name="departments" multiple [(ngModel)]="model.departments">
+          <option value="workshop">Workshop</option>
+          <option value="hr">Hr</option>
+          <option value="warehouse">Warehouse</option>
+          <option value="outside-jobs">Outside Jobs</option>
+          <option value="marketing">Marketing</option>
+          <option value="all">All</option>
+          <option value="personal">Personal</option>
+        </select>
+      </div>
+      @if(model.departments.includes('personal') ){
+      <div class="mb-3">
+        <label for="user" class="form-label">Recipients names</label>
+        <select class="form-select" id="user" name="user" multiple [(ngModel)]="model.recipients">
+          <option value="ibo0ET21ZgQ8p9Alb7osL6sGqrJ2">Karol</option>
+          <option value="OzeUlBIbH9gfM1ZII8aTg9Gv21I2">Ania</option>
+          <option value="JbpKCW4mmKbQwt3aKUcFqPvQYu82">James</option>
+          <option value="GU1O8CKxLscSSsaWdw7pganUZ943">Sara</option>
+          <option value="worker-001">Kris</option>
+          <option value="all">All</option>
+        </select>
+      </div>
+      }
+      <div class="text-center">
+        <button class="btn btn-primary " type="submit" [disabled]="myForm.invalid">Send</button>
+      </div>
+    </form>
+  </div>
+  } @else {
+  <h4 class="fw-bold">Mailbox
+    <span>
+      <button class="btn btn-outline-warning btn-sm mx-2 p-1" (click)="openModal()">New <i
+          class="bi bi-envelope-plus"></i></button>
+    </span>
+  </h4>
+  <h5>To <span class="text-success">{{department()}}</span> department.</h5>
+  <app-message-list-page [department]="department()"></app-message-list-page>
+  <h5>To <span class="text-success">all</span> departments :</h5>
+  <app-message-list-page [department]="'all'"></app-message-list-page>
+  <h5>Direct messages :</h5>
+  <app-message-list-page [directUserId]="user()?.workerId"></app-message-list-page>
+
+  }
+</div>

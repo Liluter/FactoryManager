@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { collection, collectionData, doc, Firestore, orderBy, query, where, docData, addDoc, serverTimestamp } from '@angular/fire/firestore';
+import { collection, collectionData, doc, Firestore, orderBy, query, where, docData, addDoc, serverTimestamp, updateDoc } from '@angular/fire/firestore';
 import { Observable, of } from 'rxjs';
 import { Task } from '../types/task.interface';
 
@@ -34,9 +34,18 @@ export class TaskService {
     console.log('task id:', id)
     if (id) {
       const taskRef = doc(this.firestore, 'tasks/' + id)
-      return docData(taskRef) as Observable<Task>
+      return docData(taskRef, { idField: 'id' }) as Observable<Task>
     }
     return of(undefined)
+  }
+  updateStep(taskId: string, data: [string, boolean]) {
+    const taskRef = doc(this.firestore, 'tasks', taskId,)
+    const stepKey = data[0]
+    const stepValue = data[1]
+    const myData = { [`steps.${stepKey}`]: stepValue }
+    updateDoc(taskRef, myData)
+      .then(() => console.log('Steps property updated'))
+      .catch(error => console.log('Error updating steps property ', error))
   }
 
 }

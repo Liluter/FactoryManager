@@ -1,8 +1,8 @@
-import { Component, computed, input, Signal } from '@angular/core';
-import { Task } from '../../../types/task.interface';
+import { Component, computed, input, output, OutputEmitterRef, Signal } from '@angular/core';
+
 import { DatePipe } from '@angular/common';
-import { of } from 'rxjs';
 import { ListItemComponent } from "../list-item/list-item.component";
+import { TaskDetailsModel } from '../../../pages/task-page/dataModel.interface';
 
 @Component({
   selector: 'app-task-detail',
@@ -12,13 +12,22 @@ import { ListItemComponent } from "../list-item/list-item.component";
   styleUrl: './task-detail.component.scss'
 })
 export class TaskDetailComponent {
-  data = input<Task | undefined>()
-  keyValuesSteps: Signal<[string, boolean][]> = computed<[string, boolean][]>(() => {
-    const steps = this.data()?.steps
-    if (steps) {
-      return Object.entries(steps)
-    }
-    return []
-  })
+  data = input<TaskDetailsModel | undefined>()
+  checkHandler: OutputEmitterRef<{ id: string, data: [string, boolean] }> = output()
+  // keyValuesSteps: Signal<[string, boolean][]> = computed<[string, boolean][]>(() => {
+  //   const steps = this.data()?.steps
+  //   if (steps) {
+  //     return Object.entries(steps)
+  //   }
+  //   return []
+  // })
 
+  toggle(id: string | undefined, ref: HTMLInputElement) {
+    if (id) {
+      this.checkHandler.emit({ id: id, data: [ref.name, ref.checked] })
+    }
+  }
+  delete() {
+    console.log('DELETE')
+  }
 }

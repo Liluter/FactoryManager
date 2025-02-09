@@ -4,10 +4,11 @@ import { DatePipe } from '@angular/common';
 import { ListItemComponent } from "../list-item/list-item.component";
 import { TaskDetailsModel } from '../../../pages/task-page/dataModel.interface';
 import { setColor } from '../../../../shared/functions';
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-task-detail',
   standalone: true,
-  imports: [DatePipe, ListItemComponent],
+  imports: [DatePipe, ListItemComponent, RouterModule],
   templateUrl: './task-detail.component.html',
   styleUrl: './task-detail.component.scss'
 })
@@ -27,4 +28,5 @@ export class TaskDetailComponent {
   toggleEdit() {
     this.editMode.update(v => !v)
   }
+
 }

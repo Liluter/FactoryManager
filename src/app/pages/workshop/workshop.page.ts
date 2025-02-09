@@ -18,6 +18,7 @@ import { BranchDataModel } from '../../types/data.interface';
 import { DocumentData } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 import { ProgressBarComponent } from "../../components/UI/progress-bar/progress-bar.component";
+import { setColor } from '../../../shared/functions';
 
 
 
@@ -29,6 +30,7 @@ import { ProgressBarComponent } from "../../components/UI/progress-bar/progress-
   styleUrl: './workshop.page.scss'
 })
 export class WorkshopPage {
+  setColor = setColor
   service: BranchDataService = inject(BranchDataService)
   userService: UserService = inject(UserService)
   workerService: WorkerService = inject(WorkerService)
@@ -106,12 +108,12 @@ export class WorkshopPage {
   selectTab(tab: string) {
     this.departmentService.actualTab.next(tab)
   }
-  setColor(priority: 0 | 1 | 2 | 3): string {
-    switch (priority) {
-      case 0: return 'text-bg-danger';
-      case 1: return 'text-bg-warning';
-      case 2: return 'text-bg-info';
-      case 3: return 'text-bg-secondary';
-    }
-  }
+  // setColor(priority: 0 | 1 | 2 | 3): string {
+  //   switch (priority) {
+  //     case 0: return 'text-bg-danger';
+  //     case 1: return 'text-bg-warning';
+  //     case 2: return 'text-bg-info';
+  //     case 3: return 'text-bg-secondary';
+  //   }
+  // }
 }

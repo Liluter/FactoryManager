@@ -9,21 +9,6 @@ import { Worker } from '../types/worker.interface';
 })
 export class WorkerService {
   private firestore: Firestore = inject(Firestore)
-
-  // getOne(id: string): Observable<Worker | undefined> {
-  //   if (id) {
-  //     const docRef: DocumentReference<DocumentData, DocumentData> = doc(this.firestore, 'workers', id)
-  //     console.log('Pobieram worker o id : ', id)
-  //     return (docData(docRef) as Observable<Worker | undefined>).pipe(
-  //       catchError(error => {
-  //         console.error('Błąd pobierania pracownika:', id, error)
-  //         return of(undefined)
-
-  //       })
-  //     )
-  //   }
-  //   return of(undefined)
-  // }
   getOne(id: string): Observable<Worker | undefined> {
     if (!id) {
       return of(undefined);
@@ -46,24 +31,6 @@ export class WorkerService {
 
   }
 
-  // getMany(ids: string[]): Observable<Worker[]> {
-  //   const q = query(collection(this.firestore, "workers"), where(documentId(), "in", ids));
-  //   const workers$ = collectionData(q, { idField: 'id' }) as Observable<Worker[]>
-  //   return workers$
-  // }
-  // getMany(ids: string[]): Observable<Worker[]> {
-  //   const q = query(collection(this.firestore, "workers"), where(documentId(), "in", ids));
-  //   const workers$ = collectionData(q, { idField: 'id' }) as Observable<Worker[]>
-  //   return workers$.pipe(
-  //     tap(workers => console.log("Workerzy przed obsługa błędów", workers)),
-  //     catchError(error => {
-  //       console.error('Błąd pobierania wielu pracowników:', error);
-  //       return of([]); // Zwracamy pustą tablicę w przypadku błędu
-  //     }),
-  //     tap(workers => console.log("Workerzy po obsłudze błędów", workers))
-
-  //   );
-  // }
   getMany(ids: string[]): Observable<Worker[]> {
     if (ids.length === 0) {
       return of([]);
@@ -86,6 +53,10 @@ export class WorkerService {
         return of([]);
       })
     );
+  }
+  getAll() {
+    const workerCollection = collection(this.firestore, 'workers')
+    return collectionData(workerCollection, { idField: 'id' }) as Observable<Worker[]>
   }
 }
 

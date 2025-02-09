@@ -54,8 +54,8 @@
             <tbody>
               @for(task of tasks; track $index){
               <tr>
-                <th scope="row"><span class="badge rounded-pill"
-                    [class]="setColor(task.priority)">{{task.priority}}</span></th>
+                <td scope="row"><span class="badge rounded-pill"
+                    [class]="setColor(task.priority)">{{task.priority}}</span></td>
                 <td>{{task.name}}</td>
                 <td class="d-none d-sm-table-cell">{{task.description}}</td>
                 <td class="d-none d-md-table-cell">

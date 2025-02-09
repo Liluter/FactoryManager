@@ -1,9 +1,9 @@
-import { Component, computed, input, output, OutputEmitterRef, Signal } from '@angular/core';
+import { Component, computed, input, output, OutputEmitterRef, signal, Signal } from '@angular/core';
 
 import { DatePipe } from '@angular/common';
 import { ListItemComponent } from "../list-item/list-item.component";
 import { TaskDetailsModel } from '../../../pages/task-page/dataModel.interface';
-
+import { setColor } from '../../../../shared/functions';
 @Component({
   selector: 'app-task-detail',
   standalone: true,
@@ -14,14 +14,8 @@ import { TaskDetailsModel } from '../../../pages/task-page/dataModel.interface';
 export class TaskDetailComponent {
   data = input<TaskDetailsModel | undefined>()
   checkHandler: OutputEmitterRef<{ id: string, data: [string, boolean] }> = output()
-  // keyValuesSteps: Signal<[string, boolean][]> = computed<[string, boolean][]>(() => {
-  //   const steps = this.data()?.steps
-  //   if (steps) {
-  //     return Object.entries(steps)
-  //   }
-  //   return []
-  // })
-
+  editMode = signal(false)
+  setColor = setColor
   toggle(id: string | undefined, ref: HTMLInputElement) {
     if (id) {
       this.checkHandler.emit({ id: id, data: [ref.name, ref.checked] })
@@ -29,5 +23,8 @@ export class TaskDetailComponent {
   }
   delete() {
     console.log('DELETE')
+  }
+  toggleEdit() {
+    this.editMode.update(v => !v)
   }
 }

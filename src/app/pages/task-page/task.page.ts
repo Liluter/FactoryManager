@@ -5,6 +5,7 @@ import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { map, of, switchMap } from 'rxjs';
 import { JsonPipe } from '@angular/common';
 import { TaskDetailsModel } from './dataModel.interface';
+import { WorkerService } from '../../services/worker.service';
 
 
 @Component({

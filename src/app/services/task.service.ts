@@ -16,20 +16,6 @@ export class TaskService {
     const q = query(tasksCollection, where('department', "==", department), where('active', "==", true), orderBy('priority'))
     return collectionData(q, { idField: 'id' }) as Observable<Task[]>
   }
-  // getActiveTasksForDepartment(departId: string): Observable<Task[]> {
-  //   const groupId = departId
-  //   const tasksCollection = collection(this.firestore, `groups/${groupId}/tasks`)
-  //   const q = query(tasksCollection, where('active', "==", true), orderBy('priority'))
-  //   return collectionData(q, { idField: 'id' }) as Observable<Task[]>
-  // }
-  // getOneActiveTask(id: string | undefined): Observable<Task | undefined> {
-  //   const groupId = '5rGeu1EDa4xsBlsz616a'
-  //   if (id) {
-  //     const taskRef = doc(this.firestore, `groups/${groupId}/tasks`, id)
-  //     return docData(taskRef) as Observable<Task>
-  //   }
-  //   return of(undefined)
-  // }
   getOne(id: string | undefined): Observable<Task | undefined> {
     console.log('task id:', id)
     if (id) {
@@ -44,7 +30,7 @@ export class TaskService {
     const stepValue = data[1]
     const myData = { [`steps.${stepKey}`]: stepValue }
     updateDoc(taskRef, myData)
-      .then(() => console.log('Steps property updated'))
+      .then(() => console.log(`Step ${stepKey} property updated`))
       .catch(error => console.log('Error updating steps property ', error))
   }
 

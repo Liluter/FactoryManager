@@ -7,7 +7,8 @@ export interface TaskDetailsModel {
   timestamp: any
   started?: string
   priority: 0 | 1 | 2 | 3
-  contractors: string[]
+  contractors: string[],
+  contractorsNames: string[]
   department: string
   steps: [string, boolean][]
 }

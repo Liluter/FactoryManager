@@ -1,10 +1,10 @@
-import { NgClass } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { NgClass, NgStyle } from '@angular/common';
+import { Component, Input, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-avatar-image',
   standalone: true,
-  imports: [NgClass],
+  imports: [NgClass, NgStyle],
   templateUrl: './avatar-image.component.html',
   styleUrl: './avatar-image.component.scss',
 })

@@ -94,10 +94,8 @@ export class WorkshopPage {
         toArray(),
       )),
     );
-  open(task: Task) {
-    console.log(task.steps['pakowanie'])
-    console.log(Object.keys(task.steps).length)
-    this.taskPercentOfCompletion(task)
+  open() {
+
   }
   taskPercentOfCompletion(task: Task) {
     const taskLength = Object.keys(task.steps).length

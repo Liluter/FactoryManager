@@ -1,0 +1,19 @@
+<div class="container col-lg-6 col-md-8 col-sm-11 col-12 mx-auto">
+  <app-list-item label="Priority">{{data()?.priority}}</app-list-item>
+  <app-list-item label="Name">{{data()?.name}}</app-list-item>
+  <app-list-item label="Info">{{data()?.description}}</app-list-item>
+  <app-list-item label="Info">{{data()?.description}}</app-list-item>
+  <app-list-item label="Started">{{data()?.timestamp.toDate().toISOString() | date : 'HH:mm dd.MM.YY '
+    }}</app-list-item>
+  <app-list-item label="Contractors">{{data()?.contractors}}</app-list-item>
+  <app-list-item label="Steps">
+    <ul class="list-group list-group-flush">
+      @for(keyValue of keyValuesSteps(); track $index; let i = $index){
+      <li class="list-group-item">
+        <input class="form-check-input me-1" type="checkbox" [checked]="keyValue[1]" id="{{i}}">
+        <label class="form-check-label" for="{{i}}">{{keyValue[0]}}</label>
+      </li>
+      }
+    </ul>
+  </app-list-item>
+</div>

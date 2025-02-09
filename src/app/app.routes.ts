@@ -8,6 +8,7 @@ import { MessagePage } from './pages/message/message.page';
 import { WorkshopPage } from './pages/workshop/workshop.page';
 import { WorkerPage } from './pages/worker/worker.page';
 import { MailboxPage } from './pages/mailbox/mailbox.page';
+import { TaskPage } from './pages/task-page/task.page';
 
 
 export const routes: Routes = [
@@ -63,6 +64,10 @@ export const routes: Routes = [
   {
     path: 'mailbox',
     component: MailboxPage
+  },
+  {
+    path: 'task/:id',
+    component: TaskPage
   }
 
   // {

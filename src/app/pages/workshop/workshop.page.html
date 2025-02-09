@@ -58,11 +58,13 @@
                     [class]="setColor(task.priority)">{{task.priority}}</span></th>
                 <td>{{task.name}}</td>
                 <td class="d-none d-sm-table-cell">{{task.description}}</td>
-                <td class="d-none d-md-table-cell">{{task.started | date : 'dd MMM yyyy, HH:mm'}}</td>
+                <td class="d-none d-md-table-cell">
+                  {{task.timestamp.toDate().toISOString() | date : 'dd MMM yyyy, HH:mm'}}
+                </td>
                 <td class="d-none d-sm-table-cell">{{task.contractorNames}}</td>
                 <td><app-progress-bar [percent]="taskPercentOfCompletion(task)"></app-progress-bar></td>
-                <td> <button type="button" class="btn btn-sm btn-primary rounded-pill "
-                    (click)="open(task)">Open</button>
+                <td> <button type="button" class="btn btn-sm btn-primary rounded-pill"
+                    [routerLink]="['/task',task.id]">Open</button>
                 </td>
               </tr>
               }

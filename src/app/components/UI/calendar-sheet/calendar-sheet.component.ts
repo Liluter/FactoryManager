@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 
 @Component({
   selector: 'app-calendar-sheet',
@@ -10,6 +10,7 @@ import { Component } from '@angular/core';
 })
 export class CalendarSheetComponent {
   today: Date = new Date
+  width = signal('w-100')
   dayOfWeek = this.today.getDay()
   tillWeekend(): string {
     const tillWeekendNumber = 5 - this.dayOfWeek
@@ -24,5 +25,15 @@ export class CalendarSheetComponent {
       message = 'Just ' + tillWeekendNumber + ' days away from the weekend.'
     }
     return message
+  }
+  size(event: Event, id: any) {
+    console.log('box', id,)
+    event.stopPropagation()
+    switch (id) {
+      case 's': this.width.set('w-50'); break
+      case 'm': this.width.set('w-75'); break
+      case 'l': this.width.set('w-100'); break
+      default: return
+    }
   }
 }

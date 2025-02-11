@@ -1,7 +1,14 @@
-<div class="w-100">
+<div [class]="width()">
   <div class="card mb-3 text-center">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between position-relative ">
       <span class="fs-5 fw-bold">{{today | date : 'MMMM'}}</span>
+      <div class="cont p-0 d-flex justify-content-center position-absolute top-0 end-0">
+        <div class="box my-auto d-flex justify-content-center align-content-center" (click)="size($event,'l')">
+          <div class="box-1 d-flex justify-content-center align-content-center" (click)="size($event,'m')">
+            <div class="box-2" (click)="size($event,'s')"></div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="card-body my-4">
       <h1 class="card-title display-1 fw-bold">{{today | date : 'd'}}</h1>

@@ -4,7 +4,7 @@ import { Component, Input, SimpleChanges } from '@angular/core';
 @Component({
   selector: 'app-avatar-image',
   standalone: true,
-  imports: [NgClass, NgStyle],
+  imports: [],
   templateUrl: './avatar-image.component.html',
   styleUrl: './avatar-image.component.scss',
 })

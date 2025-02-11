@@ -1,127 +1,44 @@
-// @use "sass:meta";
-$global-width: 100px;
-@function avtr($i, $j) {
-	$url: "";
-	@if ($j == "xs") {
-		$url: "../../../../../public/assets/images/thumbnails/output_kwadrat_avatar_cropped_#{$i}_0_2.png";
-	} @else if ($j == "s") {
-		$url: "../../../../../public/assets/images/thumbnails/output_kwadrat_avatar_cropped_#{$i}_0_3.png";
-	} @else if ($j == "m") {
-		$url: "../../../../../public/assets/images/thumbnails/output_kwadrat_avatar_cropped_#{$i}_0_6.png";
-	} @else if ($j == "l") {
-		$url: "../../../../../public/assets/images/thumbnails/output_kwadrat_avatar_cropped_#{$i}_0_8.png";
-	} @else if ($j == "xl") {
-		$url: "../../../../../public/assets/images/thumbnails/output_kwadrat_avatar_cropped_#{$i}_1.png";
-	}
-
-	@return $url;
-}
-
-@function pxl($size) {
-	$wh: 333px;
-	@if ($size == "xs") {
-		$wh: 67px;
-	} @else if ($size == "s") {
-		$wh: 100px;
-	} @else if ($size == "m") {
-		$wh: 200px;
-	} @else if ($size == "l") {
-		$wh: 266px;
-	} @else if ($size == "xl") {
-		$wh: 333px;
-	}
-	@return $wh;
-}
-
-@mixin bck-img($num, $size) {
-	.image-#{$num}-#{$size} {
-		$wh: pxl($size);
-		width: $wh;
-		height: $wh;
-		background-image: url(avtr($num, $size));
-	}
-}
-@mixin wrp($size) {
-	.wrapper-#{$size} {
-		transform-origin: top left;
-		border-radius: 50%;
-		$wh: calc(pxl($size) + 14%);
-		width: calc($wh);
-		height: calc($wh);
-		&.hoverable:hover {
-			background-color: hsla(216, 98%, 52%, 0.65);
-		}
-	}
-}
-@mixin apply-to-all($num, $sizes) {
-	@each $element in $num {
-		@each $size in $sizes {
-			@include wrp($size);
-			@include bck-img($element, $size);
-		}
-	}
-}
-$numbers: 0, 1, 2, 3, 4, 5, 6, 7;
-$sizes: "xs", "s", "m", "l", "xl";
-@include apply-to-all($numbers, $sizes);
+$wrapper-increase: 14%;
+$blue-color: hsla(216, 98%, 52%, 1);
+$blue-color-hover: hsla(216, 98%, 52%, 0.65);
+$sizes: (
+	xs: 67px,
+	s: 100px,
+	m: 200px,
+	l: 266px,
+	xl: 333px,
+);
 
 .selected {
-	background-color: hsla(216, 98%, 52%, 1);
+	background-color: $blue-color;
 }
 
-// :root {
-// 	--avatar-width-xs: 67px;
-// 	--avatar-width-s: 100px;
-// 	--avatar-width-m: 200px;
-// 	--avatar-width-l: 266px;
-// 	--avatar-width-xl: 333px;
-// }
+@each $name, $size in $sizes {
+	.size-#{$name} {
+		width: #{$size};
+		height: #{$size};
+	}
+	.wrapper-#{$name} {
+		$wh: calc(#{$size} + $wrapper-increase);
+		width: $wh;
+		height: $wh;
+	}
+}
 
-// // @function avtr($i, $j) {
-// // 	$url: "../../../../../public/assets/images/thumbnails/output_kwadrat_avatar_cropped_#{$i}_0_";
-// // 	@if ($j == "xs") {
-// // 		$url: $url + "2.png";
-// // 	} @else if ($j == "s") {
-// // 		$url: $url + "3.png";
-// // 	} @else if ($j == "m") {
-// // 		$url: $url + "6.png";
-// // 	} @else if ($j == "l") {
-// // 		$url: $url + "8.png";
-// // 	} @else if ($j == "xl") {
-// // 		$url: "../../../../../public/assets/images/thumbnails/output_kwadrat_avatar_cropped_#{$i}_1.png";
-// // 	} // Different path for xl
-// // 	@return $url;
-// // }
+@for $i from 0 through 7 {
+	.image-#{$i} {
+		background-image: url("../../../../../public/assets/images/thumbnails/output_kwadrat_avatar_cropped_#{$i}_1.png");
+	}
+}
 
-// .avatar-wrapper {
-// 	// No size-specific classes here
-// 	transform-origin: top left;
-// 	border-radius: 50%;
-// 	overflow: hidden;
-// 	display: flex;
-// 	justify-content: center;
-// 	align-items: center;
+.image {
+	background-size: contain;
+}
 
-// 	&.hoverable:hover {
-// 		background-color: hsla(216, 98%, 52%, 0.65);
-// 	}
-// }
-
-// .avatar-image {
-// 	// No ID or size-specific classes here
-// 	background-size: cover;
-// 	background-position: center;
-// 	width: 100%;
-// 	height: 100%;
-// }
-
-// .selected::after {
-// 	content: "";
-// 	position: absolute;
-// 	top: 0;
-// 	left: 0;
-// 	width: 100%;
-// 	height: 100%;
-// 	background-color: hsla(216, 98%, 52%, 1);
-// 	border-radius: 50%;
-// }
+.wrapper {
+	transform-origin: top left;
+	border-radius: 50%;
+	&.hoverable:hover {
+		background-color: $blue-color-hover;
+	}
+}

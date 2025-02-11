@@ -4,7 +4,11 @@
     <div class="sprite rounded selected" [class]="'sprite-'+id"></div>
   </div>
 </div> -->
-<div class="d-flex justify-content-center p-2" [class]="'wrapper-'+size"
+<!-- <div class="d-flex justify-content-center p-2" [class]="'wrapper-'+size"
   [ngClass]="{'selected':selected,'hoverable':hoverable}">
   <div [class]="'image-'+id+'-'+size"></div>
+</div> -->
+<div class="d-flex justify-content-center p-2" [class]="['wrapper','wrapper-'+size]" [class.selected]="selected"
+  [class.hoverable]="hoverable">
+  <div [class]="['image','image-'+id, 'size-'+size]"></div>
 </div>

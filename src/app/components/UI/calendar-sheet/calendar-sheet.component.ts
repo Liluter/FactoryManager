@@ -27,7 +27,6 @@ export class CalendarSheetComponent {
     return message
   }
   size(event: Event, id: any) {
-    console.log('box', id,)
     event.stopPropagation()
     switch (id) {
       case 's': this.width.set('w-50'); break

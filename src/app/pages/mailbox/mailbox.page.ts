@@ -11,6 +11,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { serverTimestamp } from '@angular/fire/firestore';
 import { FSUser } from '../../types/auth.interface';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-mailbox-page',
@@ -30,6 +31,8 @@ export class MailboxPage {
     readBy: [],
   }
   userService = inject(UserService)
+  message: string | undefined
+  readonly route = inject(ActivatedRoute)
   activeUser$ = this.userService.loggedFSUser.asObservable()
   user: Signal<FSUser | null> = toSignal<FSUser | null>(this.activeUser$, { initialValue: null })
   newMailModal = signal(false)
@@ -81,6 +84,12 @@ export class MailboxPage {
       console.log('doc', doc)
       this.closeModal()
       // show message info
+    })
+  }
+  //resolver use
+  ngOnInit() {
+    this.route.data.subscribe(({ count }) => {
+      this.message = count
     })
   }
 }

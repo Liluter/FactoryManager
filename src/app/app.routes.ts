@@ -63,7 +63,7 @@ export const routes: Routes = [
   },
   {
     path: 'mailbox',
-    component: MailboxPage
+    component: MailboxPage,
   },
   {
     path: 'task/:id',

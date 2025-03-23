@@ -3,9 +3,9 @@
     <div class="card-header d-flex justify-content-between position-relative ">
       <span class="fs-5 fw-bold">{{today | date : 'MMMM'}}</span>
       <div class="cont p-0 d-flex justify-content-center position-absolute top-0 end-0">
-        <div class="box my-auto d-flex justify-content-center align-content-center" (click)="size($event,'l')">
-          <div class="box-1 d-flex justify-content-center align-content-center" (click)="size($event,'m')">
-            <div class="box-2" (click)="size($event,'s')"></div>
+        <div class="box my-auto d-flex justify-content-center align-content-center" id="box" (click)="size($event,'l')">
+          <div class="box-1 d-flex justify-content-center align-content-center" id="box-1" (click)="size($event,'m')">
+            <div class="box-2" id="box-2" (click)="size($event,'s')"></div>
           </div>
         </div>
       </div>
